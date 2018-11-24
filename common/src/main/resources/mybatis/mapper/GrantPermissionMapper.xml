@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.pcshao.grant.common.dao.GrantPermissionMapper">
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    <selectKey keyProperty="permissionId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_permission (permission_name)
+    values (#{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    <selectKey keyProperty="permissionId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_permission (permission_name)
+    values (#{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    <selectKey keyProperty="permissionId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_permission (permission_name)
+    values (#{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    <selectKey keyProperty="permissionId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_permission (permission_name)
+    values (#{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    <selectKey keyProperty="permissionId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_permission (permission_name)
+    values (#{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    <selectKey keyProperty="permissionId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_permission (permission_name)
+    values (#{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    <selectKey keyProperty="permissionId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_permission (permission_name)
+    values (#{permissionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission">
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select permission_id, permission_name
+    from grant_permission
+  </select>
+</mapper>

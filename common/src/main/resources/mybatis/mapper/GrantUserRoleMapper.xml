@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.pcshao.grant.common.dao.GrantUserRoleMapper">
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUserRole">
+    <id column="user_role_id" jdbcType="BIGINT" property="userRoleId" />
+    <result column="role_id" jdbcType="SMALLINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    <selectKey keyProperty="userRoleId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user_role (role_id, user_id)
+    values (#{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    update grant_user_role
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUserRole">
+    <id column="user_role_id" jdbcType="BIGINT" property="userRoleId" />
+    <result column="role_id" jdbcType="SMALLINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    <selectKey keyProperty="userRoleId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user_role (role_id, user_id)
+    values (#{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    update grant_user_role
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUserRole">
+    <id column="user_role_id" jdbcType="BIGINT" property="userRoleId" />
+    <result column="role_id" jdbcType="SMALLINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    <selectKey keyProperty="userRoleId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user_role (role_id, user_id)
+    values (#{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    update grant_user_role
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUserRole">
+    <id column="user_role_id" jdbcType="BIGINT" property="userRoleId" />
+    <result column="role_id" jdbcType="SMALLINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    <selectKey keyProperty="userRoleId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user_role (role_id, user_id)
+    values (#{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    update grant_user_role
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUserRole">
+    <id column="user_role_id" jdbcType="BIGINT" property="userRoleId" />
+    <result column="role_id" jdbcType="SMALLINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    <selectKey keyProperty="userRoleId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user_role (role_id, user_id)
+    values (#{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    update grant_user_role
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUserRole">
+    <id column="user_role_id" jdbcType="BIGINT" property="userRoleId" />
+    <result column="role_id" jdbcType="SMALLINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    <selectKey keyProperty="userRoleId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user_role (role_id, user_id)
+    values (#{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    update grant_user_role
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUserRole">
+    <id column="user_role_id" jdbcType="BIGINT" property="userRoleId" />
+    <result column="role_id" jdbcType="SMALLINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    <selectKey keyProperty="userRoleId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user_role (role_id, user_id)
+    values (#{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole">
+    update grant_user_role
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=BIGINT}
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+    where user_role_id = #{userRoleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_role_id, role_id, user_id
+    from grant_user_role
+  </select>
+</mapper>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.pcshao.grant.common.dao.GrantUserMapper">
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    insert into grant_user (user_id, username, email, 
+      nickname, `password`, sex, 
+      tel)
+    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
+      #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    insert into grant_user (user_id, username, email, 
+      nickname, `password`, sex, 
+      tel)
+    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
+      #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    insert into grant_user (user_id, username, email, 
+      nickname, `password`, sex, 
+      tel)
+    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
+      #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user (username, email, nickname, 
+      `password`, sex, tel)
+    values (#{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user (username, email, nickname, 
+      `password`, sex, tel)
+    values (#{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    insert into grant_user (user_id, username, email, 
+      nickname, `password`, sex, 
+      tel)
+    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
+      #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user (username, email, nickname, 
+      `password`, sex, tel)
+    values (#{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+  <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantUser">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into grant_user (username, email, nickname, 
+      `password`, sex, tel)
+    values (#{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{tel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser">
+    update grant_user
+    set username = #{username,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, username, email, nickname, `password`, sex, tel
+    from grant_user
+  </select>
+</mapper>

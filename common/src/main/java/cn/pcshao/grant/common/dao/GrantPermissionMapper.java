@@ -1,16 +1,22 @@
 package cn.pcshao.grant.common.dao;
 
 import cn.pcshao.grant.common.entity.GrantPermission;
+import cn.pcshao.grant.common.entity.GrantPermissionExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface GrantPermissionMapper {
-    int deleteByPrimaryKey(Long permissionId);
+    int countByExample(GrantPermissionExample example);
+
+    int deleteByExample(GrantPermissionExample example);
 
     int insert(GrantPermission record);
 
-    GrantPermission selectByPrimaryKey(Long permissionId);
+    int insertSelective(GrantPermission record);
 
-    List<GrantPermission> selectAll();
+    List<GrantPermission> selectByExample(GrantPermissionExample example);
 
-    int updateByPrimaryKey(GrantPermission record);
+    int updateByExampleSelective(@Param("record") GrantPermission record, @Param("example") GrantPermissionExample example);
+
+    int updateByExample(@Param("record") GrantPermission record, @Param("example") GrantPermissionExample example);
 }

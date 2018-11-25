@@ -1,16 +1,27 @@
 package cn.pcshao.grant.common.dao;
 
+import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.entity.GrantUser;
+import cn.pcshao.grant.common.entity.GrantUserExample;
 import java.util.List;
 
-public interface GrantUserMapper {
-    int deleteByPrimaryKey(Long userId);
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+
+@Mapper
+public interface GrantUserMapper extends BaseDao<GrantUser, Long> {
+    int countByExample(GrantUserExample example);
+
+    int deleteByExample(GrantUserExample example);
 
     int insert(GrantUser record);
 
-    GrantUser selectByPrimaryKey(Long userId);
+    int insertSelective(GrantUser record);
 
-    List<GrantUser> selectAll();
+    List<GrantUser> selectByExample(GrantUserExample example);
 
-    int updateByPrimaryKey(GrantUser record);
+    int updateByExampleSelective(@Param("record") GrantUser record, @Param("example") GrantUserExample example);
+
+    int updateByExample(@Param("record") GrantUser record, @Param("example") GrantUserExample example);
 }

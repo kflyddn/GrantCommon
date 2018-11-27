@@ -24,6 +24,5 @@ public class BusinessApplication {
         SpringApplication app = new SpringApplication(BusinessApplication.class);
         app.setDefaultProperties(properties);
         app.run(args);
-//        SpringApplication.run(CommonApplication.class, args);
     }
 }

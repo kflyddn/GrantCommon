@@ -7,6 +7,7 @@ import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantUser;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
+import cn.pcshao.grant.common.util.StringUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,16 +22,19 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @ApiOperation("用户登录接口")
-    @RequestMapping
+    @RequestMapping("/login")
     public ResultDto login(GrantUser grantUser){
         ResultDto resultDto = ResultDtoFactory.success();
-        String username = grantUser.getUsername();
-        String password = grantUser.getPassword();
-        int ret = userService.doAuth(username, password);
-        if(ret == 0){
-            resultDto = ResultDtoFactory.error(DtoCodeConsts.LOGIN_FAILUR, DtoCodeConsts.LOGIN_FAILUR_MSG);
+        if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
+            String username = grantUser.getUsername();
+            String password = grantUser.getPassword();
+            int ret = userService.doAuth(username, password);
+            if(ret != 0){
+                return resultDto;
+            }
         }
-        return resultDto;
+        resultDto.setData("恭喜，成功");
+        return ResultDtoFactory.error(DtoCodeConsts.LOGIN_FAILUR, DtoCodeConsts.LOGIN_FAILUR_MSG);
     }
 
 }

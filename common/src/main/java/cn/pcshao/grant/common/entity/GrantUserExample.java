@@ -573,6 +573,66 @@ public class GrantUserExample {
             addCriterion("tel not between", value1, value2, "tel");
             return (Criteria) this;
         }
+
+        public Criteria andIsUseIsNull() {
+            addCriterion("is_use is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseIsNotNull() {
+            addCriterion("is_use is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseEqualTo(Boolean value) {
+            addCriterion("is_use =", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseNotEqualTo(Boolean value) {
+            addCriterion("is_use <>", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseGreaterThan(Boolean value) {
+            addCriterion("is_use >", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_use >=", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseLessThan(Boolean value) {
+            addCriterion("is_use <", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_use <=", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseIn(List<Boolean> values) {
+            addCriterion("is_use in", values, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseNotIn(List<Boolean> values) {
+            addCriterion("is_use not in", values, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_use between", value1, value2, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_use not between", value1, value2, "isUse");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

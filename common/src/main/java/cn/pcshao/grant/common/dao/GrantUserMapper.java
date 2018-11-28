@@ -4,12 +4,8 @@ import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.entity.GrantUser;
 import cn.pcshao.grant.common.entity.GrantUserExample;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-
-@Mapper
 public interface GrantUserMapper extends BaseDao<GrantUser, Long> {
     int countByExample(GrantUserExample example);
 

@@ -17,6 +17,8 @@ public class GrantUser implements Serializable {
 
     private String tel;
 
+    private Boolean isUse;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUserId() {
@@ -75,6 +77,14 @@ public class GrantUser implements Serializable {
         this.tel = tel == null ? null : tel.trim();
     }
 
+    public Boolean getIsUse() {
+        return isUse;
+    }
+
+    public void setIsUse(Boolean isUse) {
+        this.isUse = isUse;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -88,6 +98,7 @@ public class GrantUser implements Serializable {
         sb.append(", password=").append(password);
         sb.append(", sex=").append(sex);
         sb.append(", tel=").append(tel);
+        sb.append(", isUse=").append(isUse);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

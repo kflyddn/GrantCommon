@@ -9,6 +9,7 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="BIT" />
     <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="is_use" property="isUse" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, username, email, nickname, `password`, sex, tel
+    user_id, username, email, nickname, `password`, sex, tel, is_use
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pcshao.grant.common.entity.GrantUserExample" >
     select
@@ -95,10 +96,10 @@
   <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUser" >
     insert into grant_user (user_id, username, email, 
       nickname, `password`, sex, 
-      tel)
+      tel, is_use)
     values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
-      #{tel,jdbcType=VARCHAR})
+      #{tel,jdbcType=VARCHAR}, #{isUse,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantUser" >
     insert into grant_user
@@ -124,6 +125,9 @@
       <if test="tel != null" >
         tel,
       </if>
+      <if test="isUse != null" >
+        is_use,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -146,6 +150,9 @@
       </if>
       <if test="tel != null" >
         #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="isUse != null" >
+        #{isUse,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -179,6 +186,9 @@
       <if test="record.tel != null" >
         tel = #{record.tel,jdbcType=VARCHAR},
       </if>
+      <if test="record.isUse != null" >
+        is_use = #{record.isUse,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -192,7 +202,8 @@
       nickname = #{record.nickname,jdbcType=VARCHAR},
       `password` = #{record.password,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=BIT},
-      tel = #{record.tel,jdbcType=VARCHAR}
+      tel = #{record.tel,jdbcType=VARCHAR},
+      is_use = #{record.isUse,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>

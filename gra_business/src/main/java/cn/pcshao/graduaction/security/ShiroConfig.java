@@ -4,8 +4,13 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.WebSecurityManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Shiro配置类
@@ -14,6 +19,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ShiroConfig {
+
+    private Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 
     /**
      * 为自定义Relam添加适当规则
@@ -49,11 +56,30 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //将自定义的WebSecurityManager注入ShiroFilter过滤器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        //页面也可以在这里配置
-        shiroFilterFactoryBean.setLoginUrl("login");
-        shiroFilterFactoryBean.setSuccessUrl("initPage");
-        shiroFilterFactoryBean.setUnauthorizedUrl("403");
+        //转发到URL
+        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setSuccessUrl("/initPage");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
+        // filterChainDefinitions拦截器
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        // 配置不会被拦截的链接 从上向下顺序判断
+        filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("/templates/**", "anon");
+
+        // 配置退出过滤器,具体的退出代码Shiro已经替我们实现了
+        filterChainDefinitionMap.put("/logout", "logout");
+        //add操作，该用户必须有【addOperation】权限
+//        filterChainDefinitionMap.put("/add", "perms[addOperation]");
+
+        // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问【放行】-->
+        filterChainDefinitionMap.put("/user/register", "anon");
+        filterChainDefinitionMap.put("/user/checkUserName", "anon");
+        filterChainDefinitionMap.put("/user/**", "authc");
+
+        shiroFilterFactoryBean
+                .setFilterChainDefinitionMap(filterChainDefinitionMap);
+        logger.debug("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
 

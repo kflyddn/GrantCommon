@@ -36,8 +36,8 @@ public class UserController extends BaseController {
 
 
     @ApiOperation("用户登录接口")
-    @RequestMapping("/login")
-    public ResultDto login(GrantUser grantUser){
+    @PostMapping("/login")
+    public ResultDto login(@RequestBody GrantUser grantUser){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
             Subject subject = SecurityUtils.getSubject();
@@ -55,8 +55,8 @@ public class UserController extends BaseController {
 
     @ApiOperation("用户注册接口")
     @ApiParam("用户对象与用户角色列表，角色列表默认为2 normal")
-    @RequestMapping("/register")
-    public ResultDto register(GrantUser grantUser, @RequestParam ArrayList<Short> roleIdList){
+    @PostMapping("/register")
+    public ResultDto register(@RequestBody GrantUser grantUser, @RequestParam ArrayList<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
             //角色 admin 1 normal 2
@@ -73,24 +73,23 @@ public class UserController extends BaseController {
 
     @ApiOperation("检查用户名是否已存在")
     @GetMapping("/checkUserName")
-    public ResultDto checkUserName(String username){
+    public ResultDto checkUserName(@RequestParam String username){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(username)){
             if(!userService.findByUserName(username)){
                 return resultDto;
+            }else{
+                return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
             }
         }
         return ResultDtoFactory.error();
     }
 
     @ApiOperation("删除用户接口")
-    @RequestMapping("/removeUser")
-    public ResultDto removeUser(Long userId){
+    @PostMapping("/removeUser")
+    public ResultDto removeUser(@RequestParam Long userId){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != userId){
-            // @TODO
-            // 此处需要校验当前登录用户及登录用户权限
-            // 第三方表中维护用户与角色对应的记录是否应该删除？
             int deleteNum = userService.delete(userId);
             resultDto.setData(deleteNum);
             return resultDto;
@@ -101,7 +100,7 @@ public class UserController extends BaseController {
     @ApiOperation("登出接口")
     @ApiParam("token参数留着给以后整合redis等用")
     @RequestMapping("/logout")
-    public ResultDto logout(String token){
+    public ResultDto logout(@RequestParam(required = false) String token){
         ResultDto resultDto = ResultDtoFactory.success();
         Subject subject = SecurityUtils.getSubject();
         try{

@@ -16,4 +16,7 @@ public class DtoCodeConsts {
     public static final int LOGIN_FAILUR = -11;
     public static final String LOGIN_FAILUR_MSG = "登录失败，请检查用户名和密码！";
 
+    public static final int USER_EXISTS = -12;
+    public static final String USER_EXISTS_MSG = "此用户已存在";
+
 }

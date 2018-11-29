@@ -3,6 +3,7 @@ package cn.pcshao.graduaction.web;
 import cn.pcshao.grant.common.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 基础页面控制器
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageController extends BaseController {
 
     @RequestMapping("/login")
+    @ResponseBody
     public String login(){
-        return "login";
+        return "you need login!";
     }
     @RequestMapping("/403")
     public String NB1(){

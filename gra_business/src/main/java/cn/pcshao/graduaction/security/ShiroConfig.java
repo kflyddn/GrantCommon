@@ -75,6 +75,7 @@ public class ShiroConfig {
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问【放行】-->
         filterChainDefinitionMap.put("/user/register", "anon");
         filterChainDefinitionMap.put("/user/checkUserName", "anon");
+        filterChainDefinitionMap.put("/user/login", "anon");
         filterChainDefinitionMap.put("/user/**", "authc");
 
         shiroFilterFactoryBean

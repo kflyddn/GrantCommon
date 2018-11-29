@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.pcshao.grant.common.dao.GrantRolePermissionMapper" >
   <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantRolePermission" >
-    <result column="role_permission_id" property="rolePermissionId" jdbcType="BIGINT" />
+    <id column="role_permission_id" property="rolePermissionId" jdbcType="BIGINT" />
     <result column="role_id" property="roleId" jdbcType="SMALLINT" />
     <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
   </resultMap>
@@ -82,6 +82,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from grant_role_permission
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from grant_role_permission
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
+  </delete>
   <delete id="deleteByExample" parameterType="cn.pcshao.grant.common.entity.GrantRolePermissionExample" >
     delete from grant_role_permission
     <if test="_parameter != null" >
@@ -150,5 +160,23 @@
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pcshao.grant.common.entity.GrantRolePermission" >
+    update grant_role_permission
+    <set >
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=SMALLINT},
+      </if>
+      <if test="permissionId != null" >
+        permission_id = #{permissionId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantRolePermission" >
+    update grant_role_permission
+    set role_id = #{roleId,jdbcType=SMALLINT},
+      permission_id = #{permissionId,jdbcType=BIGINT}
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
   </update>
 </mapper>

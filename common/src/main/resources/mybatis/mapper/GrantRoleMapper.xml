@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.pcshao.grant.common.dao.GrantRoleMapper" >
   <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantRole" >
-    <result column="role_id" property="roleId" jdbcType="SMALLINT" />
+    <id column="role_id" property="roleId" jdbcType="SMALLINT" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="role_remark" property="roleRemark" jdbcType="VARCHAR" />
   </resultMap>
@@ -82,6 +82,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from grant_role
+    where role_id = #{roleId,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from grant_role
+    where role_id = #{roleId,jdbcType=SMALLINT}
+  </delete>
   <delete id="deleteByExample" parameterType="cn.pcshao.grant.common.entity.GrantRoleExample" >
     delete from grant_role
     <if test="_parameter != null" >
@@ -150,5 +160,23 @@
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pcshao.grant.common.entity.GrantRole" >
+    update grant_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleRemark != null" >
+        role_remark = #{roleRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantRole" >
+    update grant_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_remark = #{roleRemark,jdbcType=VARCHAR}
+    where role_id = #{roleId,jdbcType=SMALLINT}
   </update>
 </mapper>

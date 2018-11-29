@@ -10,13 +10,21 @@ public interface GrantPermissionMapper {
 
     int deleteByExample(GrantPermissionExample example);
 
+    int deleteByPrimaryKey(Long permissionId);
+
     int insert(GrantPermission record);
 
     int insertSelective(GrantPermission record);
 
     List<GrantPermission> selectByExample(GrantPermissionExample example);
 
+    GrantPermission selectByPrimaryKey(Long permissionId);
+
     int updateByExampleSelective(@Param("record") GrantPermission record, @Param("example") GrantPermissionExample example);
 
     int updateByExample(@Param("record") GrantPermission record, @Param("example") GrantPermissionExample example);
+
+    int updateByPrimaryKeySelective(GrantPermission record);
+
+    int updateByPrimaryKey(GrantPermission record);
 }

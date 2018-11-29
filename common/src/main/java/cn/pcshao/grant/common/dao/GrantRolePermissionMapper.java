@@ -10,13 +10,21 @@ public interface GrantRolePermissionMapper {
 
     int deleteByExample(GrantRolePermissionExample example);
 
+    int deleteByPrimaryKey(Long rolePermissionId);
+
     int insert(GrantRolePermission record);
 
     int insertSelective(GrantRolePermission record);
 
     List<GrantRolePermission> selectByExample(GrantRolePermissionExample example);
 
+    GrantRolePermission selectByPrimaryKey(Long rolePermissionId);
+
     int updateByExampleSelective(@Param("record") GrantRolePermission record, @Param("example") GrantRolePermissionExample example);
 
     int updateByExample(@Param("record") GrantRolePermission record, @Param("example") GrantRolePermissionExample example);
+
+    int updateByPrimaryKeySelective(GrantRolePermission record);
+
+    int updateByPrimaryKey(GrantRolePermission record);
 }

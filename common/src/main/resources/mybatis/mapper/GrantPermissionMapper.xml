@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.pcshao.grant.common.dao.GrantPermissionMapper" >
   <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantPermission" >
-    <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
+    <id column="permission_id" property="permissionId" jdbcType="BIGINT" />
     <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -81,6 +81,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from grant_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
   <delete id="deleteByExample" parameterType="cn.pcshao.grant.common.entity.GrantPermissionExample" >
     delete from grant_permission
     <if test="_parameter != null" >
@@ -137,5 +147,19 @@
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pcshao.grant.common.entity.GrantPermission" >
+    update grant_permission
+    <set >
+      <if test="permissionName != null" >
+        permission_name = #{permissionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantPermission" >
+    update grant_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
   </update>
 </mapper>

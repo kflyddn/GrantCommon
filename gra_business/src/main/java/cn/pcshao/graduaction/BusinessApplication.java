@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"cn.pcshao.graduaction","cn.pcshao.grant.common"})
 @MapperScan("cn.pcshao.grant.common.dao")
 @Configuration("cn.pcshao.graduaction.security.ShiroConfig")
 public class BusinessApplication {

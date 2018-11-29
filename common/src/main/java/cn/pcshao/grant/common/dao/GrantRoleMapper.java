@@ -1,11 +1,12 @@
 package cn.pcshao.grant.common.dao;
 
+import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.entity.GrantRole;
 import cn.pcshao.grant.common.entity.GrantRoleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface GrantRoleMapper {
+public interface GrantRoleMapper extends BaseDao<GrantRole, Short> {
     int countByExample(GrantRoleExample example);
 
     int deleteByExample(GrantRoleExample example);

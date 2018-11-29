@@ -18,5 +18,10 @@ public class DtoCodeConsts {
 
     public static final int USER_EXISTS = -12;
     public static final String USER_EXISTS_MSG = "此用户已存在";
+    public static final int ROLE_EXISTS = -13;
+    public static final String ROLE_EXISTS_MSG = "此角色已存在";
+
+    public static final int DB_PRIMARY_EXIST = -50;
+    public static final String DB_PRIMARY_EXIST_MSG = "请检查数据序列ID";
 
 }

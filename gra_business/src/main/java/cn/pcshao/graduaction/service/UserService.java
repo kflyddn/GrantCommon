@@ -2,7 +2,6 @@ package cn.pcshao.graduaction.service;
 
 import cn.pcshao.grant.common.base.BaseService;
 import cn.pcshao.grant.common.entity.GrantUser;
-import cn.pcshao.grant.common.entity.GrantUserRole;
 
 import java.util.List;
 
@@ -29,5 +28,20 @@ public interface UserService extends BaseService<GrantUser, Long> {
      * @param roleIdList
      */
     void saveUser(GrantUser grantUser, List<Short> roleIdList);
+
+    /**
+     * 给单个用户授权多个角色
+     * @param userId
+     * @param roleIdList
+     */
+    void bindUserRoles(Long userId, List<Short> roleIdList);
+
+    /**
+     * 查询
+     * @TODO
+     *  分页、多条件查询等等待完善
+     * @return
+     */
+    List<GrantUser> listUsers(GrantUser grantUser);
 
 }

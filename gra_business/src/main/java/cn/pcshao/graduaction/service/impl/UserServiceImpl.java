@@ -8,6 +8,7 @@ import cn.pcshao.grant.common.dao.GrantUserRoleMapper;
 import cn.pcshao.grant.common.entity.GrantUser;
 import cn.pcshao.grant.common.entity.GrantUserExample;
 import cn.pcshao.grant.common.entity.GrantUserRole;
+import cn.pcshao.grant.common.util.ListUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -48,17 +49,31 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
 
     @Override
     public void saveUser(GrantUser grantUser, List<Short> roleIdList) {
+        grantUser.setUserId(null);
         grantUser.setIsUse(true);
-        grantUserMapper.insert(grantUser);
+        grantUserMapper.insertSelective(grantUser);
+        if(ListUtils.isEmptyList(roleIdList))
+            return;
+        //@TODO 查出新增记录的自增ID优化
         GrantUserExample grantUserExample = new GrantUserExample();
         grantUserExample.createCriteria().andUsernameEqualTo(grantUser.getUsername());
-        //插完grantUser表后查出新增用户的ID后插入grantUserRole表
         Long userId = grantUserMapper.selectByExample(grantUserExample).get(0).getUserId();
+        this.bindUserRoles(userId, roleIdList);
+    }
+
+    @Override
+    public void bindUserRoles(Long userId, List<Short> roleIdList) {
         for(Short id : roleIdList){
             GrantUserRole grantUserRole = new GrantUserRole();
             grantUserRole.setUserId(userId);
             grantUserRole.setRoleId(id);
             grantUserRoleMapper.insert(grantUserRole);
         }
+    }
+
+    @Override
+    public List<GrantUser> listUsers(GrantUser grantUser) {
+        //@TODO
+        return null;
     }
 }

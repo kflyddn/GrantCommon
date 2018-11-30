@@ -16,11 +16,11 @@ public interface UserService extends BaseService<GrantUser, Long> {
     GrantUser doAuth(String username, String password);
 
     /**
-     * 检查用户名是否已存在
+     * 条件查询用户
      * @param username
      * @return
      */
-    boolean findByUserName(String username);
+    List<GrantUser> findByUserName(String username);
 
     /**
      * 新增用户带权限

@@ -10,6 +10,7 @@ import cn.pcshao.grant.common.entity.GrantPermission;
 import cn.pcshao.grant.common.entity.GrantRole;
 import cn.pcshao.grant.common.entity.GrantUser;
 import cn.pcshao.grant.common.util.ListUtils;
+import cn.pcshao.grant.common.util.MD5Utils;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import cn.pcshao.grant.common.util.StringUtils;
 import io.swagger.annotations.Api;
@@ -19,12 +20,15 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户相关控制器
@@ -44,6 +48,10 @@ public class UserController extends BaseController {
     public ResultDto login(@RequestBody GrantUser grantUser){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
+            //MD5解密
+            String password = grantUser.getPassword();
+            password = MD5Utils.transMD5Code(password);
+            grantUser.setPassword(password);
             Subject subject = SecurityUtils.getSubject();
             AuthenticationToken token = new UsernamePasswordToken(grantUser.getUsername(), grantUser.getPassword());
             try{
@@ -67,7 +75,11 @@ public class UserController extends BaseController {
             if(ListUtils.isEmptyList(roleIdList)){
                 roleIdList.add((short)2);
             }
-            if(!userService.findByUserName(grantUser.getUsername())){
+            if(ListUtils.isEmptyList(userService.findByUserName(grantUser.getUsername()))){
+                //MD5加密
+                String password = grantUser.getPassword();
+                password = MD5Utils.transMD5Code(password);
+                grantUser.setPassword(password);
                 userService.saveUser(grantUser, roleIdList);
                 return resultDto;
             }
@@ -76,11 +88,13 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation("检查用户名是否已存在")
+    @RequiresRoles("admin")
+    @RequiresPermissions("")
     @GetMapping("/checkUserName")
     public ResultDto checkUserName(@RequestParam String username){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(username)){
-            if(!userService.findByUserName(username)){
+            if(ListUtils.isEmptyList(userService.findByUserName(username))){
                 return resultDto;
             }else{
                 return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);

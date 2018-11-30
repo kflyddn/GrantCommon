@@ -3,11 +3,13 @@ package cn.pcshao.graduaction.service.impl;
 import cn.pcshao.graduaction.service.UserService;
 import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.base.BaseServiceImpl;
+import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dao.GrantUserMapper;
 import cn.pcshao.grant.common.dao.GrantUserRoleMapper;
 import cn.pcshao.grant.common.entity.GrantUser;
 import cn.pcshao.grant.common.entity.GrantUserExample;
 import cn.pcshao.grant.common.entity.GrantUserRole;
+import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ListUtils;
 import org.springframework.stereotype.Service;
 
@@ -41,17 +43,20 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     }
 
     @Override
-    public boolean findByUserName(String username) {
+    public List<GrantUser> findByUserName(String username) {
         GrantUserExample grantUserExample = new GrantUserExample();
         grantUserExample.createCriteria().andUsernameEqualTo(username);
-        return grantUserMapper.countByExample(grantUserExample) > 0;
+        return grantUserMapper.selectByExample(grantUserExample);
     }
 
     @Override
     public void saveUser(GrantUser grantUser, List<Short> roleIdList) {
-        grantUser.setUserId(null);
         grantUser.setIsUse(true);
-        grantUserMapper.insertSelective(grantUser);
+        try {
+            grantUserMapper.insertSelective(grantUser);
+        }catch (Exception e){
+            throw new CustomException(DtoCodeConsts.DB_PRIMARY_EXIST, DtoCodeConsts.DB_PRIMARY_EXIST_MSG);
+        }
         if(ListUtils.isEmptyList(roleIdList))
             return;
         //@TODO 查出新增记录的自增ID优化

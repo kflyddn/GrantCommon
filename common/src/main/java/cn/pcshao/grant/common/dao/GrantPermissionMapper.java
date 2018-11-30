@@ -28,4 +28,6 @@ public interface GrantPermissionMapper extends BaseDao<GrantPermission, Long> {
     int updateByPrimaryKeySelective(GrantPermission record);
 
     int updateByPrimaryKey(GrantPermission record);
+
+    List<GrantPermission> selectPermissionsByRoleId(Short roleId);
 }

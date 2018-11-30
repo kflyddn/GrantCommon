@@ -162,4 +162,10 @@
     set permission_name = #{permissionName,jdbcType=VARCHAR}
     where permission_id = #{permissionId,jdbcType=BIGINT}
   </update>
+  <select id="selectPermissionsByRoleId" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select permission_id,permission_name from grant_permission
+      where permission_id in (
+        select permission_id from grant_role_permission where role_id = #{roleId}
+)
+  </select>
 </mapper>

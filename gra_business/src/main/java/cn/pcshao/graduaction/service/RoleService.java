@@ -41,6 +41,6 @@ public interface RoleService extends BaseService<GrantRole, Short> {
      * 分页、多条件查询待完善
      * @return
      */
-    List<GrantRole> listRoles();
+    List<GrantRole> listRoles(Long userId);
 
 }

@@ -35,5 +35,5 @@ public interface PermissionService extends BaseService<GrantPermission, Long> {
      * 分页、多条件查询待完善
      * @return
      */
-    List<GrantPermission> listPermissions();
+    List<GrantPermission> listPermissions(Short roleId);
 }

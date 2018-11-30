@@ -14,6 +14,7 @@ import cn.pcshao.grant.common.util.ListUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("userServiceImpl")
@@ -57,8 +58,11 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
         }catch (Exception e){
             throw new CustomException(DtoCodeConsts.DB_PRIMARY_EXIST, DtoCodeConsts.DB_PRIMARY_EXIST_MSG);
         }
-        if(ListUtils.isEmptyList(roleIdList))
-            return;
+        //默认角色2 normal
+        if(ListUtils.isEmptyList(roleIdList)){
+            roleIdList = new ArrayList<>();
+            roleIdList.add((short)2);
+        }
         //@TODO 查出新增记录的自增ID优化
         GrantUserExample grantUserExample = new GrantUserExample();
         grantUserExample.createCriteria().andUsernameEqualTo(grantUser.getUsername());

@@ -179,4 +179,10 @@
       role_remark = #{roleRemark,jdbcType=VARCHAR}
     where role_id = #{roleId,jdbcType=SMALLINT}
   </update>
+  <select id="selectRolesByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select role_id,role_name,role_remark from grant_role
+      where role_id in (
+        select role_id from grant_user_role where user_id = #{userId}
+      )
+  </select>
 </mapper>

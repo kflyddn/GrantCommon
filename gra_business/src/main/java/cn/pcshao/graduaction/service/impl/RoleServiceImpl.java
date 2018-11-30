@@ -70,8 +70,8 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
     }
 
     @Override
-    public List<GrantRole> listRoles() {
-        //@TODO
-        return null;
+    public List<GrantRole> listRoles(Long userId){
+        return grantRoleMapper.selectRolesByUserId(userId);
     }
+
 }

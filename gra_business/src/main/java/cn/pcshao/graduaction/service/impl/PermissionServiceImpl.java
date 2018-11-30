@@ -59,8 +59,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<GrantPermission, Long
     }
 
     @Override
-    public List<GrantPermission> listPermissions() {
-        return null;
+    public List<GrantPermission> listPermissions(Short roleId){
+        return grantPermissionMapper.selectPermissionsByRoleId(roleId);
     }
 
     @Override

@@ -13,13 +13,13 @@ import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.MD5Utils;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import cn.pcshao.grant.common.util.StringUtils;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,9 +48,7 @@ public class UserController extends BaseController {
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
             //MD5解密
-            String password = grantUser.getPassword();
-            password = MD5Utils.transMD5Code(password);
-            grantUser.setPassword(password);
+            grantUser.setPassword(MD5Utils.transMD5Code(grantUser.getPassword()));
             Subject subject = SecurityUtils.getSubject();
             AuthenticationToken token = new UsernamePasswordToken(grantUser.getUsername(), grantUser.getPassword());
             try{
@@ -68,18 +65,12 @@ public class UserController extends BaseController {
     @ApiOperation("用户注册接口 用户新增接口（带角色）")
     @ApiParam("用户对象与用户角色列表，角色列表默认为2 normal")
     @PostMapping("/register")
-    public ResultDto register(@RequestBody GrantUser grantUser, @RequestParam(required = false) ArrayList<Short> roleIdList){
+    public ResultDto register(@RequestBody GrantUser grantUser, @RequestParam(required = false) List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
-            //角色 admin 1 normal 2
-            if(ListUtils.isEmptyList(roleIdList)){
-                roleIdList.add((short)2);
-            }
             if(ListUtils.isEmptyList(userService.findByUserName(grantUser.getUsername()))){
                 //MD5加密
-                String password = grantUser.getPassword();
-                password = MD5Utils.transMD5Code(password);
-                grantUser.setPassword(password);
+                grantUser.setPassword(MD5Utils.transMD5Code(grantUser.getPassword()));
                 userService.saveUser(grantUser, roleIdList);
                 return resultDto;
             }
@@ -140,7 +131,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("新增角色接口（可选带用户）")
     @PostMapping("/addRole")
-    public ResultDto addRole(@RequestBody GrantRole grantRole, @RequestParam(required = false) ArrayList<Long> userIdList){
+    public ResultDto addRole(@RequestBody GrantRole grantRole, @RequestParam(required = false) List<Long> userIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantRole.getRoleName()) && StringUtils.isNotEmpty(grantRole.getRoleRemark())){
             if(!roleService.findRoleByName(grantRole.getRoleName())){
@@ -167,30 +158,9 @@ public class UserController extends BaseController {
     @Qualifier("permissionServiceImpl")
     private PermissionService permissionService;
 
-    @ApiOperation("授权接口 给单个用户多个角色")
-    @PostMapping("bindUserRoles")
-    public ResultDto bindUserRoles(@RequestParam Long userId, @RequestParam ArrayList<Short> roleIdList){
-        ResultDto resultDto = ResultDtoFactory.success();
-        if(null != userId && ListUtils.isNotEmptyList(roleIdList)){
-            userService.bindUserRoles(userId, roleIdList);
-        }
-        return ResultDtoFactory.error();
-    }
-
-    @ApiOperation("授权接口 给单个角色多个用户")
-    @PostMapping("bindRoleUsers")
-    public ResultDto bindRoleUsers(@RequestParam Short roleId, @RequestParam ArrayList<Long> userIdList){
-        ResultDto resultDto = ResultDtoFactory.success();
-        if(null != roleId && ListUtils.isNotEmptyList(userIdList)){
-            roleService.bindRoleUsers(roleId, userIdList);
-            return resultDto;
-        }
-        return ResultDtoFactory.error();
-    }
-
     @ApiOperation("新增权限接口（可选带角色）")
     @PostMapping("/addPermission")
-    public ResultDto addPermission(@RequestBody GrantPermission grantPermission, @RequestParam(required = false) ArrayList<Short> userRoleList){
+    public ResultDto addPermission(@RequestBody GrantPermission grantPermission, @RequestParam(required = false) List<Short> userRoleList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantPermission.getPermissionName())){
             if(!permissionService.findPermissionByName(grantPermission.getPermissionName())){
@@ -199,6 +169,35 @@ public class UserController extends BaseController {
             }else{
                 return ResultDtoFactory.error(DtoCodeConsts.ROLE_EXISTS, DtoCodeConsts.ROLE_EXISTS_MSG);
             }
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("授权接口 给单个用户多个角色")
+    @PostMapping("bindUserRoles")
+    public ResultDto bindUserRoles(@RequestParam Long userId, @RequestParam List<Short> roleIdList){
+        ResultDto resultDto = ResultDtoFactory.success();
+        if(null != userId && ListUtils.isNotEmptyList(roleIdList)){
+            Subject subject = SecurityUtils.getSubject();
+            try{
+                subject.checkRole("admin");
+//                subject.checkPermission("系统管理");
+            }catch (UnauthorizedException e){
+                return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+            }
+            userService.bindUserRoles(userId, roleIdList);
+            return resultDto;
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("授权接口 给单个角色多个用户")
+    @PostMapping("bindRoleUsers")
+    public ResultDto bindRoleUsers(@RequestParam Short roleId, @RequestParam List<Long> userIdList){
+        ResultDto resultDto = ResultDtoFactory.success();
+        if(null != roleId && ListUtils.isNotEmptyList(userIdList)){
+            roleService.bindRoleUsers(roleId, userIdList);
+            return resultDto;
         }
         return ResultDtoFactory.error();
     }
@@ -215,7 +214,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("授权接口 给单个角色多个权限")
     @PostMapping("bindRolePermissions")
-    public ResultDto bindRolePermissions(@RequestParam Short roleId, @RequestParam ArrayList<Long> permissionIdList){
+    public ResultDto bindRolePermissions(@RequestParam Short roleId, @RequestParam List<Long> permissionIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != roleId && ListUtils.isNotEmptyList(permissionIdList)) {
             roleService.bindRolePermissions(roleId, permissionIdList);
@@ -225,7 +224,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("授权接口 给单个权限多个用户")
     @PostMapping("bindPermissionRoles")
-    public ResultDto bindPermissionRoles(@RequestParam Long permissionId, @RequestParam ArrayList<Short> roleIdList){
+    public ResultDto bindPermissionRoles(@RequestParam Long permissionId, @RequestParam List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != permissionId && ListUtils.isNotEmptyList(roleIdList)) {
             permissionService.bindPermissionRoles(permissionId, roleIdList);

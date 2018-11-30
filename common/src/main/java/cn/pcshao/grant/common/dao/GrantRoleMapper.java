@@ -28,4 +28,6 @@ public interface GrantRoleMapper extends BaseDao<GrantRole, Short> {
     int updateByPrimaryKeySelective(GrantRole record);
 
     int updateByPrimaryKey(GrantRole record);
+
+    List<GrantRole> selectRolesByUserId(Long userId);
 }

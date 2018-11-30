@@ -29,7 +29,8 @@ public class ShiroConfig {
     @Bean
     public ShiroRelam shiroRelam(){
         ShiroRelam shiroRelam = new ShiroRelam();
-//        shiroRelam.setCredentialsMatcher(hashedCredentialsMatcher());
+        //TODO 现在是控制层MD5加解密,密文存在token中，用credentialsMatcher加密效果一样但是是明文
+        //shiroRelam.setCredentialsMatcher(hashedCredentialsMatcher());
         return shiroRelam;
     }
 
@@ -63,6 +64,7 @@ public class ShiroConfig {
 
         // filterChainDefinitions拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        filterChainDefinitionMap.put("/favicon.ico", "anon");
         // 配置不会被拦截的链接 从上向下顺序判断
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/templates/**", "anon");
@@ -93,7 +95,7 @@ public class ShiroConfig {
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        hashedCredentialsMatcher.setHashIterations(2);//散列的次数，相当于 md5(md5(""));
+        hashedCredentialsMatcher.setHashIterations(1);//散列的次数，相当于 md5(md5(""));
         return hashedCredentialsMatcher;
     }
 

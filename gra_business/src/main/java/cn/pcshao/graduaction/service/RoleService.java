@@ -41,6 +41,20 @@ public interface RoleService extends BaseService<GrantRole, Short> {
      * 分页、多条件查询待完善
      * @return
      */
-    List<GrantRole> listRoles(Long userId);
+    List<GrantRole> listRoles(GrantRole grantRole);
+
+    /**
+     * 根据用户ID查对应角色
+     * @param userId
+     * @return
+     */
+    List<GrantRole> listRolesByUserId(Long userId);
+
+    /**
+     * 根据权限ID查对应角色
+     * @param permissionId
+     * @return
+     */
+    List<GrantRole> listRolesByPermissionId(Long permissionId);
 
 }

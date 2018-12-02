@@ -29,11 +29,19 @@ public interface PermissionService extends BaseService<GrantPermission, Long> {
     boolean findPermissionByName(String permissionName);
 
     /**
-     * 查询所有权限
-     *  带条件、非必须
+     * 条件查询权限
+     *  带条件非必须
      * @TODO
      * 分页、多条件查询待完善
      * @return
      */
-    List<GrantPermission> listPermissions(Short roleId);
+    List<GrantPermission> listPermissions(GrantPermission grantPermission);
+
+    /**
+     * 条件查询权限
+     * @param roleId
+     * @return
+     */
+    List<GrantPermission> listPermissionsByRoleId(Short roleId);
+
 }

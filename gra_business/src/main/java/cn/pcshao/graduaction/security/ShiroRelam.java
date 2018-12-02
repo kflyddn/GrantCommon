@@ -48,12 +48,12 @@ public class ShiroRelam extends AuthorizingRealm {
         List<String> roles = new ArrayList<>();
         //取出当前登录用户
         String currUsername = (String) principalCollection.getPrimaryPrincipal();
-        GrantUser currUser = userService.findByUserName(currUsername).get(0);
+        GrantUser currUser = userService.listUsersByUserName(currUsername).get(0);
         //找出当前用户拥有的所有角色 找出所有角色对应的所有权限
-        List<GrantRole> roleList = roleService.listRoles(currUser.getUserId());
+        List<GrantRole> roleList = roleService.listRolesByUserId(currUser.getUserId());
         for(GrantRole g : roleList){
             roles.add(g.getRoleName());
-            List<GrantPermission> permissionList = permissionService.listPermissions(g.getRoleId());
+            List<GrantPermission> permissionList = permissionService.listPermissionsByRoleId(g.getRoleId());
             for(GrantPermission gp : permissionList){
                 permissions.add(gp.getPermissionName());
             }
@@ -73,7 +73,7 @@ public class ShiroRelam extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
-        GrantUser grantUser = userService.findByUserName(username).get(0);
+        GrantUser grantUser = userService.listUsersByUserName(username).get(0);
         if(null == grantUser)
             throw new UnknownAccountException();
         if(!grantUser.getIsUse())

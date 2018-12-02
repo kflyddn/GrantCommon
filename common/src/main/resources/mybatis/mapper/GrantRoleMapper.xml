@@ -180,9 +180,19 @@
     where role_id = #{roleId,jdbcType=SMALLINT}
   </update>
   <select id="selectRolesByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select role_id,role_name,role_remark from grant_role
+    select
+    <include refid="Base_Column_List" />
+    from grant_role
       where role_id in (
         select role_id from grant_user_role where user_id = #{userId}
       )
+  </select>
+  <select id="selectRolesByPermissionId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from grant_role
+      where role_id in (
+        select role_id from grant_role_permission where permission_id = #{permissionId}
+    )
   </select>
 </mapper>

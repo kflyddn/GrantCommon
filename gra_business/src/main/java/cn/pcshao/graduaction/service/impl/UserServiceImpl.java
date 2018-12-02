@@ -7,10 +7,7 @@ import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dao.GrantRoleMapper;
 import cn.pcshao.grant.common.dao.GrantUserMapper;
 import cn.pcshao.grant.common.dao.GrantUserRoleMapper;
-import cn.pcshao.grant.common.entity.GrantRole;
-import cn.pcshao.grant.common.entity.GrantUser;
-import cn.pcshao.grant.common.entity.GrantUserExample;
-import cn.pcshao.grant.common.entity.GrantUserRole;
+import cn.pcshao.grant.common.entity.*;
 import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.StringUtils;
@@ -50,10 +47,15 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     }
 
     @Override
-    public List<GrantUser> findByUserName(String username) {
+    public List<GrantUser> listUsersByUserName(String username) {
         GrantUserExample grantUserExample = new GrantUserExample();
         grantUserExample.createCriteria().andUsernameEqualTo(username);
         return grantUserMapper.selectByExample(grantUserExample);
+    }
+
+    @Override
+    public List<GrantUser> listUserByRoleId(Short roleId) {
+        return grantUserMapper.selectUsersByRoleId(roleId);
     }
 
     @Override
@@ -110,6 +112,9 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
         }
         if(null != grantUser.getIsUse()){
             criteria.andIsUseEqualTo(grantUser.getIsUse());
+        }
+        if(null != grantUser.getUserId()){
+            criteria.andUserIdEqualTo(grantUser.getUserId());
         }
         if(null != withRole){
 

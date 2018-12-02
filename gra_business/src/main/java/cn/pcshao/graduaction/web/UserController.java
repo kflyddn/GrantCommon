@@ -68,7 +68,7 @@ public class UserController extends BaseController {
     public ResultDto register(@RequestBody GrantUser grantUser, @RequestParam(required = false) List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
-            if(ListUtils.isEmptyList(userService.findByUserName(grantUser.getUsername()))){
+            if(ListUtils.isEmptyList(userService.listUsersByUserName(grantUser.getUsername()))){
                 //MD5加密
                 grantUser.setPassword(MD5Utils.transMD5Code(grantUser.getPassword()));
                 userService.saveUser(grantUser, roleIdList);
@@ -79,13 +79,11 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation("检查用户名是否已存在")
-    @RequiresRoles("admin")
-    @RequiresPermissions("")
     @GetMapping("/checkUserName")
     public ResultDto checkUserName(@RequestParam String username){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(username)){
-            if(ListUtils.isEmptyList(userService.findByUserName(username))){
+            if(ListUtils.isEmptyList(userService.listUsersByUserName(username))){
                 return resultDto;
             }else{
                 return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
@@ -96,7 +94,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("删除用户接口")
     @PostMapping("/removeUser")
-    public ResultDto removeUser(@RequestParam Long[] userId){
+    public ResultDto removeUser(@RequestParam Long[] userIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
         Subject subject = SecurityUtils.getSubject();
@@ -105,9 +103,9 @@ public class UserController extends BaseController {
         }catch (UnauthorizedException e){
             return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
-        if(null != userId){
+        if(null != userIdList){
             int deleteNum = 0;
-            for(Long l : userId) {
+            for(Long l : userIdList) {
                 deleteNum += userService.delete(l);
             }
             resultDto.setData(deleteNum);
@@ -117,7 +115,7 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation("查询用户接口（条件可选）")
-    @PostMapping("/queryAll")
+    @PostMapping("/queryUser")
     public ResultDto queryUser(@RequestBody(required = false) GrantUser grantUser, @RequestParam(required = false) String withRole){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
@@ -183,13 +181,55 @@ public class UserController extends BaseController {
         return ResultDtoFactory.error();
     }
 
-    public ResultDto queryRole(){
+    @ApiOperation("查询角色列表（条件可选）")
+    @PostMapping("/queryRole")
+    public ResultDto queryRole(@RequestBody(required = false) GrantRole grantRole){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
+        List<GrantRole> grantRoles = roleService.listRoles(grantRole);
+        if(null != grantRoles){
+            //TODO 分页
+            resultDto.setData(grantRoles);
+            if(grantRoles.size() == 0){
+                resultDto.setMsg("无记录");
+                return resultDto;
+            }
+            resultDto.setMsg("查询成功！"+grantRoles.size());
+            return resultDto;
+        }
         return ResultDtoFactory.error();
     }
 
-    public ResultDto deleteRole(@RequestBody GrantRole[] grantRole){
+    @ApiOperation("删除角色接口（成功则返回删除条数）")
+    @PostMapping("/removeRole")
+    public ResultDto deleteRole(@RequestParam Short[] roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
+        if(null != roleIdList){
+            int deleteNum = 0;
+            for(Short s : roleIdList) {
+                //校验该角色是否对应有用户绑定
+                if(ListUtils.isNotEmptyList(userService.listUserByRoleId(s))){
+                    resultDto.setMsg("未全部删除，请检查！");
+                }else{
+                    deleteNum += roleService.delete(s);
+                }
+            }
+            resultDto.setData(deleteNum);
+            return resultDto;
+        }
         return ResultDtoFactory.error();
     }
 
@@ -215,6 +255,58 @@ public class UserController extends BaseController {
             }else{
                 return ResultDtoFactory.error(DtoCodeConsts.ROLE_EXISTS, DtoCodeConsts.ROLE_EXISTS_MSG);
             }
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("查询权限列表（条件可选）")
+    @PostMapping("/queryPermission")
+    public ResultDto queryPermission(@RequestBody(required = false) GrantPermission grantPermission){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
+        List<GrantPermission> grantPermissions = permissionService.listPermissions(grantPermission);
+        if(null != grantPermission){
+            //TODO 分页
+            resultDto.setData(grantPermissions);
+            if(grantPermissions.size() == 0){
+                resultDto.setMsg("无记录");
+                return resultDto;
+            }
+            resultDto.setMsg("查询成功！"+grantPermissions.size());
+            return resultDto;
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("删除权限接口，（成功则返回删除条数）")
+    @PostMapping("/removePermission")
+    public ResultDto deletePermission(@RequestParam Long[] permissionIdList){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
+        if(null != permissionIdList){
+            int deleteNum = 0;
+            for(Long l : permissionIdList) {
+                //校验该角色是否对应有用户绑定
+                if(ListUtils.isNotEmptyList(roleService.listRolesByPermissionId(l))){
+                    resultDto.setMsg("未全部删除，请检查！");
+                }else {
+                    deleteNum += permissionService.delete(l);
+                }
+            }
+            resultDto.setData(deleteNum);
+            return resultDto;
         }
         return ResultDtoFactory.error();
     }
@@ -252,16 +344,6 @@ public class UserController extends BaseController {
             roleService.bindRoleUsers(roleId, userIdList);
             return resultDto;
         }
-        return ResultDtoFactory.error();
-    }
-
-    public ResultDto queryPermission(){
-        ResultDto resultDto = ResultDtoFactory.success();
-        return ResultDtoFactory.error();
-    }
-
-    public ResultDto deletePermission(@RequestBody GrantPermission[] grantPermission){
-        ResultDto resultDto = ResultDtoFactory.success();
         return ResultDtoFactory.error();
     }
 

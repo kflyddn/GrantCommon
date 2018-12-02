@@ -9,6 +9,7 @@ import cn.pcshao.grant.common.dao.GrantRolePermissionMapper;
 import cn.pcshao.grant.common.dao.GrantUserRoleMapper;
 import cn.pcshao.grant.common.entity.*;
 import cn.pcshao.grant.common.util.ListUtils;
+import cn.pcshao.grant.common.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -78,8 +79,26 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
     }
 
     @Override
-    public List<GrantRole> listRoles(Long userId){
+    public List<GrantRole> listRoles(GrantRole grantRole) {
+        GrantRoleExample example = new GrantRoleExample();
+        GrantRoleExample.Criteria criteria = example.createCriteria();
+        if(StringUtils.isNotEmpty(grantRole.getRoleName())){
+            criteria.andRoleNameLike(grantRole.getRoleName());
+        }
+        if(StringUtils.isNotEmpty(grantRole.getRoleRemark())){
+            criteria.andRoleNameLike(grantRole.getRoleRemark());
+        }
+        return grantRoleMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<GrantRole> listRolesByUserId(Long userId){
         return grantRoleMapper.selectRolesByUserId(userId);
+    }
+
+    @Override
+    public List<GrantRole> listRolesByPermissionId(Long permissionId) {
+        return grantRoleMapper.selectRolesByPermissionId(permissionId);
     }
 
 }

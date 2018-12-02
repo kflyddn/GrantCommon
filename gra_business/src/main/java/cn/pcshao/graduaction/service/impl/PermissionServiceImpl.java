@@ -11,6 +11,7 @@ import cn.pcshao.grant.common.entity.GrantPermissionExample;
 import cn.pcshao.grant.common.entity.GrantRolePermission;
 import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ListUtils;
+import cn.pcshao.grant.common.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -61,7 +62,20 @@ public class PermissionServiceImpl extends BaseServiceImpl<GrantPermission, Long
     }
 
     @Override
-    public List<GrantPermission> listPermissions(Short roleId){
+    public List<GrantPermission> listPermissions(GrantPermission grantPermission) {
+        GrantPermissionExample grantPermissionExample = new GrantPermissionExample();
+        GrantPermissionExample.Criteria criteria = grantPermissionExample.createCriteria();
+        if(StringUtils.isNotEmpty(grantPermission.getPermissionName())){
+            criteria.andPermissionNameLike(grantPermission.getPermissionName());
+        }
+        if(null != grantPermission.getPermissionId()){
+            criteria.andPermissionIdEqualTo(grantPermission.getPermissionId());
+        }
+        return grantPermissionMapper.selectByExample(grantPermissionExample);
+    }
+
+    @Override
+    public List<GrantPermission> listPermissionsByRoleId(Short roleId){
         return grantPermissionMapper.selectPermissionsByRoleId(roleId);
     }
 

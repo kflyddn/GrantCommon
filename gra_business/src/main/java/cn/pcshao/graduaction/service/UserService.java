@@ -17,10 +17,25 @@ public interface UserService extends BaseService<GrantUser, Long> {
 
     /**
      * 条件查询用户
+     * @TODO
+     *  分页、多条件查询等等待完善
+     * @return
+     */
+    List<GrantUser> listUsers(GrantUser grantUser, String withRole);
+
+    /**
+     * 条件查询用户
      * @param username
      * @return
      */
-    List<GrantUser> findByUserName(String username);
+    List<GrantUser> listUsersByUserName(String username);
+
+    /**
+     * 条件查询用户
+     * @param roleId
+     * @return
+     */
+    List<GrantUser> listUserByRoleId(Short roleId);
 
     /**
      * 新增用户带权限
@@ -35,13 +50,5 @@ public interface UserService extends BaseService<GrantUser, Long> {
      * @param roleIdList
      */
     void bindUserRoles(Long userId, List<Short> roleIdList);
-
-    /**
-     * 查询
-     * @TODO
-     *  分页、多条件查询等等待完善
-     * @return
-     */
-    List<GrantUser> listUsers(GrantUser grantUser, String withRole);
 
 }

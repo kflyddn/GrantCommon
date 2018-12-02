@@ -256,4 +256,12 @@
       is_use = #{isUse,jdbcType=BIT}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
+  <select id="selectUsersByRoleId" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from grant_user
+      where user_id in (
+        select user_id from grant_user_role where role_id = #{roleId}
+      )
+  </select>
 </mapper>

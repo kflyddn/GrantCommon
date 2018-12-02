@@ -9,6 +9,8 @@ public class GrantRolePermission implements Serializable {
 
     private Long permissionId;
 
+    private String permissionName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getRolePermissionId() {
@@ -35,6 +37,14 @@ public class GrantRolePermission implements Serializable {
         this.permissionId = permissionId;
     }
 
+    public String getPermissionName() {
+        return permissionName;
+    }
+
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName == null ? null : permissionName.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -44,6 +54,7 @@ public class GrantRolePermission implements Serializable {
         sb.append(", rolePermissionId=").append(rolePermissionId);
         sb.append(", roleId=").append(roleId);
         sb.append(", permissionId=").append(permissionId);
+        sb.append(", permissionName=").append(permissionName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -5,6 +5,7 @@
     <id column="user_role_id" property="userRoleId" jdbcType="BIGINT" />
     <result column="role_id" property="roleId" jdbcType="SMALLINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_role_id, role_id, user_id
+    user_role_id, role_id, user_id, role_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pcshao.grant.common.entity.GrantUserRoleExample" >
     select
@@ -99,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantUserRole" >
-    insert into grant_user_role (user_role_id, role_id, user_id
-      )
-    values (#{userRoleId,jdbcType=BIGINT}, #{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT}
-      )
+    insert into grant_user_role (user_role_id, role_id, user_id, 
+      role_name)
+    values (#{userRoleId,jdbcType=BIGINT}, #{roleId,jdbcType=SMALLINT}, #{userId,jdbcType=BIGINT}, 
+      #{roleName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantUserRole" >
     insert into grant_user_role
@@ -116,6 +117,9 @@
       <if test="userId != null" >
         user_id,
       </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userRoleId != null" >
@@ -126,6 +130,9 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -147,6 +154,9 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
+      <if test="record.roleName != null" >
+        role_name = #{record.roleName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -156,7 +166,8 @@
     update grant_user_role
     set user_role_id = #{record.userRoleId,jdbcType=BIGINT},
       role_id = #{record.roleId,jdbcType=SMALLINT},
-      user_id = #{record.userId,jdbcType=BIGINT}
+      user_id = #{record.userId,jdbcType=BIGINT},
+      role_name = #{record.roleName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -170,13 +181,17 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=BIGINT},
       </if>
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_role_id = #{userRoleId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUserRole" >
     update grant_user_role
     set role_id = #{roleId,jdbcType=SMALLINT},
-      user_id = #{userId,jdbcType=BIGINT}
+      user_id = #{userId,jdbcType=BIGINT},
+      role_name = #{roleName,jdbcType=VARCHAR}
     where user_role_id = #{userRoleId,jdbcType=BIGINT}
   </update>
 </mapper>

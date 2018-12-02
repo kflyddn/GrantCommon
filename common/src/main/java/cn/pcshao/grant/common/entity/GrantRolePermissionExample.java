@@ -283,6 +283,76 @@ public class GrantRolePermissionExample {
             addCriterion("permission_id not between", value1, value2, "permissionId");
             return (Criteria) this;
         }
+
+        public Criteria andPermissionNameIsNull() {
+            addCriterion("permission_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameIsNotNull() {
+            addCriterion("permission_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameEqualTo(String value) {
+            addCriterion("permission_name =", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameNotEqualTo(String value) {
+            addCriterion("permission_name <>", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameGreaterThan(String value) {
+            addCriterion("permission_name >", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameGreaterThanOrEqualTo(String value) {
+            addCriterion("permission_name >=", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameLessThan(String value) {
+            addCriterion("permission_name <", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameLessThanOrEqualTo(String value) {
+            addCriterion("permission_name <=", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameLike(String value) {
+            addCriterion("permission_name like", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameNotLike(String value) {
+            addCriterion("permission_name not like", value, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameIn(List<String> values) {
+            addCriterion("permission_name in", values, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameNotIn(List<String> values) {
+            addCriterion("permission_name not in", values, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameBetween(String value1, String value2) {
+            addCriterion("permission_name between", value1, value2, "permissionName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNameNotBetween(String value1, String value2) {
+            addCriterion("permission_name not between", value1, value2, "permissionName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

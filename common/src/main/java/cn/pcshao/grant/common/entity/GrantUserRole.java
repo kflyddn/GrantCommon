@@ -9,6 +9,8 @@ public class GrantUserRole implements Serializable {
 
     private Long userId;
 
+    private String roleName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUserRoleId() {
@@ -35,6 +37,14 @@ public class GrantUserRole implements Serializable {
         this.userId = userId;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName == null ? null : roleName.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -44,6 +54,7 @@ public class GrantUserRole implements Serializable {
         sb.append(", userRoleId=").append(userRoleId);
         sb.append(", roleId=").append(roleId);
         sb.append(", userId=").append(userId);
+        sb.append(", roleName=").append(roleName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

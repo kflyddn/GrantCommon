@@ -4,13 +4,16 @@ import cn.pcshao.graduaction.service.UserService;
 import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.base.BaseServiceImpl;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
+import cn.pcshao.grant.common.dao.GrantRoleMapper;
 import cn.pcshao.grant.common.dao.GrantUserMapper;
 import cn.pcshao.grant.common.dao.GrantUserRoleMapper;
+import cn.pcshao.grant.common.entity.GrantRole;
 import cn.pcshao.grant.common.entity.GrantUser;
 import cn.pcshao.grant.common.entity.GrantUserExample;
 import cn.pcshao.grant.common.entity.GrantUserRole;
 import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ListUtils;
+import cn.pcshao.grant.common.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +25,9 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
 
     @Resource
     private GrantUserMapper grantUserMapper;
+
+    @Resource
+    private GrantRoleMapper grantRoleMapper;
 
     @Resource
     private GrantUserRoleMapper grantUserRoleMapper;
@@ -73,16 +79,41 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     @Override
     public void bindUserRoles(Long userId, List<Short> roleIdList) {
         for(Short id : roleIdList){
+            GrantRole grantRole = grantRoleMapper.selectByPrimaryKey(id);
             GrantUserRole grantUserRole = new GrantUserRole();
             grantUserRole.setUserId(userId);
             grantUserRole.setRoleId(id);
+            grantUserRole.setRoleName(grantRole.getRoleName());
             grantUserRoleMapper.insert(grantUserRole);
         }
     }
 
     @Override
-    public List<GrantUser> listUsers(GrantUser grantUser) {
-        //@TODO
-        return null;
+    public List<GrantUser> listUsers(GrantUser grantUser, String withRole) {
+        //TODO
+        GrantUserExample example = new GrantUserExample();
+        GrantUserExample.Criteria criteria = example.createCriteria();
+        if(StringUtils.isNotEmpty(grantUser.getUsername())){
+            criteria.andUsernameLike(grantUser.getUsername());
+        }
+        if(StringUtils.isNotEmpty(grantUser.getNickname())){
+            criteria.andNicknameLike(grantUser.getNickname());
+        }
+        if(StringUtils.isNotEmpty(grantUser.getEmail())){
+            criteria.andEmailLike(grantUser.getEmail());
+        }
+        if(StringUtils.isNotEmpty(grantUser.getTel())){
+            criteria.andTelLike(grantUser.getTel());
+        }
+        if(null !=grantUser.getSex()){
+            criteria.andSexEqualTo(grantUser.getSex());
+        }
+        if(null != grantUser.getIsUse()){
+            criteria.andIsUseEqualTo(grantUser.getIsUse());
+        }
+        if(null != withRole){
+
+        }
+        return grantUserMapper.selectByExample(example);
     }
 }

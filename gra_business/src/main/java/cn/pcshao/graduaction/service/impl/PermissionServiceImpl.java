@@ -44,10 +44,12 @@ public class PermissionServiceImpl extends BaseServiceImpl<GrantPermission, Long
     @Override
     public void bindPermissionRoles(Long permissionId, List<Short> roleIdList) {
         for(Short s : roleIdList){
+            GrantPermission grantPermission = grantPermissionMapper.selectByPrimaryKey(permissionId);
             GrantRolePermission grantRolePermission = new GrantRolePermission();
             grantRolePermission.setPermissionId(permissionId);
             grantRolePermission.setRoleId(s);
-            grantRolePermissionMapper.insert(grantRolePermission);
+            grantRolePermission.setPermissionName(grantPermission.getPermissionName());
+            grantRolePermissionMapper.insertSelective(grantRolePermission);
         }
     }
 

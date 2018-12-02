@@ -5,6 +5,7 @@
     <id column="role_permission_id" property="rolePermissionId" jdbcType="BIGINT" />
     <result column="role_id" property="roleId" jdbcType="SMALLINT" />
     <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
+    <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    role_permission_id, role_id, permission_id
+    role_permission_id, role_id, permission_id, permission_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pcshao.grant.common.entity.GrantRolePermissionExample" >
     select
@@ -99,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantRolePermission" >
-    insert into grant_role_permission (role_permission_id, role_id, permission_id
-      )
-    values (#{rolePermissionId,jdbcType=BIGINT}, #{roleId,jdbcType=SMALLINT}, #{permissionId,jdbcType=BIGINT}
-      )
+    insert into grant_role_permission (role_permission_id, role_id, permission_id, 
+      permission_name)
+    values (#{rolePermissionId,jdbcType=BIGINT}, #{roleId,jdbcType=SMALLINT}, #{permissionId,jdbcType=BIGINT}, 
+      #{permissionName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantRolePermission" >
     insert into grant_role_permission
@@ -116,6 +117,9 @@
       <if test="permissionId != null" >
         permission_id,
       </if>
+      <if test="permissionName != null" >
+        permission_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="rolePermissionId != null" >
@@ -126,6 +130,9 @@
       </if>
       <if test="permissionId != null" >
         #{permissionId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionName != null" >
+        #{permissionName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -147,6 +154,9 @@
       <if test="record.permissionId != null" >
         permission_id = #{record.permissionId,jdbcType=BIGINT},
       </if>
+      <if test="record.permissionName != null" >
+        permission_name = #{record.permissionName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -156,7 +166,8 @@
     update grant_role_permission
     set role_permission_id = #{record.rolePermissionId,jdbcType=BIGINT},
       role_id = #{record.roleId,jdbcType=SMALLINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT}
+      permission_id = #{record.permissionId,jdbcType=BIGINT},
+      permission_name = #{record.permissionName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -170,13 +181,17 @@
       <if test="permissionId != null" >
         permission_id = #{permissionId,jdbcType=BIGINT},
       </if>
+      <if test="permissionName != null" >
+        permission_name = #{permissionName,jdbcType=VARCHAR},
+      </if>
     </set>
     where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantRolePermission" >
     update grant_role_permission
     set role_id = #{roleId,jdbcType=SMALLINT},
-      permission_id = #{permissionId,jdbcType=BIGINT}
+      permission_id = #{permissionId,jdbcType=BIGINT},
+      permission_name = #{permissionName,jdbcType=VARCHAR}
     where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
   </update>
 </mapper>

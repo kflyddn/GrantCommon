@@ -98,6 +98,13 @@ public class UserController extends BaseController {
     @PostMapping("/removeUser")
     public ResultDto removeUser(@RequestParam Long[] userId){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
         if(null != userId){
             int deleteNum = 0;
             for(Long l : userId) {
@@ -109,9 +116,34 @@ public class UserController extends BaseController {
         return ResultDtoFactory.error();
     }
 
+    @ApiOperation("查询用户接口（条件可选）")
+    @PostMapping("/queryAll")
+    public ResultDto queryUser(@RequestBody(required = false) GrantUser grantUser, @RequestParam(required = false) String withRole){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
+        List<GrantUser> grantUsers = userService.listUsers(grantUser, withRole);
+        if(null != grantUsers){
+            //TODO 分页
+            resultDto.setData(grantUsers);
+            if(grantUsers.size() == 0){
+                resultDto.setMsg("无数据");
+                return resultDto;
+            }
+            resultDto.setMsg("查询成功！"+grantUsers.size());
+            return resultDto;
+        }
+        return ResultDtoFactory.error();
+    }
+
     @ApiOperation("登出接口")
     @ApiParam("token参数留着给以后整合redis等用")
-    @RequestMapping("/logout")
+    @GetMapping("/logout")
     public ResultDto logout(@RequestParam(required = false) String token){
         ResultDto resultDto = ResultDtoFactory.success();
         Subject subject = SecurityUtils.getSubject();
@@ -133,6 +165,13 @@ public class UserController extends BaseController {
     @PostMapping("/addRole")
     public ResultDto addRole(@RequestBody GrantRole grantRole, @RequestParam(required = false) List<Long> userIdList){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
         if(StringUtils.isNotEmpty(grantRole.getRoleName()) && StringUtils.isNotEmpty(grantRole.getRoleRemark())){
             if(!roleService.findRoleByName(grantRole.getRoleName())){
                 roleService.saveRole(grantRole, userIdList);
@@ -162,6 +201,13 @@ public class UserController extends BaseController {
     @PostMapping("/addPermission")
     public ResultDto addPermission(@RequestBody GrantPermission grantPermission, @RequestParam(required = false) List<Short> userRoleList){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
         if(StringUtils.isNotEmpty(grantPermission.getPermissionName())){
             if(!permissionService.findPermissionByName(grantPermission.getPermissionName())){
                 permissionService.savePermission(grantPermission, userRoleList);
@@ -177,14 +223,14 @@ public class UserController extends BaseController {
     @PostMapping("bindUserRoles")
     public ResultDto bindUserRoles(@RequestParam Long userId, @RequestParam List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
         if(null != userId && ListUtils.isNotEmptyList(roleIdList)){
-            Subject subject = SecurityUtils.getSubject();
-            try{
-                subject.checkRole("admin");
-//                subject.checkPermission("系统管理");
-            }catch (UnauthorizedException e){
-                return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
-            }
             userService.bindUserRoles(userId, roleIdList);
             return resultDto;
         }
@@ -195,6 +241,13 @@ public class UserController extends BaseController {
     @PostMapping("bindRoleUsers")
     public ResultDto bindRoleUsers(@RequestParam Short roleId, @RequestParam List<Long> userIdList){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
         if(null != roleId && ListUtils.isNotEmptyList(userIdList)){
             roleService.bindRoleUsers(roleId, userIdList);
             return resultDto;
@@ -216,8 +269,16 @@ public class UserController extends BaseController {
     @PostMapping("bindRolePermissions")
     public ResultDto bindRolePermissions(@RequestParam Short roleId, @RequestParam List<Long> permissionIdList){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
         if(null != roleId && ListUtils.isNotEmptyList(permissionIdList)) {
             roleService.bindRolePermissions(roleId, permissionIdList);
+            return resultDto;
         }
         return ResultDtoFactory.error();
     }
@@ -226,8 +287,16 @@ public class UserController extends BaseController {
     @PostMapping("bindPermissionRoles")
     public ResultDto bindPermissionRoles(@RequestParam Long permissionId, @RequestParam List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
         if(null != permissionId && ListUtils.isNotEmptyList(roleIdList)) {
             permissionService.bindPermissionRoles(permissionId, roleIdList);
+            return resultDto;
         }
         return ResultDtoFactory.error();
     }

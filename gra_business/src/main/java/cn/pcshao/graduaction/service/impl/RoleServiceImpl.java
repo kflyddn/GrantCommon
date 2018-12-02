@@ -3,6 +3,7 @@ package cn.pcshao.graduaction.service.impl;
 import cn.pcshao.graduaction.service.RoleService;
 import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.base.BaseServiceImpl;
+import cn.pcshao.grant.common.dao.GrantPermissionMapper;
 import cn.pcshao.grant.common.dao.GrantRoleMapper;
 import cn.pcshao.grant.common.dao.GrantRolePermissionMapper;
 import cn.pcshao.grant.common.dao.GrantUserRoleMapper;
@@ -18,6 +19,9 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
 
     @Resource
     private GrantRoleMapper grantRoleMapper;
+
+    @Resource
+    private GrantPermissionMapper grantPermissionMapper;
 
     @Resource
     private GrantUserRoleMapper grantUserRoleMapper;
@@ -45,9 +49,11 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
     @Override
     public void bindRoleUsers(Short roleId, List<Long> userIdList) {
         for(Long l : userIdList){
+            GrantRole grantRole = grantRoleMapper.selectByPrimaryKey(roleId);
             GrantUserRole grantUserRole = new GrantUserRole();
             grantUserRole.setUserId(l);
             grantUserRole.setRoleId(roleId);
+            grantUserRole.setRoleName(grantRole.getRoleName());
             grantUserRoleMapper.insertSelective(grantUserRole);
         }
     }
@@ -55,9 +61,11 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
     @Override
     public void bindRolePermissions(Short roleId, List<Long> permissionIdList) {
         for(Long l : permissionIdList){
+            GrantPermission grantPermission = grantPermissionMapper.selectByPrimaryKey(l);
             GrantRolePermission grantRolePermission = new GrantRolePermission();
             grantRolePermission.setRoleId(roleId);
             grantRolePermission.setPermissionId(l);
+            grantRolePermission.setPermissionName(grantPermission.getPermissionName());
             grantRolePermissionMapper.insertSelective(grantRolePermission);
         }
     }

@@ -280,6 +280,7 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation("查询权限列表（条件可选）")
+    @ApiParam("单一查权限接口")
     @PostMapping("/queryPermission")
     public ResultDto queryPermission(@RequestBody(required = false) SysPageBo sysPageBo){
         ResultDto resultDto = ResultDtoFactory.success();

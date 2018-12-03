@@ -6,7 +6,14 @@ import cn.pcshao.grant.common.entity.GrantUserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface GrantUserMapper extends BaseDao<GrantUser ,Long> {
+public interface GrantUserMapper extends BaseDao<GrantUser, Long> {
+    /**
+     * 根据角色ID查用户列表
+     * @param roleId
+     * @return
+     */
+    List<GrantUser> selectUsersByRoleId(Short roleId);
+
     int countByExample(GrantUserExample example);
 
     int deleteByExample(GrantUserExample example);
@@ -28,6 +35,4 @@ public interface GrantUserMapper extends BaseDao<GrantUser ,Long> {
     int updateByPrimaryKeySelective(GrantUser record);
 
     int updateByPrimaryKey(GrantUser record);
-
-    List<GrantUser> selectUsersByRoleId(Short roleId);
 }

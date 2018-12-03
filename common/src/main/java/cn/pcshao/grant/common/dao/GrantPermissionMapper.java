@@ -7,6 +7,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface GrantPermissionMapper extends BaseDao<GrantPermission, Long> {
+    /**
+     * 根据角色ID查权限列表
+     * @param roleId
+     * @return
+     */
+    List<GrantPermission> selectPermissionsByRoleId(Short roleId);
     int countByExample(GrantPermissionExample example);
 
     int deleteByExample(GrantPermissionExample example);
@@ -28,6 +34,4 @@ public interface GrantPermissionMapper extends BaseDao<GrantPermission, Long> {
     int updateByPrimaryKeySelective(GrantPermission record);
 
     int updateByPrimaryKey(GrantPermission record);
-
-    List<GrantPermission> selectPermissionsByRoleId(Short roleId);
 }

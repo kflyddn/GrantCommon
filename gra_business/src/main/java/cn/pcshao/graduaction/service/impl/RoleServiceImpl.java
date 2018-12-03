@@ -82,11 +82,13 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
     public List<GrantRole> listRoles(GrantRole grantRole) {
         GrantRoleExample example = new GrantRoleExample();
         GrantRoleExample.Criteria criteria = example.createCriteria();
-        if(StringUtils.isNotEmpty(grantRole.getRoleName())){
-            criteria.andRoleNameLike(grantRole.getRoleName());
-        }
-        if(StringUtils.isNotEmpty(grantRole.getRoleRemark())){
-            criteria.andRoleNameLike(grantRole.getRoleRemark());
+        if(null != grantRole) {
+            if (StringUtils.isNotEmpty(grantRole.getRoleName())) {
+                criteria.andRoleNameLike(grantRole.getRoleName());
+            }
+            if (StringUtils.isNotEmpty(grantRole.getRoleRemark())) {
+                criteria.andRoleNameLike(grantRole.getRoleRemark());
+            }
         }
         return grantRoleMapper.selectByExample(example);
     }

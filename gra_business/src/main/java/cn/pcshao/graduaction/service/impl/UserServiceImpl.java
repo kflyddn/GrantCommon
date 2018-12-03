@@ -91,34 +91,39 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     }
 
     @Override
-    public List<GrantUser> listUsers(GrantUser grantUser, String withRole) {
-        //TODO
+    public List<GrantUser> listUsers(GrantUser grantUser, String roleName, String permissionName) {
         GrantUserExample example = new GrantUserExample();
         GrantUserExample.Criteria criteria = example.createCriteria();
-        if(StringUtils.isNotEmpty(grantUser.getUsername())){
-            criteria.andUsernameLike(grantUser.getUsername());
+        if(null != grantUser) {
+            if (StringUtils.isNotEmpty(grantUser.getUsername())) {
+                criteria.andUsernameLike(grantUser.getUsername());
+            }
+            if (StringUtils.isNotEmpty(grantUser.getNickname())) {
+                criteria.andNicknameLike(grantUser.getNickname());
+            }
+            if (StringUtils.isNotEmpty(grantUser.getEmail())) {
+                criteria.andEmailLike(grantUser.getEmail());
+            }
+            if (StringUtils.isNotEmpty(grantUser.getTel())) {
+                criteria.andTelLike(grantUser.getTel());
+            }
+            if (null != grantUser.getSex()) {
+                criteria.andSexEqualTo(grantUser.getSex());
+            }
+            if (null != grantUser.getIsUse()) {
+                criteria.andIsUseEqualTo(grantUser.getIsUse());
+            }
+            if (null != grantUser.getUserId()) {
+                criteria.andUserIdEqualTo(grantUser.getUserId());
+            }
         }
-        if(StringUtils.isNotEmpty(grantUser.getNickname())){
-            criteria.andNicknameLike(grantUser.getNickname());
+        if (null != roleName) {
+            //TODO 条件查询用户列表用
         }
-        if(StringUtils.isNotEmpty(grantUser.getEmail())){
-            criteria.andEmailLike(grantUser.getEmail());
-        }
-        if(StringUtils.isNotEmpty(grantUser.getTel())){
-            criteria.andTelLike(grantUser.getTel());
-        }
-        if(null !=grantUser.getSex()){
-            criteria.andSexEqualTo(grantUser.getSex());
-        }
-        if(null != grantUser.getIsUse()){
-            criteria.andIsUseEqualTo(grantUser.getIsUse());
-        }
-        if(null != grantUser.getUserId()){
-            criteria.andUserIdEqualTo(grantUser.getUserId());
-        }
-        if(null != withRole){
-
+        if (null != permissionName) {
+            //TODO 条件查询用户列表用
         }
         return grantUserMapper.selectByExample(example);
     }
+
 }

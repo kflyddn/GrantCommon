@@ -21,7 +21,7 @@ public interface UserService extends BaseService<GrantUser, Long> {
      *  分页、多条件查询等等待完善
      * @return
      */
-    List<GrantUser> listUsers(GrantUser grantUser, String withRole);
+    List<GrantUser> listUsers(GrantUser grantUser, String roleName, String permissionName);
 
     /**
      * 条件查询用户

@@ -1,5 +1,6 @@
 package cn.pcshao.graduaction.web;
 
+import cn.pcshao.graduaction.bo.SysPageBo;
 import cn.pcshao.graduaction.service.PermissionService;
 import cn.pcshao.graduaction.service.RoleService;
 import cn.pcshao.graduaction.service.UserService;
@@ -13,6 +14,7 @@ import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.MD5Utils;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import cn.pcshao.grant.common.util.StringUtils;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
@@ -115,8 +117,9 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation("查询用户接口（条件可选）")
+    @ApiParam("查用户接口，只支持角色名和权限名参数查询")
     @PostMapping("/queryUser")
-    public ResultDto queryUser(@RequestBody(required = false) GrantUser grantUser, @RequestParam(required = false) String withRole){
+    public ResultDto queryUser(@RequestBody(required = false) SysPageBo sysPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
         Subject subject = SecurityUtils.getSubject();
@@ -125,9 +128,18 @@ public class UserController extends BaseController {
         }catch (UnauthorizedException e){
             return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
-        List<GrantUser> grantUsers = userService.listUsers(grantUser, withRole);
+        int pageNum = 1;
+        int pageSize = 8;
+        if(null != sysPageBo && sysPageBo.checkSelf()){
+            pageNum = sysPageBo.getPageNum();
+            pageSize = sysPageBo.getPageSize();
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        GrantUser grantUser = sysPageBo.getGrantUser();
+        String roleName = sysPageBo.getGrantRole() != null ? sysPageBo.getGrantRole().getRoleName() : "";
+        String permissionName = sysPageBo.getGrantPermission() != null ? sysPageBo.getGrantPermission().getPermissionName() : "";
+        List<GrantUser> grantUsers = userService.listUsers(grantUser, roleName, permissionName);
         if(null != grantUsers){
-            //TODO 分页
             resultDto.setData(grantUsers);
             if(grantUsers.size() == 0){
                 resultDto.setMsg("无数据");
@@ -182,8 +194,9 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation("查询角色列表（条件可选）")
+    @ApiParam("单一查角色接口")
     @PostMapping("/queryRole")
-    public ResultDto queryRole(@RequestBody(required = false) GrantRole grantRole){
+    public ResultDto queryRole(@RequestBody(required = false) SysPageBo sysPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
         Subject subject = SecurityUtils.getSubject();
@@ -192,12 +205,19 @@ public class UserController extends BaseController {
         }catch (UnauthorizedException e){
             return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
+        int pageNum = 1;
+        int pageSize = 8;
+        if(null != sysPageBo && sysPageBo.checkSelf()){
+            pageNum = sysPageBo.getPageNum();
+            pageSize = sysPageBo.getPageSize();
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        GrantRole grantRole = sysPageBo.getGrantRole();
         List<GrantRole> grantRoles = roleService.listRoles(grantRole);
         if(null != grantRoles){
-            //TODO 分页
             resultDto.setData(grantRoles);
             if(grantRoles.size() == 0){
-                resultDto.setMsg("无记录");
+                resultDto.setMsg("无对应角色记录");
                 return resultDto;
             }
             resultDto.setMsg("查询成功！"+grantRoles.size());
@@ -261,7 +281,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("查询权限列表（条件可选）")
     @PostMapping("/queryPermission")
-    public ResultDto queryPermission(@RequestBody(required = false) GrantPermission grantPermission){
+    public ResultDto queryPermission(@RequestBody(required = false) SysPageBo sysPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
         Subject subject = SecurityUtils.getSubject();
@@ -270,12 +290,19 @@ public class UserController extends BaseController {
         }catch (UnauthorizedException e){
             return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
+        int pageNum = 1;
+        int pageSize = 8;
+        if(null != sysPageBo && sysPageBo.checkSelf()){
+            pageNum = sysPageBo.getPageNum();
+            pageSize = sysPageBo.getPageSize();
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        GrantPermission grantPermission = sysPageBo.getGrantPermission();
         List<GrantPermission> grantPermissions = permissionService.listPermissions(grantPermission);
-        if(null != grantPermission){
-            //TODO 分页
+        if(null != grantPermissions){
             resultDto.setData(grantPermissions);
             if(grantPermissions.size() == 0){
-                resultDto.setMsg("无记录");
+                resultDto.setMsg("无对应权限记录");
                 return resultDto;
             }
             resultDto.setMsg("查询成功！"+grantPermissions.size());

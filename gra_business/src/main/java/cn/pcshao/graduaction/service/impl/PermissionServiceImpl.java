@@ -65,11 +65,13 @@ public class PermissionServiceImpl extends BaseServiceImpl<GrantPermission, Long
     public List<GrantPermission> listPermissions(GrantPermission grantPermission) {
         GrantPermissionExample grantPermissionExample = new GrantPermissionExample();
         GrantPermissionExample.Criteria criteria = grantPermissionExample.createCriteria();
-        if(StringUtils.isNotEmpty(grantPermission.getPermissionName())){
-            criteria.andPermissionNameLike(grantPermission.getPermissionName());
-        }
-        if(null != grantPermission.getPermissionId()){
-            criteria.andPermissionIdEqualTo(grantPermission.getPermissionId());
+        if(null != grantPermission) {
+            if (StringUtils.isNotEmpty(grantPermission.getPermissionName())) {
+                criteria.andPermissionNameLike(grantPermission.getPermissionName());
+            }
+            if (null != grantPermission.getPermissionId()) {
+                criteria.andPermissionIdEqualTo(grantPermission.getPermissionId());
+            }
         }
         return grantPermissionMapper.selectByExample(grantPermissionExample);
     }

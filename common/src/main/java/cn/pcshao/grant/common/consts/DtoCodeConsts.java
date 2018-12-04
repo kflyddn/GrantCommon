@@ -23,6 +23,11 @@ public class DtoCodeConsts {
     public static final int NO_PERMISSION = -14;
     public static final String NO_PERMISSION_MSG = "权限不足";
 
+    public static final int ALBUM_PIC_EMPTY = -20;
+    public static final String ALBUM_PIC_EMPTY_MSG = "图片资源为空！";
+    public static final int ALBUM_PIC_NO = -21;
+    public static final String ALBUM_PIC_NO_MSG = "不是图片资源文件！";
+
     public static final int DB_PRIMARY_EXIST = -50;
     public static final String DB_PRIMARY_EXIST_MSG = "请检查数据序列ID";
 

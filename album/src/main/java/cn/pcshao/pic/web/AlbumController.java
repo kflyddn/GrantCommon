@@ -1,13 +1,18 @@
 package cn.pcshao.pic.web;
 
 import cn.pcshao.grant.common.base.BaseController;
+import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
+import cn.pcshao.pic.ao.ResultFtp;
+import cn.pcshao.pic.service.AlbumSourceService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 相册rest控制器
@@ -16,7 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/album")
-public class PicController extends BaseController {
+public class AlbumController extends BaseController {
+
+    @Autowired
+    @Qualifier("picService")
+    private AlbumSourceService picService;
 
     @ApiOperation("测试第一个接口")
     @PostMapping("/show")
@@ -47,9 +56,25 @@ public class PicController extends BaseController {
 
     @ApiOperation("新增资源接口")
     @PostMapping("/add")
-    public ResultDto add(){
+    public ResultDto add(HttpServletRequest request, @RequestParam MultipartFile file){
         ResultDto resultDto = ResultDtoFactory.success();
-
+        try {
+            if (null == file || file.isEmpty()) {
+                return ResultDtoFactory.error(DtoCodeConsts.ALBUM_PIC_EMPTY, DtoCodeConsts.ALBUM_PIC_EMPTY_MSG);
+            }
+            if (!file.getContentType().contains("image")) {
+                return ResultDtoFactory.error(DtoCodeConsts.ALBUM_PIC_NO, DtoCodeConsts.ALBUM_PIC_NO_MSG);
+            }
+        } catch (Exception e) {
+            logger.error(e.toString());
+            e.printStackTrace();
+            return ResultDtoFactory.error();
+        }
+        ResultFtp resultFtp = picService.upLoadFile(file);
+        if(null != resultFtp && resultFtp.isFlag()){
+            //TODO 拆分HttpServletRequest 提取其他参数插库
+            return resultDto;
+        }
         return ResultDtoFactory.error();
     }
 

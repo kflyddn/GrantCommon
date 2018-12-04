@@ -16,7 +16,6 @@ import java.util.Properties;
 @Configuration("cn.pcshao.graduaction.security.ShiroConfig")
 public class BusinessApplication {
 
-
     public static void main(String[] args) throws IOException {
         //更改properties配置文件名称,避免依赖冲突
         Properties properties = new Properties();

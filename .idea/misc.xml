@@ -12,6 +12,7 @@
       <list>
         <option value="$PROJECT_DIR$/common/pom.xml" />
         <option value="$PROJECT_DIR$/gra_business/pom.xml" />
+        <option value="$PROJECT_DIR$/album/pom.xml" />
       </list>
     </option>
   </component>

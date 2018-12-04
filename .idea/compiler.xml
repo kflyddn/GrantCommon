@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="album" />
         <module name="common" />
         <module name="gra_business" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="album" target="1.8" />
       <module name="common" target="1.8" />
       <module name="gra_business" target="1.8" />
     </bytecodeTargetLevel>

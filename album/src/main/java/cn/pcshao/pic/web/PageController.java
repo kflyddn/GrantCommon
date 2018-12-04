@@ -19,4 +19,15 @@ public class PageController extends BaseController {
         return "init";
     }
 
+    @GetMapping("/404")
+    @ResponseBody
+    public String Nope(){
+        return "404";
+    }
+
+    @GetMapping("/403")
+    public String NoPermission(){
+        return "403";
+    }
+
 }

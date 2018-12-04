@@ -2,13 +2,12 @@ package cn.pcshao.pic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@SpringBootApplication(scanBasePackages = "cn.pcshao.pic.web")
+@SpringBootApplication(scanBasePackages = {"cn.pcshao.pic", "cn.pcshao.grant.common"})
 public class AlbumApplication {
 
     public static void main(String[] args) throws IOException {

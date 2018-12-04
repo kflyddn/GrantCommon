@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-public class Swagger2Config {
+public class Swagger2Config_album {
         @Bean
         public Docket createRestApi() {
             return new Docket(DocumentationType.SWAGGER_2)
@@ -30,11 +30,9 @@ public class Swagger2Config {
 
         private ApiInfo apiInfo() {
             return new ApiInfoBuilder()
-                    .title("超级相册 接口文档")
+                    .title("album 接口文档")
                     .contact("pcshao.cn")
                     .version("1.0.1")
                     .build();
         }
-
-
 }

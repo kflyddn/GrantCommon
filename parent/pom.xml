@@ -12,6 +12,7 @@
     <modules>
         <module>../common</module>
         <module>../gra_business</module>
+        <module>../album</module>
     </modules>
 
     <!-- 集中定义依赖版本号与基本配置 -->

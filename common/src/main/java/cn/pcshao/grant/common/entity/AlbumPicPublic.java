@@ -1,8 +1,11 @@
 package cn.pcshao.grant.common.entity;
 
-import java.io.Serializable;
+import cn.pcshao.grant.common.bo.AlbumSource;
 
-public class AlbumPicPublic implements Serializable {
+import java.io.Serializable;
+import java.util.Date;
+
+public class AlbumPicPublic extends AlbumSource implements Serializable {
     private Long id;
 
     private String type1;
@@ -15,7 +18,9 @@ public class AlbumPicPublic implements Serializable {
 
     private String describ;
 
-    private String url;
+    private String pathLocal;
+
+    private String pathFtp;
 
     private Long userId;
 
@@ -24,6 +29,10 @@ public class AlbumPicPublic implements Serializable {
     private String userNickname;
 
     private Boolean display;
+
+    private Date createtime;
+
+    private Double filesize;
 
     private static final long serialVersionUID = 1L;
 
@@ -75,12 +84,20 @@ public class AlbumPicPublic implements Serializable {
         this.describ = describ == null ? null : describ.trim();
     }
 
-    public String getUrl() {
-        return url;
+    public String getPathLocal() {
+        return pathLocal;
     }
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
+    public void setPathLocal(String pathLocal) {
+        this.pathLocal = pathLocal == null ? null : pathLocal.trim();
+    }
+
+    public String getPathFtp() {
+        return pathFtp;
+    }
+
+    public void setPathFtp(String pathFtp) {
+        this.pathFtp = pathFtp == null ? null : pathFtp.trim();
     }
 
     public Long getUserId() {
@@ -115,6 +132,22 @@ public class AlbumPicPublic implements Serializable {
         this.display = display;
     }
 
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Double getFilesize() {
+        return filesize;
+    }
+
+    public void setFilesize(Double filesize) {
+        this.filesize = filesize;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -127,11 +160,14 @@ public class AlbumPicPublic implements Serializable {
         sb.append(", type3=").append(type3);
         sb.append(", name=").append(name);
         sb.append(", describ=").append(describ);
-        sb.append(", url=").append(url);
+        sb.append(", pathLocal=").append(pathLocal);
+        sb.append(", pathFtp=").append(pathFtp);
         sb.append(", userId=").append(userId);
         sb.append(", userName=").append(userName);
         sb.append(", userNickname=").append(userNickname);
         sb.append(", display=").append(display);
+        sb.append(", createtime=").append(createtime);
+        sb.append(", filesize=").append(filesize);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -514,73 +514,143 @@ public class AlbumPicPersonalExample {
             return (Criteria) this;
         }
 
-        public Criteria andUrlIsNull() {
-            addCriterion("url is null");
+        public Criteria andPathLocalIsNull() {
+            addCriterion("path_local is null");
             return (Criteria) this;
         }
 
-        public Criteria andUrlIsNotNull() {
-            addCriterion("url is not null");
+        public Criteria andPathLocalIsNotNull() {
+            addCriterion("path_local is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUrlEqualTo(String value) {
-            addCriterion("url =", value, "url");
+        public Criteria andPathLocalEqualTo(String value) {
+            addCriterion("path_local =", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotEqualTo(String value) {
-            addCriterion("url <>", value, "url");
+        public Criteria andPathLocalNotEqualTo(String value) {
+            addCriterion("path_local <>", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlGreaterThan(String value) {
-            addCriterion("url >", value, "url");
+        public Criteria andPathLocalGreaterThan(String value) {
+            addCriterion("path_local >", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("url >=", value, "url");
+        public Criteria andPathLocalGreaterThanOrEqualTo(String value) {
+            addCriterion("path_local >=", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlLessThan(String value) {
-            addCriterion("url <", value, "url");
+        public Criteria andPathLocalLessThan(String value) {
+            addCriterion("path_local <", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlLessThanOrEqualTo(String value) {
-            addCriterion("url <=", value, "url");
+        public Criteria andPathLocalLessThanOrEqualTo(String value) {
+            addCriterion("path_local <=", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlLike(String value) {
-            addCriterion("url like", value, "url");
+        public Criteria andPathLocalLike(String value) {
+            addCriterion("path_local like", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotLike(String value) {
-            addCriterion("url not like", value, "url");
+        public Criteria andPathLocalNotLike(String value) {
+            addCriterion("path_local not like", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlIn(List<String> values) {
-            addCriterion("url in", values, "url");
+        public Criteria andPathLocalIn(List<String> values) {
+            addCriterion("path_local in", values, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotIn(List<String> values) {
-            addCriterion("url not in", values, "url");
+        public Criteria andPathLocalNotIn(List<String> values) {
+            addCriterion("path_local not in", values, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlBetween(String value1, String value2) {
-            addCriterion("url between", value1, value2, "url");
+        public Criteria andPathLocalBetween(String value1, String value2) {
+            addCriterion("path_local between", value1, value2, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotBetween(String value1, String value2) {
-            addCriterion("url not between", value1, value2, "url");
+        public Criteria andPathLocalNotBetween(String value1, String value2) {
+            addCriterion("path_local not between", value1, value2, "pathLocal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpIsNull() {
+            addCriterion("path_ftp is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpIsNotNull() {
+            addCriterion("path_ftp is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpEqualTo(String value) {
+            addCriterion("path_ftp =", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotEqualTo(String value) {
+            addCriterion("path_ftp <>", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpGreaterThan(String value) {
+            addCriterion("path_ftp >", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpGreaterThanOrEqualTo(String value) {
+            addCriterion("path_ftp >=", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpLessThan(String value) {
+            addCriterion("path_ftp <", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpLessThanOrEqualTo(String value) {
+            addCriterion("path_ftp <=", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpLike(String value) {
+            addCriterion("path_ftp like", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotLike(String value) {
+            addCriterion("path_ftp not like", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpIn(List<String> values) {
+            addCriterion("path_ftp in", values, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotIn(List<String> values) {
+            addCriterion("path_ftp not in", values, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpBetween(String value1, String value2) {
+            addCriterion("path_ftp between", value1, value2, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotBetween(String value1, String value2) {
+            addCriterion("path_ftp not between", value1, value2, "pathFtp");
             return (Criteria) this;
         }
 
@@ -784,63 +854,63 @@ public class AlbumPicPersonalExample {
             return (Criteria) this;
         }
 
-        public Criteria andPrivateIsNull() {
-            addCriterion("private is null");
+        public Criteria andIsPrivateIsNull() {
+            addCriterion("is_private is null");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateIsNotNull() {
-            addCriterion("private is not null");
+        public Criteria andIsPrivateIsNotNull() {
+            addCriterion("is_private is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateEqualTo(Boolean value) {
-            addCriterion("private =", value, "private");
+        public Criteria andIsPrivateEqualTo(Boolean value) {
+            addCriterion("is_private =", value, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateNotEqualTo(Boolean value) {
-            addCriterion("private <>", value, "private");
+        public Criteria andIsPrivateNotEqualTo(Boolean value) {
+            addCriterion("is_private <>", value, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateGreaterThan(Boolean value) {
-            addCriterion("private >", value, "private");
+        public Criteria andIsPrivateGreaterThan(Boolean value) {
+            addCriterion("is_private >", value, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("private >=", value, "private");
+        public Criteria andIsPrivateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_private >=", value, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateLessThan(Boolean value) {
-            addCriterion("private <", value, "private");
+        public Criteria andIsPrivateLessThan(Boolean value) {
+            addCriterion("is_private <", value, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateLessThanOrEqualTo(Boolean value) {
-            addCriterion("private <=", value, "private");
+        public Criteria andIsPrivateLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_private <=", value, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateIn(List<Boolean> values) {
-            addCriterion("private in", values, "private");
+        public Criteria andIsPrivateIn(List<Boolean> values) {
+            addCriterion("is_private in", values, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateNotIn(List<Boolean> values) {
-            addCriterion("private not in", values, "private");
+        public Criteria andIsPrivateNotIn(List<Boolean> values) {
+            addCriterion("is_private not in", values, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateBetween(Boolean value1, Boolean value2) {
-            addCriterion("private between", value1, value2, "private");
+        public Criteria andIsPrivateBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_private between", value1, value2, "isPrivate");
             return (Criteria) this;
         }
 
-        public Criteria andPrivateNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("private not between", value1, value2, "private");
+        public Criteria andIsPrivateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_private not between", value1, value2, "isPrivate");
             return (Criteria) this;
         }
     }

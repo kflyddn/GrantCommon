@@ -1,11 +1,13 @@
 package cn.pcshao.grant.common.dao;
 
+import cn.pcshao.grant.common.base.BaseDao;
+import cn.pcshao.grant.common.bo.AlbumSource;
 import cn.pcshao.grant.common.entity.AlbumPicPublic;
 import cn.pcshao.grant.common.entity.AlbumPicPublicExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface AlbumPicPublicMapper {
+public interface AlbumPicPublicMapper extends BaseDao<AlbumSource, Integer> {
     int countByExample(AlbumPicPublicExample example);
 
     int deleteByExample(AlbumPicPublicExample example);

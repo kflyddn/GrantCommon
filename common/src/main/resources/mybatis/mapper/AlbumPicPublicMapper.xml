@@ -8,11 +8,14 @@
     <result column="type3" property="type3" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="describ" property="describ" jdbcType="VARCHAR" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="path_local" property="pathLocal" jdbcType="VARCHAR" />
+    <result column="path_ftp" property="pathFtp" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
     <result column="display" property="display" jdbcType="BIT" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="filesize" property="filesize" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, type1, type2, type3, `name`, describ, url, user_id, user_name, user_nickname, 
-    display
+    id, type1, type2, type3, `name`, describ, path_local, path_ftp, user_id, user_name, 
+    user_nickname, display, createtime, filesize
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pcshao.grant.common.entity.AlbumPicPublicExample" >
     select
@@ -110,12 +113,14 @@
   <insert id="insert" parameterType="cn.pcshao.grant.common.entity.AlbumPicPublic" >
     insert into album_pic_public (id, type1, type2, 
       type3, `name`, describ, 
-      url, user_id, user_name, 
-      user_nickname, display)
+      path_local, path_ftp, user_id, 
+      user_name, user_nickname, display, 
+      createtime, filesize)
     values (#{id,jdbcType=BIGINT}, #{type1,jdbcType=VARCHAR}, #{type2,jdbcType=VARCHAR}, 
       #{type3,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{describ,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, 
-      #{userNickname,jdbcType=VARCHAR}, #{display,jdbcType=BIT})
+      #{pathLocal,jdbcType=VARCHAR}, #{pathFtp,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{userName,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR}, #{display,jdbcType=BIT}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{filesize,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.AlbumPicPublic" >
     insert into album_pic_public
@@ -138,8 +143,11 @@
       <if test="describ != null" >
         describ,
       </if>
-      <if test="url != null" >
-        url,
+      <if test="pathLocal != null" >
+        path_local,
+      </if>
+      <if test="pathFtp != null" >
+        path_ftp,
       </if>
       <if test="userId != null" >
         user_id,
@@ -152,6 +160,12 @@
       </if>
       <if test="display != null" >
         display,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="filesize != null" >
+        filesize,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -173,8 +187,11 @@
       <if test="describ != null" >
         #{describ,jdbcType=VARCHAR},
       </if>
-      <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
+      <if test="pathLocal != null" >
+        #{pathLocal,jdbcType=VARCHAR},
+      </if>
+      <if test="pathFtp != null" >
+        #{pathFtp,jdbcType=VARCHAR},
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=BIGINT},
@@ -187,6 +204,12 @@
       </if>
       <if test="display != null" >
         #{display,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filesize != null" >
+        #{filesize,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -217,8 +240,11 @@
       <if test="record.describ != null" >
         describ = #{record.describ,jdbcType=VARCHAR},
       </if>
-      <if test="record.url != null" >
-        url = #{record.url,jdbcType=VARCHAR},
+      <if test="record.pathLocal != null" >
+        path_local = #{record.pathLocal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pathFtp != null" >
+        path_ftp = #{record.pathFtp,jdbcType=VARCHAR},
       </if>
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=BIGINT},
@@ -231,6 +257,12 @@
       </if>
       <if test="record.display != null" >
         display = #{record.display,jdbcType=BIT},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.filesize != null" >
+        filesize = #{record.filesize,jdbcType=DOUBLE},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -245,11 +277,14 @@
       type3 = #{record.type3,jdbcType=VARCHAR},
       `name` = #{record.name,jdbcType=VARCHAR},
       describ = #{record.describ,jdbcType=VARCHAR},
-      url = #{record.url,jdbcType=VARCHAR},
+      path_local = #{record.pathLocal,jdbcType=VARCHAR},
+      path_ftp = #{record.pathFtp,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
       user_name = #{record.userName,jdbcType=VARCHAR},
       user_nickname = #{record.userNickname,jdbcType=VARCHAR},
-      display = #{record.display,jdbcType=BIT}
+      display = #{record.display,jdbcType=BIT},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      filesize = #{record.filesize,jdbcType=DOUBLE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,8 +307,11 @@
       <if test="describ != null" >
         describ = #{describ,jdbcType=VARCHAR},
       </if>
-      <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
+      <if test="pathLocal != null" >
+        path_local = #{pathLocal,jdbcType=VARCHAR},
+      </if>
+      <if test="pathFtp != null" >
+        path_ftp = #{pathFtp,jdbcType=VARCHAR},
       </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=BIGINT},
@@ -287,6 +325,12 @@
       <if test="display != null" >
         display = #{display,jdbcType=BIT},
       </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filesize != null" >
+        filesize = #{filesize,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -297,11 +341,14 @@
       type3 = #{type3,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},
       describ = #{describ,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
+      path_local = #{pathLocal,jdbcType=VARCHAR},
+      path_ftp = #{pathFtp,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
       user_name = #{userName,jdbcType=VARCHAR},
       user_nickname = #{userNickname,jdbcType=VARCHAR},
-      display = #{display,jdbcType=BIT}
+      display = #{display,jdbcType=BIT},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      filesize = #{filesize,jdbcType=DOUBLE}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

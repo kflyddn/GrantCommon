@@ -1,6 +1,7 @@
 package cn.pcshao.grant.common.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AlbumPicPublicExample {
@@ -514,73 +515,143 @@ public class AlbumPicPublicExample {
             return (Criteria) this;
         }
 
-        public Criteria andUrlIsNull() {
-            addCriterion("url is null");
+        public Criteria andPathLocalIsNull() {
+            addCriterion("path_local is null");
             return (Criteria) this;
         }
 
-        public Criteria andUrlIsNotNull() {
-            addCriterion("url is not null");
+        public Criteria andPathLocalIsNotNull() {
+            addCriterion("path_local is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUrlEqualTo(String value) {
-            addCriterion("url =", value, "url");
+        public Criteria andPathLocalEqualTo(String value) {
+            addCriterion("path_local =", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotEqualTo(String value) {
-            addCriterion("url <>", value, "url");
+        public Criteria andPathLocalNotEqualTo(String value) {
+            addCriterion("path_local <>", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlGreaterThan(String value) {
-            addCriterion("url >", value, "url");
+        public Criteria andPathLocalGreaterThan(String value) {
+            addCriterion("path_local >", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("url >=", value, "url");
+        public Criteria andPathLocalGreaterThanOrEqualTo(String value) {
+            addCriterion("path_local >=", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlLessThan(String value) {
-            addCriterion("url <", value, "url");
+        public Criteria andPathLocalLessThan(String value) {
+            addCriterion("path_local <", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlLessThanOrEqualTo(String value) {
-            addCriterion("url <=", value, "url");
+        public Criteria andPathLocalLessThanOrEqualTo(String value) {
+            addCriterion("path_local <=", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlLike(String value) {
-            addCriterion("url like", value, "url");
+        public Criteria andPathLocalLike(String value) {
+            addCriterion("path_local like", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotLike(String value) {
-            addCriterion("url not like", value, "url");
+        public Criteria andPathLocalNotLike(String value) {
+            addCriterion("path_local not like", value, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlIn(List<String> values) {
-            addCriterion("url in", values, "url");
+        public Criteria andPathLocalIn(List<String> values) {
+            addCriterion("path_local in", values, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotIn(List<String> values) {
-            addCriterion("url not in", values, "url");
+        public Criteria andPathLocalNotIn(List<String> values) {
+            addCriterion("path_local not in", values, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlBetween(String value1, String value2) {
-            addCriterion("url between", value1, value2, "url");
+        public Criteria andPathLocalBetween(String value1, String value2) {
+            addCriterion("path_local between", value1, value2, "pathLocal");
             return (Criteria) this;
         }
 
-        public Criteria andUrlNotBetween(String value1, String value2) {
-            addCriterion("url not between", value1, value2, "url");
+        public Criteria andPathLocalNotBetween(String value1, String value2) {
+            addCriterion("path_local not between", value1, value2, "pathLocal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpIsNull() {
+            addCriterion("path_ftp is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpIsNotNull() {
+            addCriterion("path_ftp is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpEqualTo(String value) {
+            addCriterion("path_ftp =", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotEqualTo(String value) {
+            addCriterion("path_ftp <>", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpGreaterThan(String value) {
+            addCriterion("path_ftp >", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpGreaterThanOrEqualTo(String value) {
+            addCriterion("path_ftp >=", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpLessThan(String value) {
+            addCriterion("path_ftp <", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpLessThanOrEqualTo(String value) {
+            addCriterion("path_ftp <=", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpLike(String value) {
+            addCriterion("path_ftp like", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotLike(String value) {
+            addCriterion("path_ftp not like", value, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpIn(List<String> values) {
+            addCriterion("path_ftp in", values, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotIn(List<String> values) {
+            addCriterion("path_ftp not in", values, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpBetween(String value1, String value2) {
+            addCriterion("path_ftp between", value1, value2, "pathFtp");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathFtpNotBetween(String value1, String value2) {
+            addCriterion("path_ftp not between", value1, value2, "pathFtp");
             return (Criteria) this;
         }
 
@@ -841,6 +912,126 @@ public class AlbumPicPublicExample {
 
         public Criteria andDisplayNotBetween(Boolean value1, Boolean value2) {
             addCriterion("display not between", value1, value2, "display");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeIsNull() {
+            addCriterion("createtime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeIsNotNull() {
+            addCriterion("createtime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeEqualTo(Date value) {
+            addCriterion("createtime =", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeNotEqualTo(Date value) {
+            addCriterion("createtime <>", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeGreaterThan(Date value) {
+            addCriterion("createtime >", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("createtime >=", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeLessThan(Date value) {
+            addCriterion("createtime <", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("createtime <=", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeIn(List<Date> values) {
+            addCriterion("createtime in", values, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeNotIn(List<Date> values) {
+            addCriterion("createtime not in", values, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeBetween(Date value1, Date value2) {
+            addCriterion("createtime between", value1, value2, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("createtime not between", value1, value2, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeIsNull() {
+            addCriterion("filesize is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeIsNotNull() {
+            addCriterion("filesize is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeEqualTo(Double value) {
+            addCriterion("filesize =", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeNotEqualTo(Double value) {
+            addCriterion("filesize <>", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeGreaterThan(Double value) {
+            addCriterion("filesize >", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeGreaterThanOrEqualTo(Double value) {
+            addCriterion("filesize >=", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeLessThan(Double value) {
+            addCriterion("filesize <", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeLessThanOrEqualTo(Double value) {
+            addCriterion("filesize <=", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeIn(List<Double> values) {
+            addCriterion("filesize in", values, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeNotIn(List<Double> values) {
+            addCriterion("filesize not in", values, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeBetween(Double value1, Double value2) {
+            addCriterion("filesize between", value1, value2, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeNotBetween(Double value1, Double value2) {
+            addCriterion("filesize not between", value1, value2, "filesize");
             return (Criteria) this;
         }
     }

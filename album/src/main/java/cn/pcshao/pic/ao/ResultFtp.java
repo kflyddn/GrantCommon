@@ -8,7 +8,26 @@ public class ResultFtp {
 
     private String ftpPath;
     private boolean flag;
+    private double filesize;
     private Object data;
+
+    @Override
+    public String toString() {
+        return "ResultFtp{" +
+                "ftpPath='" + ftpPath + '\'' +
+                ", flag=" + flag +
+                ", filesize=" + filesize +
+                ", data=" + data +
+                '}';
+    }
+
+    public double getFilesize() {
+        return filesize;
+    }
+
+    public void setFilesize(double filesize) {
+        this.filesize = filesize;
+    }
 
     public Object getData() {
         return data;

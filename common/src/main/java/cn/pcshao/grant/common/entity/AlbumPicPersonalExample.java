@@ -1,6 +1,7 @@
 package cn.pcshao.grant.common.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AlbumPicPersonalExample {
@@ -911,6 +912,126 @@ public class AlbumPicPersonalExample {
 
         public Criteria andIsPrivateNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_private not between", value1, value2, "isPrivate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeIsNull() {
+            addCriterion("createtime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeIsNotNull() {
+            addCriterion("createtime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeEqualTo(Date value) {
+            addCriterion("createtime =", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeNotEqualTo(Date value) {
+            addCriterion("createtime <>", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeGreaterThan(Date value) {
+            addCriterion("createtime >", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("createtime >=", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeLessThan(Date value) {
+            addCriterion("createtime <", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeLessThanOrEqualTo(Date value) {
+            addCriterion("createtime <=", value, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeIn(List<Date> values) {
+            addCriterion("createtime in", values, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeNotIn(List<Date> values) {
+            addCriterion("createtime not in", values, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeBetween(Date value1, Date value2) {
+            addCriterion("createtime between", value1, value2, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatetimeNotBetween(Date value1, Date value2) {
+            addCriterion("createtime not between", value1, value2, "createtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeIsNull() {
+            addCriterion("filesize is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeIsNotNull() {
+            addCriterion("filesize is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeEqualTo(Double value) {
+            addCriterion("filesize =", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeNotEqualTo(Double value) {
+            addCriterion("filesize <>", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeGreaterThan(Double value) {
+            addCriterion("filesize >", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeGreaterThanOrEqualTo(Double value) {
+            addCriterion("filesize >=", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeLessThan(Double value) {
+            addCriterion("filesize <", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeLessThanOrEqualTo(Double value) {
+            addCriterion("filesize <=", value, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeIn(List<Double> values) {
+            addCriterion("filesize in", values, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeNotIn(List<Double> values) {
+            addCriterion("filesize not in", values, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeBetween(Double value1, Double value2) {
+            addCriterion("filesize between", value1, value2, "filesize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesizeNotBetween(Double value1, Double value2) {
+            addCriterion("filesize not between", value1, value2, "filesize");
             return (Criteria) this;
         }
     }

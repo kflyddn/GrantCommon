@@ -3,6 +3,7 @@ package cn.pcshao.grant.common.entity;
 import cn.pcshao.grant.common.bo.AlbumSource;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class AlbumPicPersonal extends AlbumSource implements Serializable {
     private Long id;
@@ -28,6 +29,10 @@ public class AlbumPicPersonal extends AlbumSource implements Serializable {
     private String userNickname;
 
     private Boolean isPrivate;
+
+    private Date createtime;
+
+    private Double filesize;
 
     private static final long serialVersionUID = 1L;
 
@@ -127,6 +132,22 @@ public class AlbumPicPersonal extends AlbumSource implements Serializable {
         this.isPrivate = isPrivate;
     }
 
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Double getFilesize() {
+        return filesize;
+    }
+
+    public void setFilesize(Double filesize) {
+        this.filesize = filesize;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -145,6 +166,8 @@ public class AlbumPicPersonal extends AlbumSource implements Serializable {
         sb.append(", userName=").append(userName);
         sb.append(", userNickname=").append(userNickname);
         sb.append(", isPrivate=").append(isPrivate);
+        sb.append(", createtime=").append(createtime);
+        sb.append(", filesize=").append(filesize);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

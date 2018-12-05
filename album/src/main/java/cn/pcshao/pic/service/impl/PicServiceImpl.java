@@ -6,6 +6,7 @@ import cn.pcshao.grant.common.bo.AlbumSource;
 import cn.pcshao.grant.common.dao.AlbumPicPersonalMapper;
 import cn.pcshao.grant.common.dao.AlbumPicPublicMapper;
 import cn.pcshao.grant.common.util.FtpUtil;
+import cn.pcshao.grant.common.util.StringUtils;
 import cn.pcshao.pic.ao.ResultFtp;
 import cn.pcshao.pic.service.AlbumSourceService;
 import org.apache.commons.net.ftp.FTPClient;
@@ -45,13 +46,24 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
     @Value("${file.service.alertDiskSize}")
     private String alertDiskSize;
 
+    @Deprecated
     @Override
     public BaseDao<AlbumSource, Integer> getDao() {
         return picPublicMapper;
     }
 
     @Override
-    public ResultFtp upLoadFile(MultipartFile file) throws IOException {
+    public BaseDao<AlbumSource, Integer> getPublicPicMapper(){
+        return picPublicMapper;
+    }
+
+    @Override
+    public BaseDao<AlbumSource, Integer> getPersonalPicMapper(){
+        return picPersonalMapper;
+    }
+
+    @Override
+    public ResultFtp upLoadFile(MultipartFile file, String appendPath) throws IOException {
         ResultFtp resultFtp = new ResultFtp();
         if(Double.parseDouble(alertDiskSize) > FtpUtil.checkEmptyDiskSize()) {
             resultFtp.setData("可用FTP服务器硬盘空间不足！"+FtpUtil.checkEmptyDiskSize());
@@ -66,8 +78,12 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
             resultFtp.setData("FTP服务器连接失败");
             return resultFtp;
         }
-        //开始上传
-        boolean upSucess = ftpUtil.upLoadPic(ftp, ftp_path, filename, inputstream);
+        //开始上传，存放路径调整
+        String to_ftpPath = ftp_path;
+        if(StringUtils.isNotEmpty(appendPath)){
+            to_ftpPath += appendPath;
+        }
+        boolean upSucess = ftpUtil.upLoadPic(ftp, to_ftpPath, filename, inputstream);
         //返回ftp地址
         if (upSucess) {
             resultFtp.setFlag(true);

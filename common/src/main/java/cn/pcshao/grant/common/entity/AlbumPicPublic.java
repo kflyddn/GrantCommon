@@ -32,7 +32,7 @@ public class AlbumPicPublic extends AlbumSource implements Serializable {
 
     private Date createtime;
 
-    private Double filesize;
+    private Float filesize;
 
     private static final long serialVersionUID = 1L;
 
@@ -140,11 +140,11 @@ public class AlbumPicPublic extends AlbumSource implements Serializable {
         this.createtime = createtime;
     }
 
-    public Double getFilesize() {
+    public Float getFilesize() {
         return filesize;
     }
 
-    public void setFilesize(Double filesize) {
+    public void setFilesize(Float filesize) {
         this.filesize = filesize;
     }
 

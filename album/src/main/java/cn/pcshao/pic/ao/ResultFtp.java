@@ -8,7 +8,7 @@ public class ResultFtp {
 
     private String ftpPath;
     private boolean flag;
-    private double filesize;
+    private float filesize;
     private Object data;
 
     @Override
@@ -21,11 +21,11 @@ public class ResultFtp {
                 '}';
     }
 
-    public double getFilesize() {
+    public float getFilesize() {
         return filesize;
     }
 
-    public void setFilesize(double filesize) {
+    public void setFilesize(float filesize) {
         this.filesize = filesize;
     }
 

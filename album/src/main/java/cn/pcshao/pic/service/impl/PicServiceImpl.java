@@ -71,6 +71,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         }
         String filename = System.currentTimeMillis() + file.getOriginalFilename();
         InputStream inputstream = file.getInputStream();
+        float fileSize = file.getSize()/ 1024;
         //创建和配置FTPClient
         FtpUtil ftpUtil = new FtpUtil(ftp_address, Integer.parseInt(ftp_port), ftp_username, ftp_passwrod);
         FTPClient ftp = ftpUtil.getFtpClient();
@@ -88,6 +89,8 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         if (upSucess) {
             resultFtp.setFlag(true);
             resultFtp.setFtpPath("ftp://" + ftp_address + ":" + ftp_port + "/" + ftp_path + "/" + filename);
+            //TODO 上传文件大小
+            resultFtp.setFilesize(fileSize);
             return resultFtp;
         }
         resultFtp.setFlag(false);

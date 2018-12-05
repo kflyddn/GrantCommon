@@ -37,8 +37,8 @@ public interface RoleService extends BaseService<GrantRole, Short> {
     /**
      * 查询所有角色
      *  带条件、非必须
-     * @TODO
      * 分页、多条件查询待完善
+     * @param grantRole
      * @return
      */
     List<GrantRole> listRoles(GrantRole grantRole);

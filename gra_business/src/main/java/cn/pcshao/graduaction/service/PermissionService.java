@@ -31,8 +31,8 @@ public interface PermissionService extends BaseService<GrantPermission, Long> {
     /**
      * 条件查询权限
      *  带条件非必须
-     * @TODO
      * 分页、多条件查询待完善
+     * @param grantPermission
      * @return
      */
     List<GrantPermission> listPermissions(GrantPermission grantPermission);

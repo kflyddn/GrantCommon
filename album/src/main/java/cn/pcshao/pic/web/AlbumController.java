@@ -92,7 +92,6 @@ public class AlbumController extends BaseController {
         }
         //上传成功后的插库等操作
         if(null != resultFtp && resultFtp.isFlag()){
-            //TODO 拆分HttpServletRequest 提取其他参数插库
             if(StringUtils.isNotEmpty(isPrivate)){
                 AlbumPicPersonal picPersonal = new AlbumPicPersonal();
                 initPicParam(request, picPersonal);

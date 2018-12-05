@@ -62,11 +62,11 @@ public class FtpUtil {
         try {
             ftpClient.changeWorkingDirectory(path);
             //编码文件目录与文件名
-            /*filename = new String(filename.getBytes("GBK"),"ISO-8859-1");
+            filename = new String(filename.getBytes(), "ISO-8859-1");
             if (StringUtils.isNotEmpty(path))
             {
-                path = new String(path.getBytes("GBK"), "ISO-8859-1");
-            }*/
+                path = new String(path.getBytes(), "ISO-8859-1");
+            }
             //设置缓冲大小1024 =1M
             ftpClient.setBufferSize(409600);
             //转到指定上传目录

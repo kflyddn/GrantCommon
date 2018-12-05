@@ -73,6 +73,7 @@ public class AlbumController extends BaseController {
         }
         //上传文件
         ResultFtp resultFtp = null;
+        //TODO ftp文件物理隔离
         try {
             resultFtp = picService.upLoadFile(file);
             resultDto.setData(resultFtp);

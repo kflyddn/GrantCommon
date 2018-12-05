@@ -57,7 +57,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
             resultFtp.setData("可用FTP服务器硬盘空间不足！"+FtpUtil.checkEmptyDiskSize());
             return resultFtp;
         }
-        String filename = file.getOriginalFilename();
+        String filename = System.currentTimeMillis() + file.getOriginalFilename();
         InputStream inputstream = file.getInputStream();
         //创建和配置FTPClient
         FtpUtil ftpUtil = new FtpUtil(ftp_address, Integer.parseInt(ftp_port), ftp_username, ftp_passwrod);

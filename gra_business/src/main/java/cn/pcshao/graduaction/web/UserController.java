@@ -131,6 +131,8 @@ public class UserController extends BaseController {
         if(null != sysPageBo && sysPageBo.checkSelf()){
             pageNum = sysPageBo.getPageNum();
             pageSize = sysPageBo.getPageSize();
+        }else{
+            sysPageBo = new SysPageBo();
         }
         PageHelper.startPage(pageNum, pageSize);
         GrantUser grantUser = sysPageBo.getGrantUser();
@@ -208,6 +210,8 @@ public class UserController extends BaseController {
         if(null != sysPageBo && sysPageBo.checkSelf()){
             pageNum = sysPageBo.getPageNum();
             pageSize = sysPageBo.getPageSize();
+        }else{
+            sysPageBo = new SysPageBo();
         }
         PageHelper.startPage(pageNum, pageSize);
         GrantRole grantRole = sysPageBo.getGrantRole();
@@ -294,6 +298,8 @@ public class UserController extends BaseController {
         if(null != sysPageBo && sysPageBo.checkSelf()){
             pageNum = sysPageBo.getPageNum();
             pageSize = sysPageBo.getPageSize();
+        }else{
+            sysPageBo = new SysPageBo();
         }
         PageHelper.startPage(pageNum, pageSize);
         GrantPermission grantPermission = sysPageBo.getGrantPermission();

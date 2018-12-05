@@ -75,6 +75,8 @@ public class AlbumController extends BaseController {
         ResultFtp resultFtp = null;
         try {
             resultFtp = picService.upLoadFile(file);
+            resultDto.setData(resultFtp);
+            return resultDto;
         } catch (IOException e) {
             e.printStackTrace();
         }

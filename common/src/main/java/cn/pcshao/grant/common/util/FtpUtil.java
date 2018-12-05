@@ -42,10 +42,10 @@ public class FtpUtil {
         conf.setServerLanguageCode("zh");
         //登录
         ftpClient.login(FTP_USER, FTP_PASSWD);
-        if(FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
+        /*if(FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
             ftpClient.disconnect();
             return null;
-        }
+        }*/
         return ftpClient;
     }
 

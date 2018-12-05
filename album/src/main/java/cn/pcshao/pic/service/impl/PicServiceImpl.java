@@ -63,7 +63,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         FtpUtil ftpUtil = new FtpUtil(ftp_address, Integer.parseInt(ftp_port), ftp_username, ftp_passwrod);
         FTPClient ftp = ftpUtil.getFtpClient();
         if(null == ftp){
-            resultFtp.setData("连接失败");
+            resultFtp.setData("FTP服务器连接失败");
             return resultFtp;
         }
         //开始上传
@@ -71,7 +71,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         //返回ftp地址
         if (upSucess) {
             resultFtp.setFlag(true);
-            resultFtp.setFtpPath("http://" + ftp_address + "/" + ftp_port + "/" + ftp_path + "/" + filename);
+            resultFtp.setFtpPath("ftp://" + ftp_address + ":" + ftp_port + "/" + ftp_path + "/" + filename);
             return resultFtp;
         }
         resultFtp.setFlag(false);

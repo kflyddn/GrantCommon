@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author pcshao.cn
  * @date 2018-12-4
  */
-@Controller
-public class PageController extends BaseController {
+//@Controller
+public class AlbumPageController extends BaseController {
 
     @GetMapping("/initPage")
     @ResponseBody

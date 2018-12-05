@@ -23,7 +23,7 @@ public class Swagger2Config {
             return new Docket(DocumentationType.SWAGGER_2)
                     .apiInfo(apiInfo())
                     .select()
-                    .apis(RequestHandlerSelectors.basePackage("cn.pcshao.graduaction.web"))
+                    .apis(RequestHandlerSelectors.basePackage("cn.pcshao"))
                     .paths(PathSelectors.any())
                     .build();
         }

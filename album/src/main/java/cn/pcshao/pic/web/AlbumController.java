@@ -11,6 +11,8 @@ import cn.pcshao.grant.common.util.StringUtils;
 import cn.pcshao.pic.ao.ResultFtp;
 import cn.pcshao.pic.service.AlbumSourceService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -143,16 +145,13 @@ public class AlbumController extends BaseController {
         if(StringUtils.isNotEmpty(userId = multiRequest.getParameter("userId"))){
             albumSource.setUserId(Long.parseLong(userId));
         }
-        if(StringUtils.isNotEmpty(userName = multiRequest.getParameter("userName"))){
-            albumSource.setUserName(userName);
-        }
+        Subject subject = SecurityUtils.getSubject();
+        String currUsername = subject.getPrincipals().toString();
+        albumSource.setUserName(currUsername);
         if(StringUtils.isNotEmpty(userNickname = multiRequest.getParameter("userNickname"))){
             albumSource.setUserNickname(userNickname);
         }
-        //TODO 当前登录用户信息存库
-        albumSource.setUserId(null);
-        albumSource.setUserName(null);
-        albumSource.setUserNickname(null);
+
     }
 
     @ApiOperation("删除资源接口")

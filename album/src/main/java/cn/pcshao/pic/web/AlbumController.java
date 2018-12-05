@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * 相册rest控制器
@@ -70,7 +71,13 @@ public class AlbumController extends BaseController {
             e.printStackTrace();
             return ResultDtoFactory.error();
         }
-        ResultFtp resultFtp = picService.upLoadFile(file);
+        //上传文件
+        ResultFtp resultFtp = null;
+        try {
+            resultFtp = picService.upLoadFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if(null != resultFtp && resultFtp.isFlag()){
             //TODO 拆分HttpServletRequest 提取其他参数插库
             return resultDto;

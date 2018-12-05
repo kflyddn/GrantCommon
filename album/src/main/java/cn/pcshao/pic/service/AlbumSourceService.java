@@ -5,6 +5,8 @@ import cn.pcshao.grant.common.bo.AlbumSource;
 import cn.pcshao.pic.ao.ResultFtp;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * @author pcshao.cn
  * @date 2018/12/4
@@ -16,6 +18,6 @@ public interface AlbumSourceService extends BaseService<AlbumSource, Integer> {
      * @param file
      * @return
      */
-    ResultFtp upLoadFile(MultipartFile file);
+    ResultFtp upLoadFile(MultipartFile file) throws IOException;
 
 }

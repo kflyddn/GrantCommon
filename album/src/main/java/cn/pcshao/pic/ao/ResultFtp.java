@@ -8,6 +8,15 @@ public class ResultFtp {
 
     private String ftpPath;
     private boolean flag;
+    private Object data;
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 
     public String getFtpPath() {
         return ftpPath;

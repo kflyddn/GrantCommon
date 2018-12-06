@@ -42,10 +42,10 @@ public class FtpUtil {
         conf.setServerLanguageCode("zh");
         //登录
         ftpClient.login(FTP_USER, FTP_PASSWD);
-        /*if(FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
+        if(FTPReply.isNegativePermanent(ftpClient.getReplyCode()) || FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
             ftpClient.disconnect();
             return null;
-        }*/
+        }
         return ftpClient;
     }
 
@@ -75,13 +75,12 @@ public class FtpUtil {
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             ftpClient.enterLocalPassiveMode();
             //如果缺省该句 传输txt正常 但图片和其他格式的文件传输出现乱码
-            ftpClient.storeFile(filename, inputStream);
+            target = ftpClient.storeFile(filename, inputStream);
             //关闭输入流
             inputStream.close();
             //退出ftp
             ftpClient.logout();
             //表示上传成功
-            target = true;
         } catch (IOException e) {
             e.printStackTrace();
         }

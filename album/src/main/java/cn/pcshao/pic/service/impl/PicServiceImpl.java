@@ -71,7 +71,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         }
         String filename = System.currentTimeMillis() + file.getOriginalFilename();
         InputStream inputstream = file.getInputStream();
-        float fileSize = file.getSize()/ 1024;
+        float fileSize = (float) (Math.floor(file.getSize() * 100) / 1024 / 100);
         //创建和配置FTPClient
         FtpUtil ftpUtil = new FtpUtil(ftp_address, Integer.parseInt(ftp_port), ftp_username, ftp_passwrod);
         FTPClient ftp = ftpUtil.getFtpClient();

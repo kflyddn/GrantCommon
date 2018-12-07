@@ -89,7 +89,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         //返回ftp地址
         if (upSucess) {
             resultFtp.setFlag(true);
-            resultFtp.setLocalPath(filename);
+            resultFtp.setLocalPath(to_ftpPath +"/"+ filename);
             resultFtp.setFtpPath("ftp://" + ftp_address + ":" + ftp_port + "/" + ftp_path + "/" + filename);
             return resultFtp;
         }

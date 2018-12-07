@@ -1,5 +1,7 @@
 package cn.pcshao.grant.common.bo;
 
+import java.util.Date;
+
 /**
  * 相册资源基础类
  * @author pcshao.cn
@@ -19,11 +21,25 @@ public class AlbumSource {
 
     private String describ;
 
+    private String pathLocal;
+
+    private String pathFtp;
+
     private Long userId;
 
     private String userName;
 
     private String userNickname;
+
+    private Date createtime;
+
+    private Float filesize;
+
+    //子类字段
+
+    private Boolean isPrivate;
+
+    private Boolean display;
 
     @Override
     public String toString() {
@@ -38,6 +54,54 @@ public class AlbumSource {
                 ", userName='" + userName + '\'' +
                 ", userNickname='" + userNickname + '\'' +
                 '}';
+    }
+
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
+    public Boolean getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(Boolean display) {
+        this.display = display;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Float getFilesize() {
+        return filesize;
+    }
+
+    public void setFilesize(Float filesize) {
+        this.filesize = filesize;
+    }
+
+    public String getPathLocal() {
+        return pathLocal;
+    }
+
+    public void setPathLocal(String pathLocal) {
+        this.pathLocal = pathLocal;
+    }
+
+    public String getPathFtp() {
+        return pathFtp;
+    }
+
+    public void setPathFtp(String pathFtp) {
+        this.pathFtp = pathFtp;
     }
 
     public Long getId() {

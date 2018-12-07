@@ -4,6 +4,8 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPReply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +16,8 @@ import java.io.InputStream;
  * @date 2018/12/5
  */
 public class FtpUtil {
+
+    Logger logger = LoggerFactory.getLogger(FtpUtil.class);
 
     private FTPClient ftpClient;
     private String IP;
@@ -42,8 +46,10 @@ public class FtpUtil {
         conf.setServerLanguageCode("zh");
         //登录
         ftpClient.login(FTP_USER, FTP_PASSWD);
+        logger.info("登录到" +IP);
         if(!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
             ftpClient.disconnect();
+            logger.info(IP+ "断开连接");
             return null;
         }
         return ftpClient;
@@ -62,10 +68,10 @@ public class FtpUtil {
         try {
             ftpClient.changeWorkingDirectory(path);
             //编码文件目录与文件名
-            filename = new String(filename.getBytes(), "ISO-8859-1");
+            filename = new String(filename.getBytes("GBK"), "ISO-8859-1");
             if (StringUtils.isNotEmpty(path))
             {
-                path = new String(path.getBytes(), "ISO-8859-1");
+                path = new String(path.getBytes("GBK"), "ISO-8859-1");
             }
             //设置缓冲大小1024 =1M
             ftpClient.setBufferSize(409600);
@@ -73,8 +79,11 @@ public class FtpUtil {
             ftpClient.changeWorkingDirectory(path);
             //将上传文件存储到指定目录
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            //主动模式被动模式
             //ftpClient.enterLocalPassiveMode();
+            ftpClient.enterLocalActiveMode();
             target = ftpClient.storeFile(filename, inputStream);
+            logger.info(ftpClient.getReplyCode() + ftpClient.getReplyString());
             //关闭输入流
             inputStream.close();
             //退出ftp

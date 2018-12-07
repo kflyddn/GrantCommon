@@ -94,24 +94,18 @@ public class AlbumController extends BaseController {
         }
         //上传成功后的插库等操作
         if(null != resultFtp && resultFtp.isFlag()){
+            AlbumSource pic = new AlbumSource();
+            initPicParam(request, pic);
+            pic.setPathLocal(resultFtp.getLocalPath());
+            pic.setPathFtp(resultFtp.getFtpPath());
+            pic.setCreatetime(new Date());
+            pic.setFilesize(resultFtp.getFilesize());
             if(StringUtils.isNotEmpty(isPrivate)){
-                AlbumPicPersonal picPersonal = new AlbumPicPersonal();
-                initPicParam(request, picPersonal);
-                picPersonal.setIsPrivate(true);
-                picPersonal.setPathLocal(resultFtp.getLocalPath());
-                picPersonal.setPathFtp(resultFtp.getFtpPath());
-                picPersonal.setCreatetime(new Date());
-                picPersonal.setFilesize(resultFtp.getFilesize());
-                picService.getPersonalPicMapper().insertSelective(picPersonal);
+                pic.setPrivate(true);
+                picService.getPersonalPicMapper().insertSelective(pic);
             }else{
-                AlbumPicPublic picPublic = new AlbumPicPublic();
-                initPicParam(request, picPublic);
-                picPublic.setDisplay(true);
-                picPublic.setPathLocal(resultFtp.getLocalPath());
-                picPublic.setPathFtp(resultFtp.getFtpPath());
-                picPublic.setCreatetime(new Date());
-                picPublic.setFilesize(resultFtp.getFilesize());
-                picService.getPublicPicMapper().insertSelective(picPublic);
+                pic.setDisplay(true);
+                picService.getPublicPicMapper().insertSelective(pic);
             }
             resultDto.setData("成功上传！");
             return resultDto;

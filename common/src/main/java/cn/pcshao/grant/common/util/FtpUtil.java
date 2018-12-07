@@ -42,7 +42,7 @@ public class FtpUtil {
         conf.setServerLanguageCode("zh");
         //登录
         ftpClient.login(FTP_USER, FTP_PASSWD);
-        if(FTPReply.isNegativePermanent(ftpClient.getReplyCode()) || FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
+        if(!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
             ftpClient.disconnect();
             return null;
         }
@@ -73,8 +73,7 @@ public class FtpUtil {
             ftpClient.changeWorkingDirectory(path);
             //将上传文件存储到指定目录
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            ftpClient.enterLocalPassiveMode();
-            //如果缺省该句 传输txt正常 但图片和其他格式的文件传输出现乱码
+            //ftpClient.enterLocalPassiveMode();
             target = ftpClient.storeFile(filename, inputStream);
             //关闭输入流
             inputStream.close();

@@ -1,7 +1,7 @@
 spring:
     datasource:
-        url: jdbc:mysql://pcshao.cn:9910/a66bbs?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-#        url: jdbc:mysql://127.0.0.1:3306/pcshao?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        url: jdbc:mysql://pcshao.cn:9910/a66bbs?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=CTT
+#        url: jdbc:mysql://127.0.0.1:3306/pcshao?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=CTT
 
         username: a66
         password: ghost666

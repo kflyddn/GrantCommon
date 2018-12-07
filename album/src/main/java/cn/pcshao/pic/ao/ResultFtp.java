@@ -7,6 +7,8 @@ package cn.pcshao.pic.ao;
 public class ResultFtp {
 
     private String ftpPath;
+    private String localPath;
+
     private boolean flag;
     private float filesize;
     private Object data;
@@ -19,6 +21,14 @@ public class ResultFtp {
                 ", filesize=" + filesize +
                 ", data=" + data +
                 '}';
+    }
+
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
     }
 
     public float getFilesize() {

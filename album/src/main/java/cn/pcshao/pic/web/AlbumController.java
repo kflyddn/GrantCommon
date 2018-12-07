@@ -98,6 +98,7 @@ public class AlbumController extends BaseController {
                 AlbumPicPersonal picPersonal = new AlbumPicPersonal();
                 initPicParam(request, picPersonal);
                 picPersonal.setIsPrivate(true);
+                picPersonal.setPathLocal(resultFtp.getLocalPath());
                 picPersonal.setPathFtp(resultFtp.getFtpPath());
                 picPersonal.setCreatetime(new Date());
                 picPersonal.setFilesize(resultFtp.getFilesize());
@@ -106,6 +107,7 @@ public class AlbumController extends BaseController {
                 AlbumPicPublic picPublic = new AlbumPicPublic();
                 initPicParam(request, picPublic);
                 picPublic.setDisplay(true);
+                picPublic.setPathLocal(resultFtp.getLocalPath());
                 picPublic.setPathFtp(resultFtp.getFtpPath());
                 picPublic.setCreatetime(new Date());
                 picPublic.setFilesize(resultFtp.getFilesize());

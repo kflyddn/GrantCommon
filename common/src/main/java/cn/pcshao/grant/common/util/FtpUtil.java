@@ -45,8 +45,9 @@ public class FtpUtil {
         FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_NT);
         conf.setServerLanguageCode("zh");
         //登录
+        logger.info("正在登录到" +IP);
         ftpClient.login(FTP_USER, FTP_PASSWD);
-        logger.info("登录到" +IP);
+        logger.info("成功登录到" +IP);
         if(!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
             ftpClient.disconnect();
             logger.info(IP+ "断开连接");

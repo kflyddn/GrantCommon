@@ -5,6 +5,10 @@ import cn.pcshao.grant.common.base.BaseServiceImpl;
 import cn.pcshao.grant.common.bo.AlbumSource;
 import cn.pcshao.grant.common.dao.AlbumPicPersonalMapper;
 import cn.pcshao.grant.common.dao.AlbumPicPublicMapper;
+import cn.pcshao.grant.common.entity.AlbumPicPersonal;
+import cn.pcshao.grant.common.entity.AlbumPicPersonalExample;
+import cn.pcshao.grant.common.entity.AlbumPicPublic;
+import cn.pcshao.grant.common.entity.AlbumPicPublicExample;
 import cn.pcshao.grant.common.util.FtpUtil;
 import cn.pcshao.grant.common.util.StringUtils;
 import cn.pcshao.pic.ao.ResultFtp;
@@ -18,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 图片资源上传服务
@@ -60,6 +65,20 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
     @Override
     public BaseDao<AlbumSource, Integer> getPersonalPicMapper(){
         return picPersonalMapper;
+    }
+
+    @Override
+    public List<AlbumPicPublic> getPicPublic() {
+        AlbumPicPublicExample example = new AlbumPicPublicExample();
+        example.createCriteria().andDisplayEqualTo(true);
+        return picPublicMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<AlbumPicPersonal> getPicPersonal(String username) {
+        AlbumPicPersonalExample example = new AlbumPicPersonalExample();
+        example.createCriteria().andUserNameEqualTo(username);
+        return picPersonalMapper.selectByExample(example);
     }
 
     @Override

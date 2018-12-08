@@ -6,12 +6,16 @@ import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.AlbumPicPersonal;
 import cn.pcshao.grant.common.entity.AlbumPicPublic;
+import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import cn.pcshao.grant.common.util.StringUtils;
 import cn.pcshao.pic.ao.ResultFtp;
+import cn.pcshao.pic.bo.AlbumPageBo;
 import cn.pcshao.pic.service.AlbumSourceService;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,6 +26,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 相册rest控制器
@@ -48,10 +53,21 @@ public class AlbumController extends BaseController {
     }
 
     @ApiOperation("公共相册接口")
-    @GetMapping("/square")
-    public ResultDto showPublic(){
+    @PostMapping("/square")
+    public ResultDto showPublic(@RequestBody(required = false) AlbumPageBo albumPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
-
+        int pageNum = 1;
+        int pageSize = 8;
+        if(null != albumPageBo && albumPageBo.checkSelf()){
+            pageNum = albumPageBo.getPageNum();
+            pageSize = albumPageBo.getPageSize();
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<AlbumPicPublic> picPublic = picService.getPicPublic();
+        if(ListUtils.isNotEmptyList(picPublic)){
+            resultDto.setData(picPublic);
+            return resultDto;
+        }
         return ResultDtoFactory.error();
     }
 
@@ -59,7 +75,14 @@ public class AlbumController extends BaseController {
     @PostMapping("/my")
     public ResultDto my(){
         ResultDto resultDto = ResultDtoFactory.success();
-
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        List<AlbumPicPersonal> picPersonal = picService.getPicPersonal(username);
+        if(ListUtils.isNotEmptyList(picPersonal)){
+            resultDto.setData(picPersonal);
+            return resultDto;
+        }
         return ResultDtoFactory.error();
     }
 

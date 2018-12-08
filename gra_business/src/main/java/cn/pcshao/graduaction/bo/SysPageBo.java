@@ -1,5 +1,6 @@
 package cn.pcshao.graduaction.bo;
 
+import cn.pcshao.grant.common.base.BasePageBo;
 import cn.pcshao.grant.common.entity.GrantPermission;
 import cn.pcshao.grant.common.entity.GrantRole;
 import cn.pcshao.grant.common.entity.GrantUser;
@@ -11,36 +12,11 @@ import cn.pcshao.grant.common.entity.GrantUser;
  *  分页查询
  *  复杂条件查询
  */
-public class SysPageBo {
-
-    private Integer pageNum;
-    private Integer pageSize;
+public class SysPageBo extends BasePageBo {
 
     private GrantUser grantUser;
     private GrantRole grantRole;
     private GrantPermission grantPermission;
-
-    public boolean checkSelf(){
-        if(null != pageNum || null != pageSize)
-            return true;
-        return false;
-    }
-
-    public Integer getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(Integer pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
 
     public GrantUser getGrantUser() {
         return grantUser;

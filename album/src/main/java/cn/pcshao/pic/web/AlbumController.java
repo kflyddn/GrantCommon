@@ -63,6 +63,7 @@ public class AlbumController extends BaseController {
             pageSize = albumPageBo.getPageSize();
         }
         PageHelper.startPage(pageNum, pageSize);
+        //TODO 带条件展示公共相册
         List<AlbumPicPublic> picPublic = picService.getPicPublic();
         if(ListUtils.isNotEmptyList(picPublic)){
             resultDto.setData(picPublic);
@@ -73,11 +74,18 @@ public class AlbumController extends BaseController {
 
     @ApiOperation("我的相册")
     @PostMapping("/my")
-    public ResultDto my(){
+    public ResultDto my(@RequestBody(required = false) AlbumPageBo albumPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
-        //检查角色权限
+        //获取当前登录用户
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getPrincipal();
+        int pageNum = 1;
+        int pageSize = 8;
+        if(null != albumPageBo && albumPageBo.checkSelf()){
+            pageNum = albumPageBo.getPageNum();
+            pageSize = albumPageBo.getPageSize();
+        }
+        PageHelper.startPage(pageNum, pageSize);
         List<AlbumPicPersonal> picPersonal = picService.getPicPersonal(username);
         if(ListUtils.isNotEmptyList(picPersonal)){
             resultDto.setData(picPersonal);

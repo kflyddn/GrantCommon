@@ -68,9 +68,25 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
     }
 
     @Override
-    public List<AlbumPicPublic> getPicPublic() {
+    public List<AlbumPicPublic> getPicPublic(AlbumPicPublic albumPicPublic) {
         AlbumPicPublicExample example = new AlbumPicPublicExample();
-        example.createCriteria().andDisplayEqualTo(true);
+        AlbumPicPublicExample.Criteria criteria = example.createCriteria();
+        if(null != albumPicPublic){
+            String username,userNickname;
+            String name,describe;
+            if(StringUtils.isNotEmpty(username = albumPicPublic.getUserName())){
+                criteria.andUserNameEqualTo(username);
+            }
+            if(StringUtils.isNotEmpty(userNickname = albumPicPublic.getUserNickname())){
+                criteria.andUserNicknameLike(userNickname);
+            }
+            if(StringUtils.isNotEmpty(name = albumPicPublic.getName())){
+                criteria.andNameLike(name);
+            }
+            if(StringUtils.isNotEmpty(describe = albumPicPublic.getDescrib())){
+                criteria.andDescribLike(describe);
+            }
+        }
         return picPublicMapper.selectByExample(example);
     }
 

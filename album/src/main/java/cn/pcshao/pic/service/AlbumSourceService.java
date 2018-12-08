@@ -40,7 +40,7 @@ public interface AlbumSourceService extends BaseService<AlbumSource, Integer> {
      * 获得公共图片列表
      * @return
      */
-    List<AlbumPicPublic> getPicPublic();
+    List<AlbumPicPublic> getPicPublic(AlbumPicPublic albumPicPublic);
 
     /**
      * 获得私有图片列表

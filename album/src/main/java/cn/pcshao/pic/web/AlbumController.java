@@ -61,11 +61,22 @@ public class AlbumController extends BaseController {
         if(null != albumPageBo && albumPageBo.checkSelf()){
             pageNum = albumPageBo.getPageNum();
             pageSize = albumPageBo.getPageSize();
+        }else{
+            albumPageBo = new AlbumPageBo();
         }
+        //组合查询参数
+        AlbumPicPublic albumPicPublic = new AlbumPicPublic();
+        albumPicPublic.setUserName(albumPageBo.getUsername());
+        albumPicPublic.setUserNickname(albumPageBo.getUserNickname());
+        albumPicPublic.setName(albumPageBo.getName());
+        albumPicPublic.setDescrib(albumPageBo.getDescribe());
         PageHelper.startPage(pageNum, pageSize);
         //TODO 带条件展示公共相册
-        List<AlbumPicPublic> picPublic = picService.getPicPublic();
-        if(ListUtils.isNotEmptyList(picPublic)){
+        List<AlbumPicPublic> picPublic = picService.getPicPublic(albumPicPublic);
+        if(null != picPublic){
+            if(0 == picPublic.size()){
+                resultDto.setMsg("无相册记录！");
+            }
             resultDto.setData(picPublic);
             return resultDto;
         }
@@ -87,7 +98,10 @@ public class AlbumController extends BaseController {
         }
         PageHelper.startPage(pageNum, pageSize);
         List<AlbumPicPersonal> picPersonal = picService.getPicPersonal(username);
-        if(ListUtils.isNotEmptyList(picPersonal)){
+        if(null != picPersonal){
+            if(0 == picPersonal.size()){
+                resultDto.setMsg("无个人相册记录！");
+            }
             resultDto.setData(picPersonal);
             return resultDto;
         }

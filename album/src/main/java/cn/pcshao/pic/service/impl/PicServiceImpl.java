@@ -40,7 +40,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
     @Value("${file.service.username}")
     private String ftp_username;
     @Value("${file.service.password}")
-    private String ftp_passwrod;
+    private String ftp_password;
     @Value("${file.service.path}")
     private String ftp_path;
     @Value("${file.service.alertDiskSize}")
@@ -69,22 +69,23 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
             resultFtp.setData("可用FTP服务器硬盘空间不足！"+FtpUtil.checkEmptyDiskSize());
             return resultFtp;
         }
-        String filename = System.currentTimeMillis() + file.getOriginalFilename();
-        InputStream inputstream = file.getInputStream();
+        //存储文件大小
         float fileSize = (float) (Math.floor(file.getSize() * 100) / 1024 / 100);
         resultFtp.setFilesize(fileSize);
         //创建和配置FTPClient
-        FtpUtil ftpUtil = new FtpUtil(ftp_address, Integer.parseInt(ftp_port), ftp_username, ftp_passwrod);
+        FtpUtil ftpUtil = new FtpUtil(ftp_address, Integer.parseInt(ftp_port), ftp_username, ftp_password);
         FTPClient ftp = ftpUtil.getFtpClient();
         if(null == ftp){
             resultFtp.setData("FTP服务器连接失败");
             return resultFtp;
         }
-        //开始上传，存放路径调整
+        //开始上传，整理参数
         String to_ftpPath = ftp_path;
         if(StringUtils.isNotEmpty(appendPath)){
             to_ftpPath += appendPath;
         }
+        String filename = System.currentTimeMillis() + file.getOriginalFilename();
+        InputStream inputstream = file.getInputStream();
         boolean upSucess = ftpUtil.upLoadPic(ftp, to_ftpPath, filename, inputstream);
         //返回ftp地址
         if (upSucess) {

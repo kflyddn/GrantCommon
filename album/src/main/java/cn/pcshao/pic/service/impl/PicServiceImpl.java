@@ -50,6 +50,10 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
     private String ftp_path;
     @Value("${file.service.alertDiskSize}")
     private String alertDiskSize;
+    @Value("file.download.url")
+    private String fileDownload_url;
+    @Value("file.download.port")
+    private String fileDownload_port;
 
     @Deprecated
     @Override
@@ -126,7 +130,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         if (upSucess) {
             resultFtp.setFlag(true);
             resultFtp.setLocalPath(to_ftpPath +"/"+ filename);
-            resultFtp.setFtpPath("ftp://" + ftp_address + ":" + ftp_port + "/" + ftp_path + "/" + filename);
+            resultFtp.setFtpPath(fileDownload_url + ":" + fileDownload_port + "/" + ftp_path + "/" + filename);
             return resultFtp;
         }
         resultFtp.setFlag(false);

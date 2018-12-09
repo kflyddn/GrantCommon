@@ -71,7 +71,6 @@ public class AlbumController extends BaseController {
         albumPicPublic.setName(albumPageBo.getName());
         albumPicPublic.setDescrib(albumPageBo.getDescribe());
         PageHelper.startPage(pageNum, pageSize);
-        //TODO 带条件展示公共相册
         List<AlbumPicPublic> picPublic = picService.getPicPublic(albumPicPublic);
         if(null != picPublic){
             if(0 == picPublic.size()){

@@ -81,6 +81,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/**", "authc");
 
         // 相册模块添加过滤规则
+        filterChainDefinitionMap.put("/album/square", "anon");
         filterChainDefinitionMap.put("/album/**", "authc");
 
         shiroFilterFactoryBean

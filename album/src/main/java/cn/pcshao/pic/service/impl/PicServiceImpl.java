@@ -50,9 +50,9 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
     private String ftp_path;
     @Value("${file.service.alertDiskSize}")
     private String alertDiskSize;
-    @Value("file.download.url")
+    @Value("${file.download.url}")
     private String fileDownload_url;
-    @Value("file.download.port")
+    @Value("${file.download.port}")
     private String fileDownload_port;
 
     @Deprecated
@@ -91,6 +91,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
                 criteria.andDescribLike(describe);
             }
         }
+        criteria.andDisplayEqualTo(true);
         return picPublicMapper.selectByExample(example);
     }
 

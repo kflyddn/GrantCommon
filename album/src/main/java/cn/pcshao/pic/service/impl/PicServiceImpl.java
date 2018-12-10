@@ -124,7 +124,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         if(StringUtils.isNotEmpty(appendPath)){
             to_ftpPath += appendPath;
         }
-        String filename = System.currentTimeMillis() + file.getOriginalFilename();
+        String filename = System.currentTimeMillis() + StringUtils.getRandomString(17) + ".jpg";
         InputStream inputstream = file.getInputStream();
         boolean upSucess = ftpUtil.upLoadPic(ftp, to_ftpPath, filename, inputstream);
         //返回ftp地址

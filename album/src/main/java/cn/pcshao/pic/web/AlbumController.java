@@ -196,9 +196,29 @@ public class AlbumController extends BaseController {
 
     @ApiOperation("删除资源接口")
     @PostMapping("/delete")
-    public ResultDto delete(){
+    public ResultDto delete(@RequestParam Long[] idList, @RequestParam String sourceType){
         ResultDto resultDto = ResultDtoFactory.success();
-
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
+        if(null != idList){
+            int deleteNum = 0;
+            if(sourceType.equals("picPublic")){
+                for(Long l : idList) {
+                    deleteNum += picService.getPublicPicMapper().deleteByPrimaryKey(l);
+                }
+            }else if(sourceType.equals("picPersonal")){
+                for(Long l : idList) {
+                    deleteNum += picService.getPersonalPicMapper().deleteByPrimaryKey(l);
+                }
+            }
+            resultDto.setData(deleteNum);
+            return resultDto;
+        }
         return ResultDtoFactory.error();
     }
 

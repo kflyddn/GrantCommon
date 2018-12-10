@@ -131,7 +131,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
         if (upSucess) {
             resultFtp.setFlag(true);
             resultFtp.setLocalPath(to_ftpPath +"/"+ filename);
-            resultFtp.setFtpPath(fileDownload_url + ":" + fileDownload_port + "/" + ftp_path + "/" + filename);
+            resultFtp.setFtpPath(fileDownload_url + ":" + fileDownload_port + "/" + to_ftpPath + "/" + filename);
             return resultFtp;
         }
         resultFtp.setFlag(false);

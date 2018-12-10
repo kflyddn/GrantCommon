@@ -205,7 +205,7 @@ public class AlbumController extends BaseController {
         }catch (UnauthorizedException e){
             return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
-        if(null != idList){
+        if(null != idList && StringUtils.isNotEmpty(sourceType)){
             int deleteNum = 0;
             if(sourceType.equals("picPublic")){
                 for(Long l : idList) {

@@ -55,6 +55,11 @@ public class AutoClearFtpTask {
         AlbumPicPublic condition = new AlbumPicPublic();
         condition.setName("TO_DELETE");
         List<AlbumPicPublic> picPublicList = picService.getPicPublic(condition);
+        if(0 == picPublicList.size()){
+            logger.info("此次未发现需要同步的记录！");
+            logger.info("AutoClearFtpTask定时任务执行完成！");
+            return;
+        }
         logger.info("要删除的记录数量为："+ picPublicList.size());
         //初始化FTPUtil
         FtpUtil ftpUtil = new FtpUtil(ftp_address, Integer.parseInt(ftp_port), ftp_username, ftp_password);

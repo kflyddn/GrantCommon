@@ -90,7 +90,7 @@ public class PicServiceImpl extends BaseServiceImpl<AlbumSource, Integer> implem
             if(StringUtils.isNotEmpty(describe = condition.getDescrib())){
                 criteria.andDescribLike(describe);
             }
-            if(condition.getDisplay()==true){
+            if(null != condition.getDisplay() && condition.getDisplay()==true){
                 criteria.andDisplayEqualTo(true);
             }
         }

@@ -210,11 +210,17 @@ public class AlbumController extends BaseController {
             int deleteNum = 0;
             if(sourceType.equals("picPublic")){
                 for(Long id : idList) {
-                    deleteNum += picService.getPublicPicMapper().deleteByPrimaryKey(id);
+                    AlbumPicPublic condition = new AlbumPicPublic();
+                    condition.setId(id);
+                    condition.setName("TO_DELETE");
+                    deleteNum += picService.getPublicPicMapper().updateByPrimaryKeySelective(condition);
                 }
             }else if(sourceType.equals("picPersonal")){
                 for(Long id : idList) {
-                    deleteNum += picService.getPersonalPicMapper().deleteByPrimaryKey(id);
+                    AlbumPicPublic condition = new AlbumPicPublic();
+                    condition.setId(id);
+                    condition.setName("TO_DELETE");
+                    deleteNum += picService.getPersonalPicMapper().updateByPrimaryKeySelective(condition);
                 }
             }
             resultDto.setData(deleteNum);

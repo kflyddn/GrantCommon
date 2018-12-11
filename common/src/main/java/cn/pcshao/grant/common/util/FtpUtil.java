@@ -1,5 +1,6 @@
 package cn.pcshao.grant.common.util;
 
+import cn.pcshao.grant.common.entity.AlbumPicPublic;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * FTP工具类
@@ -99,5 +101,33 @@ public class FtpUtil {
     public static double checkEmptyDiskSize(){
         //TODO 检查FTP服务器可用磁盘空间
         return 2048000;
+    }
+
+    /**
+     * 删除资源文件
+     * @param ftpClient
+     * @param path
+     * @param picPublicList
+     */
+    public void clearFtp(FTPClient ftpClient, String path, List<AlbumPicPublic> picPublicList){
+        try {
+            ftpClient.changeWorkingDirectory(path);
+            //设置缓冲大小1024 =1M
+            ftpClient.setBufferSize(409600);
+            //主动模式
+            ftpClient.enterLocalActiveMode();
+            //删除文件
+            int count = 0;
+            for(AlbumPicPublic pic : picPublicList) {
+                String picPath = pic.getPathLocal();
+                logger.info("正在删除文件："+ picPath);
+                if(ftpClient.deleteFile(picPath))
+                    count++;
+                logger.info("删除成功！"+ count);
+            }
+            ftpClient.logout();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

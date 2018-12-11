@@ -65,13 +65,14 @@ public class AlbumController extends BaseController {
             albumPageBo = new AlbumPageBo();
         }
         //组合查询参数
-        AlbumPicPublic albumPicPublic = new AlbumPicPublic();
-        albumPicPublic.setUserName(albumPageBo.getUsername());
-        albumPicPublic.setUserNickname(albumPageBo.getUserNickname());
-        albumPicPublic.setName(albumPageBo.getName());
-        albumPicPublic.setDescrib(albumPageBo.getDescribe());
+        AlbumPicPublic condition = new AlbumPicPublic();
+        condition.setUserName(albumPageBo.getUsername());
+        condition.setUserNickname(albumPageBo.getUserNickname());
+        condition.setName(albumPageBo.getName());
+        condition.setDescrib(albumPageBo.getDescribe());
+        condition.setDisplay(true);
         PageHelper.startPage(pageNum, pageSize);
-        List<AlbumPicPublic> picPublic = picService.getPicPublic(albumPicPublic);
+        List<AlbumPicPublic> picPublic = picService.getPicPublic(condition);
         if(null != picPublic){
             if(0 == picPublic.size()){
                 resultDto.setMsg("无相册记录！");
@@ -208,12 +209,12 @@ public class AlbumController extends BaseController {
         if(null != idList && StringUtils.isNotEmpty(sourceType)){
             int deleteNum = 0;
             if(sourceType.equals("picPublic")){
-                for(Long l : idList) {
-                    deleteNum += picService.getPublicPicMapper().deleteByPrimaryKey(l);
+                for(Long id : idList) {
+                    deleteNum += picService.getPublicPicMapper().deleteByPrimaryKey(id);
                 }
             }else if(sourceType.equals("picPersonal")){
-                for(Long l : idList) {
-                    deleteNum += picService.getPersonalPicMapper().deleteByPrimaryKey(l);
+                for(Long id : idList) {
+                    deleteNum += picService.getPersonalPicMapper().deleteByPrimaryKey(id);
                 }
             }
             resultDto.setData(deleteNum);

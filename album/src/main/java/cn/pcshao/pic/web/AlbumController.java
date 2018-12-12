@@ -154,7 +154,7 @@ public class AlbumController extends BaseController {
                 pic.setDisplay(true);
                 picService.getPublicPicMapper().insertSelective(pic);
             }
-            resultDto.setData(pic.getUserName()+ "-成功上传！");
+            resultDto.setData(pic.getUserName()+ "-成功上传！"+ "contentType: "+ file.getContentType());
             return resultDto;
         }
         return ResultDtoFactory.error(DtoCodeConsts.FTP_FAILUER, DtoCodeConsts.FTP_FAILUER_MSG);

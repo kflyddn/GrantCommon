@@ -14,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * Album新增资源后发送邮件切面
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
  */
 @Aspect
 @Component
-@PropertySource({"classpath:mail-config.properties"})
+@PropertySource(value = {"classpath:mail-config.properties"}, encoding = "utf-8")
 public class AddSource2MailAspect {
 
     private Logger logger = LoggerFactory.getLogger(AddSource2MailAspect.class);
@@ -70,7 +71,7 @@ public class AddSource2MailAspect {
         mainMessage.setSubject(mail_subject);
         //发送的内容
         mainMessage.setText(mail_text+ "用户名："+ data[0]+ data[1]);
-        logger.info("邮件："+ " from:"+ mail_from_address+ " to:"+ mailAnnotation.toMailAddress()+ " subject:"+ mail_subject);
+        logger.info("邮件："+ " from:"+ mail_from_address+ " to:"+ Arrays.toString(mailAnnotation.toMailAddress())+ " subject:"+ mail_subject);
         try {
             mailSender.send(mainMessage);
         }catch (Exception e){

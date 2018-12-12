@@ -1,5 +1,6 @@
 package cn.pcshao.pic.web;
 
+import cn.pcshao.grant.common.aop.MailAnnotation;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.bo.AlbumSource;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
@@ -110,6 +111,7 @@ public class AlbumController extends BaseController {
 
     @ApiOperation("新增资源接口")
     @PostMapping("/add")
+    @MailAnnotation(DtoCodeConsts.MAIL_ALBUM_ADDSOURCE_MSG)
     public ResultDto add(HttpServletRequest request, @RequestParam MultipartFile file){
         ResultDto resultDto = ResultDtoFactory.success();
         //文件校验
@@ -152,7 +154,7 @@ public class AlbumController extends BaseController {
                 pic.setDisplay(true);
                 picService.getPublicPicMapper().insertSelective(pic);
             }
-            resultDto.setData("成功上传！");
+            resultDto.setData(pic.getUserName()+ "-成功上传！");
             return resultDto;
         }
         return ResultDtoFactory.error(DtoCodeConsts.FTP_FAILUER, DtoCodeConsts.FTP_FAILUER_MSG);

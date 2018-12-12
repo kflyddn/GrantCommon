@@ -188,7 +188,7 @@ public class AlbumController extends BaseController {
         }
         Subject subject = SecurityUtils.getSubject();
         String currUsername = subject.getPrincipals().toString();
-        albumSource.setUserName(currUsername);
+            albumSource.setUserName(currUsername);
         if(StringUtils.isNotEmpty(userNickname = multiRequest.getParameter("userNickname"))){
             albumSource.setUserNickname(userNickname);
         }

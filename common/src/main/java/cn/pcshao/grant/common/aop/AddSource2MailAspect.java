@@ -1,12 +1,19 @@
 package cn.pcshao.grant.common.aop;
 
+import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Album新增资源后发送邮件切面
@@ -15,9 +22,22 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
+@PropertySource({"classpath:mail-config.properties"})
 public class AddSource2MailAspect {
 
     private Logger logger = LoggerFactory.getLogger(AddSource2MailAspect.class);
+
+    @Value("${mail.fromAddress}")
+    private String mail_from_address;
+
+    @Value("${mail.subject}")
+    private String mail_subject;
+
+    @Value("${mail.text}")
+    private String mail_text;
+
+    @Resource
+    private JavaMailSender mailSender;
 
     /**
      * 定义一个切点，切在注解上
@@ -33,11 +53,31 @@ public class AddSource2MailAspect {
     }*/
 
     @AfterReturning(returning = "ret", pointcut = "MailAnnotation() && @annotation(mailAnnotation)")
-    public void doAfterReturning(ResultDto ret, MailAnnotation mailAnnotation) throws Throwable {
-        //TODO 发送邮件
-        String username = ret.getData().toString().split("-")[0];
-        logger.info("方法的返回值 : " + ret);
-        logger.info("用户名："+ username);
+    public void doAfterReturning(ResultDto ret, MailAnnotation mailAnnotation){
+        //TODO 后期建议改成消息队列，积累到一定量的资源上传再向管理员发送邮件
+        if(ret.getCode() != DtoCodeConsts.VIEW_SUCCESS){
+            return;
+        }
+        String[] data = ret.getData().toString().split("-");
+        logger.info("开始邮件发送服务！");
+        logger.info("当前影响操作的用户名："+ data[0]);
+
+        //建立邮件消息
+        SimpleMailMessage mainMessage = new SimpleMailMessage();
+        mainMessage.setFrom(mail_from_address);
+        mainMessage.setTo(mailAnnotation.toMailAddress());
+        //发送的标题
+        mainMessage.setSubject(mail_subject);
+        //发送的内容
+        mainMessage.setText(mail_text+ "用户名："+ data[0]+ data[1]);
+        logger.info("邮件："+ " from:"+ mail_from_address+ " to:"+ mailAnnotation.toMailAddress()+ " subject:"+ mail_subject);
+        try {
+            mailSender.send(mainMessage);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.info("邮件发送异常！");
+        }
+        logger.info("邮件发送服务结束！");
     }
 
     /*

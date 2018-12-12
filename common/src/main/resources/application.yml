@@ -1,6 +1,13 @@
-spring:
+﻿spring:
   profiles:
     active: dev
+
+  #邮箱服务器地址
+  mail:
+    host: smtp.163.com
+    username: shaocover@163.com
+    password: shao163very
+    default-encoding: UTF-8
 
 #server:
 #  port: 8080
@@ -10,3 +17,4 @@ spring:
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   type-aliases-package: cn.pcshao.grant.common.entity  # 注意：对应实体类的路径
+

@@ -18,6 +18,8 @@ public @interface MailAnnotation {
      * 如果注解有多个属性，而且前提是这多个属性都有默认值，那么你不写注解名赋值，会赋值给名字为“value”这属性。
      * 如果注解有多个属性，其中有没有设置默认值的属性，那么当你不写属性名进行赋值的时候，是会报错的。
      */
-    @AliasFor("value")
-    String value() default "";
+    /*@AliasFor("message")*/
+    String value();
+
+    String[] toMailAddress() default "1195350307@qq.com";
 }

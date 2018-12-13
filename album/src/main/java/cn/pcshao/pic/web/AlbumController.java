@@ -3,16 +3,18 @@ package cn.pcshao.pic.web;
 import cn.pcshao.grant.common.aop.MailAnnotation;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.bo.AlbumSource;
+import cn.pcshao.grant.common.bo.MailSystemBo;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.AlbumPicPersonal;
 import cn.pcshao.grant.common.entity.AlbumPicPublic;
-import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import cn.pcshao.grant.common.util.StringUtils;
 import cn.pcshao.pic.ao.ResultFtp;
+import cn.pcshao.pic.bo.AlbumMonitorBo;
 import cn.pcshao.pic.bo.AlbumPageBo;
 import cn.pcshao.pic.service.AlbumSourceService;
+import cn.pcshao.pic.service.AlbumSystemService;
 import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -215,12 +217,14 @@ public class AlbumController extends BaseController {
                     AlbumPicPublic condition = new AlbumPicPublic();
                     condition.setId(id);
                     condition.setName("TO_DELETE");
+                    condition.setDisplay(false);
                     deleteNum += picService.getPublicPicMapper().updateByPrimaryKeySelective(condition);
                 }
             }else if(sourceType.equals("picPersonal")){
                 for(Long id : idList) {
                     AlbumPicPublic condition = new AlbumPicPublic();
                     condition.setId(id);
+                    condition.setDisplay(false);
                     condition.setName("TO_DELETE");
                     deleteNum += picService.getPersonalPicMapper().updateByPrimaryKeySelective(condition);
                 }
@@ -236,6 +240,38 @@ public class AlbumController extends BaseController {
     public ResultDto update(){
         ResultDto resultDto = ResultDtoFactory.success();
 
+        return ResultDtoFactory.error();
+    }
+
+    @Autowired
+    @Qualifier("albumSystemService")
+    private AlbumSystemService albumSystemService;
+
+    @ApiOperation("监控相册状态")
+    @PostMapping("/monitor")
+    public ResultDto monitor(){
+        ResultDto resultDto = ResultDtoFactory.success();
+        AlbumMonitorBo monitorBo = new AlbumMonitorBo();
+        AlbumPicPublic condition = new AlbumPicPublic();
+        AlbumPicPersonal condition_ = new AlbumPicPersonal();
+        try {
+            condition.setDisplay(true);
+            monitorBo.setPicPublicDisplay(albumSystemService.countPicPublic(condition));
+            condition.setDisplay(false);
+            monitorBo.setPicPublicDisplayNone(albumSystemService.countPicPublic(condition));
+            //
+            condition_.setIsPrivate(true);
+            monitorBo.setPicPersonalPrivate(albumSystemService.countPicPersonal(condition_));
+            condition_.setIsPrivate(false);
+            monitorBo.setPicPersonalPrivateNone(albumSystemService.countPicPersonal(condition_));
+            //
+            MailSystemBo mailSystemBo = albumSystemService.getMailStatus();
+            monitorBo.setMailSystem(mailSystemBo);
+            resultDto.setData(monitorBo);
+            return resultDto;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return ResultDtoFactory.error();
     }
 

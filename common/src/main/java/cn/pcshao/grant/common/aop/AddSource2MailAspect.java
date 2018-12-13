@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Album新增资源后发送邮件切面
@@ -27,6 +29,8 @@ import java.util.Arrays;
 public class AddSource2MailAspect {
 
     private Logger logger = LoggerFactory.getLogger(AddSource2MailAspect.class);
+
+    private static Map<String, Integer> toMailAddressRecordMap = new HashMap<>();
 
     @Value("${mail.fromAddress}")
     private String mail_from_address;
@@ -67,6 +71,14 @@ public class AddSource2MailAspect {
         SimpleMailMessage mainMessage = new SimpleMailMessage();
         mainMessage.setFrom(mail_from_address);
         mainMessage.setTo(mailAnnotation.toMailAddress());
+        //存储收件人列表
+        for(String s : mailAnnotation.toMailAddress()){
+            if(null != toMailAddressRecordMap.get(s)) {
+                toMailAddressRecordMap.put(s, toMailAddressRecordMap.get(s) + 1);
+            }else {
+                toMailAddressRecordMap.put(s, 1);
+            }
+        }
         //发送的标题
         mainMessage.setSubject(mail_subject);
         //发送的内容
@@ -107,4 +119,8 @@ public class AddSource2MailAspect {
             return null;
         }
     }*/
+
+    public static Map<String, Integer> getToMailAddressRecordMap() {
+        return toMailAddressRecordMap;
+    }
 }

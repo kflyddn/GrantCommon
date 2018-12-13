@@ -7,8 +7,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -43,6 +45,10 @@ public class AddSource2MailAspect {
 
     @Resource
     private JavaMailSender mailSender;
+
+    @Resource
+    @Qualifier("taskExecutor")
+    private TaskExecutor taskExecutor;
 
     /**
      * 定义一个切点，切在注解上
@@ -85,12 +91,23 @@ public class AddSource2MailAspect {
         mainMessage.setText(mail_text+ "用户名："+ data[0]+ data[1]);
         logger.info("邮件："+ " from:"+ mail_from_address+ " to:"+ Arrays.toString(mailAnnotation.toMailAddress())+ " subject:"+ mail_subject);
         try {
-            mailSender.send(mainMessage);
+            addSendMailTask(mainMessage);
         }catch (Exception e){
             e.printStackTrace();
             logger.info("邮件发送异常！");
         }
         logger.info("邮件发送服务结束！");
+    }
+
+    private void addSendMailTask(SimpleMailMessage mailMessage){
+        logger.debug("开启新线程发送邮件中...");
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mailSender.send(mailMessage);
+            }
+        });
+        logger.debug("线程发送邮件成功...");
     }
 
     /*

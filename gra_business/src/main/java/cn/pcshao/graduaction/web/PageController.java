@@ -13,22 +13,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class PageController extends BaseController {
 
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
     @GetMapping("/login")
-    @ResponseBody
     public String login(){
-        return "you need login!";
+        return "userlogin";
     }
     @GetMapping("/403")
     public String NB1(){
-        return "403";
+        return "error/403";
     }
     @GetMapping("/404")
     public String NB2(){
-        return "404";
+        return "error/404";
     }
-    @GetMapping("initPage")
-    public String initPage(){
-        return "init";
+    @GetMapping("/user2")
+    public String systemManage(){
+        return "systemManage";
     }
-
 }

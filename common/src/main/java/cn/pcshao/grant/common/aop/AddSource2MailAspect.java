@@ -88,7 +88,7 @@ public class AddSource2MailAspect {
         //发送的标题
         mainMessage.setSubject(mail_subject);
         //发送的内容
-        mainMessage.setText(mail_text+ "用户名："+ data[0]+ data[1]);
+        mainMessage.setText(mail_text+ " 用户名为："+ data[0] +" 的用户 " + data[1]);
         logger.info("邮件："+ " from:"+ mail_from_address+ " to:"+ Arrays.toString(mailAnnotation.toMailAddress())+ " subject:"+ mail_subject);
         try {
             addSendMailTask(mainMessage);

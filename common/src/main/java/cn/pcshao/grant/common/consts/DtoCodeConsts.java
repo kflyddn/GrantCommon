@@ -22,6 +22,8 @@ public class DtoCodeConsts {
     public static final String ROLE_EXISTS_MSG = "此角色已存在";
     public static final int NO_PERMISSION = -14;
     public static final String NO_PERMISSION_MSG = "权限不足";
+    public static final int CASCADE_DATA = -15;
+    public static final String CASCADE_DATA_MSG = "数据有关联，不能操作！";
 
     public static final int FTP_FAILUER = -21;
     public static final String FTP_FAILUER_MSG = "FTP服务器错误，请联系管理员";

@@ -2,121 +2,9 @@
     layui.use('table', function () {
         table = layui.table;
 
-        //用户列表渲染
-        table.render({
-            elem: '#tableUser',
-            url: '/user/queryUser',
-            method: 'post',
-            contentType: 'application/json',
-            page: true,
-            cols: [[
-                {field: 'userId', title: 'ID', fixed: 'left', sort: true},
-                {field: 'username', title: '用户账号'},
-                {field: 'nickname', title: '用户姓名'},
-                {field: 'sex', title: '性别'},
-                {field: 'email', title: '邮箱地址'},
-                {field: 'tel', title: '电话号码'},
-                {field: 'isUse', title: '可用'},
-                    {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
-            ]],
-            parseData: function (res) {
-                return {
-                    "code": res.code,
-                    "msg": res.msg,
-                    "data": res.data,
-                    "count": res.data.size,
-                };
-            },
-            request:{
-                pageName: 'pageNum', //页码的参数名称，默认：page
-                limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            },
-            response:{
-                statusCode: 10
-            }
-        });
-        //角色列表渲染
-        table.render({
-            elem: '#tableRole',
-            url: '/user/queryRole',
-            method: 'post',
-            contentType: 'application/json',
-            page: true,
-            cols: [[
-                {field: 'roleId', title: 'ID', fixed: 'left', sort: true},
-                {field: 'roleName', title: '角色名'},
-                {field: 'roleRemark', title: '角色描述'},
-                {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
-            ]],
-            parseData: function (res) {
-                return {
-                    "code": res.code,
-                    "msg": res.msg,
-                    "data": res.data,
-                    "count": res.data.size,
-                };
-            },
-            request:{
-                pageName: 'pageNum', //页码的参数名称，默认：page
-                limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            },
-            response:{
-                statusCode: 10
-            }
-        });
-        //权限列表渲染
-        table.render({
-            elem: '#tablePermission',
-            url: '/user/queryPermission',
-            method: 'post',
-            contentType: 'application/json',
-            page: true,
-            cols: [[
-                {field: 'permissionId', title: 'ID', fixed: 'left', sort: true},
-                {field: 'permissionName', title: '权限名'},
-                {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
-            ]],
-            parseData: function (res) {
-                return {
-                    "code": res.code,
-                    "msg": res.msg,
-                    "data": res.data,
-                    "count": res.data.size,
-                };
-            },
-            request:{
-                pageName: 'pageNum', //页码的参数名称，默认：page
-                limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            },
-            response:{
-                statusCode: 10
-            }
-        });
-        //系统日志列表渲染
-        table.render({
-            elem: '#tableDataLog',
-            // url: '/allSysLogByPage', //数据接口
-            page: true, //开启分页
-            cols: [[ //表头
-                {field:'zizeng', title: 'NO',fixed: 'left',templet:'#zizeng'},
-                {field: 'gmtCreate', title: '日期',templet:"<div>{{layui.util.toDateString(d.gmtCreate, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
-               {field: 'userName', title: '用户名'},
-                {field: 'operation', title: '操作'},
-            ]],
-            parseData: function (res) { //res 即为原始返回的数据
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.msg, //解析提示文本
-                    "count": res.data.total, //解析数据长度
-                    "data": res.data.list, //解析数据列表
-                };
-            },
-            request:{
-                pageName: 'pageNum', //页码的参数名称，默认：page
-                limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            },
-        });
-
+        loadUserTable();
+        loadRoleTable();
+        loadPermissionTable();
         //监听toolbar 筛选
         table.on('tool(user)', function(obj){
             var data = obj.data;
@@ -134,10 +22,9 @@
                         dataType: 'json',
                         success: function (result) {
                             if(result.code == 10){
-                                window.location.reload()
-                            }else {
-                                layer.alert(result.msg);
+                                loadUserTable();
                             }
+                                layer.alert(result.msg);
                         },
                         failure : function() {
                             layer.alert('操作超时!');
@@ -175,10 +62,9 @@
                         dataType: 'json',
                         success: function (result) {
                             if(result.code == 10){
-                                window.location.reload()
-                            }else {
-                                layer.alert(result.msg);
+                                loadRoleTable();
                             }
+                                layer.alert(result.msg);
                         },
                         failure : function() {
                             layer.alert('操作超时!');
@@ -200,9 +86,9 @@
             var data = obj.data;
             if(obj.event === 'del'){
                 layer.confirm("确认移除权限"+obj.data.permissionName, {btn: ['确定', '取消'],title:"提示"},function () {
-                    var permissionIdList = data.userId;
+                    var permissionIdList = data.permissionId;
                     $.ajax({
-                        url: '/user/removeUser',
+                        url: '/user/removePermission',
                         type: 'post',
                         data: {
                             permissionIdList: permissionIdList
@@ -210,10 +96,9 @@
                         dataType: 'json',
                         success: function (result) {
                             if(result.code == 10){
-                                window.location.reload()
-                            }else {
-                                layer.alert(result.msg);
+                                loadPermissionTable();
                             }
+                                layer.alert(result.msg);
                         },
                         failure : function() {
                             layer.alert('操作超时!');
@@ -232,6 +117,112 @@
         });
 
     });
+
+    function loadUserTable(){
+        layui.use('table', function () {
+            table = layui.table;
+            //用户列表渲染
+            table.render({
+                elem: '#tableUser',
+                url: '/user/queryUser',
+                method: 'post',
+                contentType: 'application/json',
+                page: true,
+                cols: [[
+                    {field: 'userId', title: 'ID', fixed: 'left', sort: true},
+                    {field: 'username', title: '用户账号'},
+                    {field: 'nickname', title: '用户姓名'},
+                    {field: 'sex', title: '性别'},
+                    {field: 'email', title: '邮箱地址'},
+                    {field: 'tel', title: '电话号码'},
+                    {field: 'isUse', title: '可用'},
+                    {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
+                ]],
+                parseData: function (res) {
+                    return {
+                        "code": res.code,
+                        "msg": res.msg,
+                        "data": res.data,
+                        "count": res.data.size,
+                    };
+                },
+                request: {
+                    pageName: 'pageNum', //页码的参数名称，默认：page
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                response: {
+                    statusCode: 10
+                }
+            });
+        });
+    }
+    function loadRoleTable() {
+        layui.use('table', function () {
+            table = layui.table;
+            //角色列表渲染
+            table.render({
+            elem: '#tableRole',
+            url: '/user/queryRole',
+            method: 'post',
+            contentType: 'application/json',
+            page: true,
+            cols: [[
+                {field: 'roleId', title: 'ID', fixed: 'left', sort: true},
+                {field: 'roleName', title: '角色名'},
+                {field: 'roleRemark', title: '角色描述'},
+                {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
+            ]],
+            parseData: function (res) {
+                return {
+                    "code": res.code,
+                    "msg": res.msg,
+                    "data": res.data,
+                    "count": res.data.size,
+                };
+            },
+            request:{
+                pageName: 'pageNum', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response:{
+                statusCode: 10
+            }
+        });
+        });
+    }
+    function loadPermissionTable(){
+        layui.use('table', function(){
+            table = layui.table;
+            //权限列表渲染
+            table.render({
+                elem: '#tablePermission',
+                url: '/user/queryPermission',
+                method: 'post',
+                contentType: 'application/json',
+                page: true,
+                cols: [[
+                    {field: 'permissionId', title: 'ID', fixed: 'left', sort: true},
+                    {field: 'permissionName', title: '权限名'},
+                    {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
+                ]],
+                parseData: function (res) {
+                    return {
+                        "code": res.code,
+                        "msg": res.msg,
+                        "data": res.data,
+                        "count": res.data.size,
+                    };
+                },
+                request:{
+                    pageName: 'pageNum', //页码的参数名称，默认：page
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                response:{
+                    statusCode: 10
+                }
+            });
+        })
+    }
 
     /**
      * 提交用户

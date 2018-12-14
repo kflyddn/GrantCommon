@@ -66,13 +66,17 @@
             </div>
             <div class="tab-pane fade" role="tabpanel" id="systemRole">
                 <!-- 表头 -->
-                <div class="searchRole"></div>
+                <div class="searchRole">
+                    <a class="addBtn pull-right" data-toggle="modal" data-target="#userAdd" onclick="clearUser()"><i  class="iconfont icon-tianjia mr10"></i>新增</a>
+                </div>
                 <!-- 数据展示 -->
                 <table id="tableRole" lay-filter="role"></table>
             </div>
             <div class="tab-pane fade" role="tabpanel" id="systemPermission">
                 <!-- 表头 -->
-                <div class="searchPermission"></div>
+                <div class="searchPermission">
+                    <a class="addBtn pull-right" data-toggle="modal" data-target="#userAdd" onclick="clearUser()"><i  class="iconfont icon-tianjia mr10"></i>新增</a>
+                </div>
                 <!-- 数据展示 -->
                 <table id="tablePermission" lay-filter="permission"></table>
             </div>

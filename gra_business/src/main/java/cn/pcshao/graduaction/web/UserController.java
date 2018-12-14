@@ -244,7 +244,7 @@ public class UserController extends BaseController {
             for(Short s : roleIdList) {
                 //校验该角色是否对应有用户绑定
                 if(ListUtils.isNotEmptyList(userService.listUserByRoleId(s))){
-                    resultDto.setMsg("未全部删除，请检查！");
+                    return ResultDtoFactory.error(DtoCodeConsts.CASCADE_DATA, DtoCodeConsts.CASCADE_DATA_MSG);
                 }else{
                     deleteNum += roleService.delete(s);
                 }
@@ -332,7 +332,7 @@ public class UserController extends BaseController {
             for(Long l : permissionIdList) {
                 //校验该角色是否对应有用户绑定
                 if(ListUtils.isNotEmptyList(roleService.listRolesByPermissionId(l))){
-                    resultDto.setMsg("未全部删除，请检查！");
+                    return ResultDtoFactory.error(DtoCodeConsts.CASCADE_DATA, DtoCodeConsts.CASCADE_DATA_MSG);
                 }else {
                     deleteNum += permissionService.delete(l);
                 }

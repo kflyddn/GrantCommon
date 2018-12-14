@@ -24,7 +24,7 @@
             </div>
             <div class="leftLine rightLine">
                 <a class="logout" onclick="logOut()"><i class="iconfont icon-ic_power_settings_new_px"></i><span>注销</span></a>
-                <a class="system logout " ><i class="iconfont icon-ic_power_settings_new_px"></i><span>系统管理</span></a>
+                <!--<a class="system logout " ><i class="iconfont icon-ic_power_settings_new_px"></i><span>系统管理</span></a>-->
             </div>
 
         </div>
@@ -38,6 +38,7 @@
                 </li>
             </ul>
             <div class="tab-pane fade active" role="tabpanel" id="system">
+                <!-- 表头 -->
                 <div class="search">
                     <form class="form-inline" id="con_from">
                         <div class="form-group mgl15">
@@ -56,12 +57,15 @@
                     </form>
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#userAdd" onclick="clearUser()"><i  class="iconfont icon-tianjia mr10"></i>新增</a>
                 </div>
+                <!-- 数据展示 -->
                 <div>
                     <table id="tableData" lay-filter="user"></table>
                 </div>
             </div>
             <div class="tab-pane fade" role="tabpanel" id="systemLog">
+                <!-- 表头 -->
                 <div class="zw"></div>
+                <!-- 数据展示 -->
                 <table id="tableDataLog" lay-filter="demo"></table>
             </div>
         </div>
@@ -179,10 +183,10 @@
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
-    <!--序号-->
+    <!--序号
     <script type="text/html" id="zizeng">
         {{d.LAY_TABLE_INDEX+1}}
-    </script>
+    </script>-->
     <script src="/static/js/systemManage.js"></script>
 </body>
 </html>

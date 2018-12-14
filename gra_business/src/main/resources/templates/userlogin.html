@@ -6,42 +6,38 @@
     <link rel="stylesheet" href="/static/css/common.css">
     <script src="/static/js/layui-v2.4.3/layui.js"></script>
 </head>
+<script type="application/javascript">
+    //主动加载jquery模块
+    layui.use(['layer', 'form'], function() {
+        var $ = layui.$ //重点处
+            , layer = layui.layer;
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function(fromData){
+            //发送表单ajax请求
+                $.ajax({
+                    url: "/user/login",
+                    type: "POST",
+                    data: JSON.stringify(fromData.field),
+                    contentType: "application/json",
+                    success: function (res) {
+                        if(10 == res.code) {
+                            window.location.href = "/user";
+                        }
+                        else
+                            layer.msg("请检查用户名或密码！");
+                    }
+                });
+        });
+    });
+</script>
 <body class="login_body">
 <div class="login_form">
-    <form action="javascript:;" class="layui-form">
+    <form class="layui-form" action="javascript:">
         <input type="text" name="username" lay-verify="required" placeholder="用户名">
         <input type="password" name="password" lay-verify="required"  placeholder="密码">
         <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
     </form>
 </div>
 </body>
-<script type="application/javascript">
-    //主动加载jquery模块
-    layui.use(['jquery', 'layer'], function() {
-        var $ = layui.$ //重点处
-            , layer = layui.layer;
-        //监听提交
-        layui.use('form', function(){
-            var form = layui.form;
-            form.on('submit(formDemo)', function(fromData){
-                //发送表单ajax请求
-                $(':submit').on('click', function () {
-                    $.ajax({
-                        url: "/user/login",
-                        type: "POST",
-                        data: JSON.stringify(fromData.field),
-                        contentType: "application/json",
-                        success: function (res) {
-                            if(10 == res.code) {
-                                window.location.href = "/user2";
-                            }
-                            else
-                                layer.msg("请检查用户名或密码！");
-                        }
-                    });
-                });
-            });
-        });
-    });
-</script>
 </html>

@@ -29,7 +29,7 @@ public class PageController extends BaseController {
     public String NB2(){
         return "error/404";
     }
-    @GetMapping("/user2")
+    @GetMapping("/user")
     public String systemManage(){
         return "systemManage";
     }

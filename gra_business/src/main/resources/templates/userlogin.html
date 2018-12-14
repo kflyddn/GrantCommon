@@ -2,37 +2,46 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Login</title>
+    <link rel="icon" href="/static/image/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <script src="/static/js/layui-v2.4.3/layui.js"></script>
 </head>
-<body>
-
-
-<div id="content">
-    <div id="content-header">
-        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Sample pages</a> <a href="#" class="current">Error</a> </div>
-        <h1>FAKE LOGIN</h1>
-    </div>
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="widget-box">
-                    <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-                        <h5>FAKE LOGIN</h5>
-                    </div>
-                    <div class="widget-content">
-                        <div class="error_ex">
-                            <h1>FAKE LOGIN</h1>
-                            <h3>Opps, You're lost.</h3>
-                            <p>Access to this page is forbidden</p>
-                            <a class="btn btn-warning btn-big"  href="/login">Back to Home</a> </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--Footer-part-->
-<div class="row-fluid">
-    <div id="footer" class="span12"> 2017 &copy; yqj <a href="http://themedesigner.in/">Themedesigner.in</a> </div>
+<body class="login_body">
+<div class="login_form">
+    <form action="javascript:;" class="layui-form">
+        <input type="text" name="username" lay-verify="required" placeholder="用户名">
+        <input type="password" name="password" lay-verify="required"  placeholder="密码">
+        <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+    </form>
 </div>
 </body>
+<script type="application/javascript">
+    //主动加载jquery模块
+    layui.use(['jquery', 'layer'], function() {
+        var $ = layui.$ //重点处
+            , layer = layui.layer;
+        //监听提交
+        layui.use('form', function(){
+            var form = layui.form;
+            form.on('submit(formDemo)', function(fromData){
+                //发送表单ajax请求
+                $(':submit').on('click', function () {
+                    $.ajax({
+                        url: "/user/login",
+                        type: "POST",
+                        data: JSON.stringify(fromData.field),
+                        contentType: "application/json",
+                        success: function (res) {
+                            if(10 == res.code) {
+                                window.location.href = "/user2";
+                            }
+                            else
+                                layer.msg("请检查用户名或密码！");
+                        }
+                    });
+                });
+            });
+        });
+    });
+</script>
 </html>

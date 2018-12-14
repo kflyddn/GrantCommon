@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统管理</title>
+    <link rel="icon" href="/static/image/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/jquery-ui.css">
+    <link rel="stylesheet" href="/static/css/fonticon/iconfont.css">
+    <link rel="stylesheet" href="/static/js/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/common.css">
+    <script src="/static/js/jquery-1.11.0.min.js"></script>
+    <script src="/static/js/jquery-cookie/jquery.cookie.js" type="text/javascript"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/layui-v2.4.3/layui.all.js"></script>
+    <script src="/static/js/layui-v2.4.3/layui.js"></script>
+</head>
+<body id="systemManage">
+    <div>
+        <div class="header" >
+            <div class="leftLine"></div>
+            <div class="img">
+                <div class="title"><i class="emblem"></i><span>未系安全带违法检测系统</span></div>
+            </div>
+            <div class="leftLine rightLine">
+                <a class="logout" onclick="logOut()"><i class="iconfont icon-ic_power_settings_new_px"></i><span>注销</span></a>
+                <a class="system logout " ><i class="iconfont icon-ic_power_settings_new_px"></i><span>系统管理</span></a>
+            </div>
+
+        </div>
+        <div class="content">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#system" role="presentation" data-toggle="tab">用户管理</a>
+                </li>
+                <li>
+                    <a href="#systemLog" role="presentation" data-toggle="tab">系统日志</a>
+                </li>
+            </ul>
+            <div class="tab-pane fade active" role="tabpanel" id="system">
+                <div class="search">
+                    <form class="form-inline" id="con_from">
+                        <div class="form-group mgl15">
+                            <label>搜索：</label>
+                            <select id="con" class="form-control" style="width:150px;">
+                                <option value="1">账号</option>
+                                <option value="2">姓名</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="context" class="form-control" name="name" />
+                        </div>
+                        <button class="btn-color-blue" type="button" id="query">
+                            <i class="iconfont icon-chazhao"></i>
+                        </button>
+                    </form>
+                    <a class="addBtn pull-right" data-toggle="modal" data-target="#userAdd" onclick="clearUser()"><i  class="iconfont icon-tianjia mr10"></i>新增</a>
+                </div>
+                <div>
+                    <table id="tableData" lay-filter="user"></table>
+                </div>
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="systemLog">
+                <div class="zw"></div>
+                <table id="tableDataLog" lay-filter="demo"></table>
+            </div>
+        </div>
+
+    </div>
+
+    <!--新增-->
+    <div class="modal fade modal-fixed-height" id="userAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title mb30">新增</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span >账&nbsp;&nbsp;&nbsp;号 <span style="color: red;">*</span></span>
+                            <input class="form-control ml20" name="loginname" type="text">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span>密&nbsp;&nbsp;&nbsp;码 <span style="color: red;">*</span></span>
+                            <input type="password" class="form-control ml20" name="pwd"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span>重复密码<span style="color: red;">*</span></span>
+                            <input type="password" class="form-control ml20" name="rePwd"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span>用户名&nbsp;<span style="color: red;">*</span></span>
+                            <input type="text" class="form-control ml20" name="realname"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span>电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</span>
+                            <input onkeyup="value=value.replace(/\D/g,'')" class="form-control ml20" name="tel"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注 </span>
+                            <input type="text" class="form-control ml20" name="dsc"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="submitUser(1)">确定</button>
+                    <button class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--编辑-->
+    <div class="modal fade modal-fixed-height" id="userEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title mb30">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span >账&nbsp;&nbsp;&nbsp;号 <span style="color: red;">*</span></span>
+                            <input class="form-control ml20" name="loginname" type="text"/>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span>密&nbsp;&nbsp;&nbsp;码 <span style="color: red;">*</span></span>
+                            <input type="password" class="form-control ml20" name="pwd"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span>重复密码<span style="color: red;">*</span></span>
+                            <input type="password" class="form-control ml20" name="rePwd"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span>用户名&nbsp;<span style="color: red;">*</span></span>
+                            <input type="text" class="form-control ml20" name="realname"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <span>电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</span>
+                            <input onkeyup="value=value.replace(/\D/g,'')" class="form-control ml20" name="tel"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注 </span>
+                            <input type="text" class="form-control ml20" name="dsc"/>
+                        </div>
+                    </div>
+                    <input type="text" name = 'id' class="hidden">
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="submitUser(2)">确定</button>
+                    <button class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--表格操作-->
+    <script type="text/html" id="userOption">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <!--序号-->
+    <script type="text/html" id="zizeng">
+        {{d.LAY_TABLE_INDEX+1}}
+    </script>
+    <script src="/static/js/systemManage.js"></script>
+</body>
+</html>

@@ -29,15 +29,21 @@
         <div class="content">
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active">
-                    <a href="#system" role="presentation" data-toggle="tab">用户管理</a>
+                    <a href="#systemUser" role="presentation" data-toggle="tab">用户管理</a>
                 </li>
                 <li>
-                    <a href="#systemLog" role="presentation" data-toggle="tab">系统日志</a>
+                    <a href="#systemRole" role="presentation" data-toggle="tab">角色管理</a>
                 </li>
+                <li>
+                    <a href="#systemPermission" role="presentation" data-toggle="tab">权限管理</a>
+                </li>
+                <!--<li>
+                    <a href="#systemLog" role="presentation" data-toggle="tab">系统日志</a>
+                </li>-->
             </ul>
-            <div class="tab-pane fade active" role="tabpanel" id="system">
+            <div class="tab-pane fade active" role="tabpanel" id="systemUser">
                 <!-- 表头 -->
-                <div class="search">
+                <div class="searchUser">
                     <form class="form-inline" id="con_from">
                         <div class="form-group mgl15">
                             <label>搜索：</label>
@@ -56,21 +62,31 @@
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#userAdd" onclick="clearUser()"><i  class="iconfont icon-tianjia mr10"></i>新增</a>
                 </div>
                 <!-- 数据展示 -->
-                <div>
-                    <table id="tableData" lay-filter="user"></table>
-                </div>
+                <table id="tableUser" lay-filter="user"></table>
             </div>
-            <div class="tab-pane fade" role="tabpanel" id="systemLog">
+            <div class="tab-pane fade" role="tabpanel" id="systemRole">
                 <!-- 表头 -->
-                <div class="zw"></div>
+                <div class="searchRole"></div>
                 <!-- 数据展示 -->
-                <table id="tableDataLog" lay-filter="demo"></table>
+                <table id="tableRole" lay-filter="role"></table>
             </div>
+            <div class="tab-pane fade" role="tabpanel" id="systemPermission">
+                <!-- 表头 -->
+                <div class="searchPermission"></div>
+                <!-- 数据展示 -->
+                <table id="tablePermission" lay-filter="permission"></table>
+            </div>
+            <!--<div class="tab-pane fade" role="tabpanel" id="systemLog">
+                &lt;!&ndash; 表头 &ndash;&gt;
+                <div class="zw"></div>
+                &lt;!&ndash; 数据展示 &ndash;&gt;
+                <table id="tableDataLog" lay-filter="demo"></table>
+            </div>-->
         </div>
 
     </div>
 
-    <!--新增-->
+    <!-- 新增用户 -->
     <div class="modal fade modal-fixed-height" id="userAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -122,7 +138,7 @@
         </div>
     </div>
 
-    <!--编辑-->
+    <!-- 编辑用户 -->
     <div class="modal fade modal-fixed-height" id="userEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -176,15 +192,11 @@
     </div>
 
 
-    <!--表格操作-->
+    <!-- 表格操作toolbar -->
     <script type="text/html" id="userOption">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
-    <!--序号
-    <script type="text/html" id="zizeng">
-        {{d.LAY_TABLE_INDEX+1}}
-    </script>-->
     <script src="/static/js/systemManage.js"></script>
 </body>
 </html>

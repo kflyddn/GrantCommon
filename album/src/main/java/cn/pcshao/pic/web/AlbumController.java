@@ -16,6 +16,7 @@ import cn.pcshao.pic.bo.AlbumPageBo;
 import cn.pcshao.pic.service.AlbumSourceService;
 import cn.pcshao.pic.service.AlbumSystemService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -80,7 +81,8 @@ public class AlbumController extends BaseController {
             if(0 == picPublic.size()){
                 resultDto.setMsg("无相册记录！");
             }
-            resultDto.setData(picPublic);
+            PageInfo page = new PageInfo(picPublic);
+            resultDto.setData(page);
             return resultDto;
         }
         return ResultDtoFactory.error();

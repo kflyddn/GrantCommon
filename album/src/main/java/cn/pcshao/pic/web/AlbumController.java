@@ -124,6 +124,9 @@ public class AlbumController extends BaseController {
             if (!file.getContentType().contains("image")) {
                 return ResultDtoFactory.error(DtoCodeConsts.ALBUM_PIC_NO, DtoCodeConsts.ALBUM_PIC_NO_MSG);
             }
+            if(null == request.getParameter("name")){
+                return ResultDtoFactory.error();
+            }
         } catch (Exception e) {
             logger.error(e.toString());
             e.printStackTrace();

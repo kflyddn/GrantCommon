@@ -24,6 +24,7 @@ layui.use('table', function(){
 
     table.render({
         elem: '#square'
+
         ,url: '/album/square'
         ,method: 'post'
         ,contentType: 'application/json'

@@ -1,6 +1,5 @@
-    var table;
     layui.use('table', function () {
-        table = layui.table;
+        var table = layui.table;
 
         loadUserTable();
         loadRoleTable();
@@ -142,8 +141,8 @@
                     return {
                         "code": res.code,
                         "msg": res.msg,
-                        "data": res.data,
-                        "count": res.data.size,
+                        "data": res.data.list,
+                        "count": res.data.total,
                     };
                 },
                 request: {
@@ -176,8 +175,8 @@
                 return {
                     "code": res.code,
                     "msg": res.msg,
-                    "data": res.data,
-                    "count": res.data.size,
+                    "data": res.data.list,
+                    "count": res.data.total,
                 };
             },
             request:{
@@ -209,8 +208,8 @@
                     return {
                         "code": res.code,
                         "msg": res.msg,
-                        "data": res.data,
-                        "count": res.data.size,
+                        "data": res.data.list,
+                        "count": res.data.total,
                     };
                 },
                 request:{
@@ -224,86 +223,67 @@
         })
     }
 
-    /**
-     * 提交用户
-     *  新增或者编辑
-      * @param tag
-     */
-    function submitUser(tag) {
-    var obj = {};
+    layui.use('form', function(){
+        var form = layui.form;
 
-    if (tag == 1) { //新增
-        obj.loginname = $("#userAdd input[name ='loginname']").val();
-        obj.pwd = $("#userAdd input[name ='pwd']").val();
-        obj.realname = $("#userAdd input[name ='realname']").val();
-        obj.tel = $("#userAdd input[name ='tel']").val();
-        obj.dsc = $("#userAdd input[name ='dsc']").val();
-        if (obj.pwd != $("#userAdd input[name ='rePwd']").val()) {
-            layer.alert('密码不一致！');
-            return
-        }
-    } else { //编辑
-        obj.loginname = $("#userEdit input[name ='loginname']").val();
-        obj.pwd = $("#userEdit input[name ='pwd']").val();
-        obj.realname = $("#userEdit input[name ='realname']").val();
-        obj.tel = $("#userEdit input[name ='tel']").val();
-        obj.dsc = $("#userEdit input[name ='dsc']").val();
-        obj.id = $("#userEdit input[name ='id']").val();
-        if (obj.pwd != $("#userEdit input[name ='rePwd']").val()) {
-            layer.alert('密码不一致！');
-            return
-        }
-    }
-
-    //正则校验，检测特殊字符
-    if(obj.loginname.match(/[^a-zA-Z0-9\_\u4e00-\u9fa5]/g,'') || obj.pwd.match(/[^a-zA-Z0-9\_\u4e00-\u9fa5]/g,'')){
-        layer.alert("账户名密码不能含有特殊字符")
-        return;
-    }
-
-    if (obj.loginname == "" || obj.pwd == "" || obj.realname == "") {
-        layer.alert('带*为必填项！');
-        return
-    }
-
-    if (obj.pwd.length < 6) {
-        layer.alert("允许密码最小长度6位！")
-        return
-    }
-
-    $.ajax({
-        url: '/user/save',
-        type: 'post',
-        data:obj,
-        dataType: 'json',
-        success: function (data) {
-            if(data.code == 0){
-                $("#userAdd").modal("hide");
-                layer.msg(data.msg);
-                window.location.reload()
-            }else {
-                layer.msg(data.msg);
-            }
-
-        },
-        failure : function() {
-            layer.alert('操作超时!');
-        }
+        form.on('submit(userAdd)', function(data){
+            // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            // alert(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            $.ajax({
+                url: '/user/register'/*+ '?roleIdList='+ data.field.roleIdList.join(',')*/,
+                type: 'POST',
+                data: JSON.stringify(data.field),
+                contentType: "application/json",
+                success: function (result) {
+                    if(result.code == 10){
+                        loadUserTable();
+                    }
+                    layer.alert(result.msg);
+                },
+                failure : function() {
+                    layer.alert('操作超时!');
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        form.on('submit(roleAdd)', function(data){
+            $.ajax({
+                url: '/user/addRole',
+                type: 'post',
+                data: JSON.stringify(data.field),
+                contentType: "application/json",
+                success: function (result) {
+                    if(result.code == 10){
+                        loadRoleTable();
+                    }
+                    layer.alert(result.msg);
+                },
+                failure : function() {
+                    layer.alert('操作超时!');
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        form.on('submit(permissionAdd)', function(data){
+            $.ajax({
+                url: '/user/addPermission',
+                type: 'post',
+                data: JSON.stringify(data.field),
+                contentType: "application/json",
+                success: function (result) {
+                    if(result.code == 10){
+                        loadPermissionTable();
+                    }
+                    layer.alert(result.msg);
+                },
+                failure: function() {
+                    layer.alert('操作超时!');
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
     });
-
-}
-
-    /**
-     * 清除 用户列表
-     */
-    function  clearUser() {
-   $("#userAdd input[name ='loginname']").val("");
-   $("#userAdd input[name ='pwd']").val("");
-   $("#userAdd input[name ='realname']").val("");
-   $("#userAdd input[name ='tel']").val("");
-   $("#userAdd input[name ='dsc']").val("");
-   $("#userAdd input[name ='rePwd']").val("")
-}
 
     /**
      * 登出

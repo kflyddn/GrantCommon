@@ -4,7 +4,7 @@
         loadUserTable();
         loadRoleTable();
         loadPermissionTable();
-        //监听toolbar 筛选
+        //监听toolbar 筛选，前台的lay-event可以拿来判断
         table.on('tool(user)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
@@ -32,15 +32,16 @@
                 });
             }else if(obj.event === 'edit'){
                 if('admin'!=data.username) {
-                    $("#userEdit input[name ='loginname']").val(data.username);
-                    $("#userEdit input[name ='pwd']").val(data.password);
-                    $("#userEdit input[name ='rePwd']").val(data.password);
-                    $("#userEdit input[name ='realname']").val(data.nickname);
-                    $("#userEdit input[name ='realname']").val(data.sex);
-                    $("#userEdit input[name ='dsc']").val(data.email);
+                    // TODO
+                    $("#userEdit input[name ='username']").val(data.username);
+                    $("#userEdit input[name ='password']").val(data.password);
+                    $("#userEdit input[name ='password']").val(data.password);
+                    $("#userEdit input[name ='nickname']").val(data.nickname);
+                    $("#userEdit select[name ='sex']").val(data.sex);
+                    $("#userEdit input[name ='email']").val(data.email);
                     $("#userEdit input[name ='tel']").val(data.tel);
-                    $("#userEdit input[name ='dsc']").val(data.isUse);
-                    $("#userEdit input[name ='id']").val(data.userId);
+                    $("#userEdit input[name ='isUse']").val(data.isUse);
+                    $("#userEdit input[name ='userId']").val(data.userId);
                     $("#userEdit").modal();
                 }else{
                     layer.alert('系统用户默认不能编辑！')
@@ -71,11 +72,12 @@
                     });
                 });
             }else if(obj.event === 'edit'){
+                // TODO
                 if('admin'!=data.roleName) {
-                    $("#userEdit input[name ='loginname']").val(data.roleName);
-                    $("#userEdit input[name ='pwd']").val(data.roleRemark);
-                    $("#userEdit input[name ='id']").val(data.roleId);
-                    $("#userEdit").modal();
+                    $("#roleEdit input[name ='roleName']").val(data.roleName);
+                    $("#roleEdit input[name ='roleRemark']").val(data.roleRemark);
+                    $("#roleEdit input[name ='roleId']").val(data.roleId);
+                    $("#roleEdit").modal();
                 }else{
                     layer.alert('系统默认最高权限角色不能编辑！')
                 }
@@ -105,10 +107,11 @@
                     });
                 });
             }else if(obj.event === 'edit'){
+                // TODO
                 if('系统管理'!=data.permissionName) {
-                    $("#userEdit input[name ='loginname']").val(data.permissionName);
-                    $("#userEdit input[name ='id']").val(data.permissionId);
-                    $("#userEdit").modal();
+                    $("#permissionEdit input[name ='permissionName']").val(data.permissionName);
+                    $("#permissionEdit input[name ='permissionId']").val(data.permissionId);
+                    $("#permissionEdit").modal();
                 }else{
                     layer.alert('系统默认最高权限不能移除！')
                 }
@@ -223,6 +226,9 @@
         })
     }
 
+    /**
+     * 表单监听
+     */
     layui.use('form', function(){
         var form = layui.form;
 
@@ -283,6 +289,9 @@
             });
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
+
+        // TODO 编辑后的submit操作
+
     });
 
     /**

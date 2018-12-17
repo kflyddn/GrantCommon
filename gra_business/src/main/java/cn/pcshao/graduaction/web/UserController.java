@@ -15,6 +15,7 @@ import cn.pcshao.grant.common.util.MD5Utils;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import cn.pcshao.grant.common.util.StringUtils;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
@@ -75,7 +76,7 @@ public class UserController extends BaseController {
                 return resultDto;
             }
         }
-        return ResultDtoFactory.error();
+        return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
     }
 
     @ApiOperation("检查用户名是否已存在")
@@ -140,7 +141,8 @@ public class UserController extends BaseController {
         String permissionName = sysPageBo.getGrantPermission() != null ? sysPageBo.getGrantPermission().getPermissionName() : "";
         List<GrantUser> grantUsers = userService.listUsers(grantUser, roleName, permissionName);
         if(null != grantUsers){
-            resultDto.setData(grantUsers);
+            PageInfo page = new PageInfo(grantUsers);
+            resultDto.setData(page);
             if(grantUsers.size() == 0){
                 resultDto.setMsg("无数据");
                 return resultDto;
@@ -217,7 +219,8 @@ public class UserController extends BaseController {
         GrantRole grantRole = sysPageBo.getGrantRole();
         List<GrantRole> grantRoles = roleService.listRoles(grantRole);
         if(null != grantRoles){
-            resultDto.setData(grantRoles);
+            PageInfo page = new PageInfo(grantRoles);
+            resultDto.setData(page);
             if(grantRoles.size() == 0){
                 resultDto.setMsg("无对应角色记录");
                 return resultDto;
@@ -305,7 +308,8 @@ public class UserController extends BaseController {
         GrantPermission grantPermission = sysPageBo.getGrantPermission();
         List<GrantPermission> grantPermissions = permissionService.listPermissions(grantPermission);
         if(null != grantPermissions){
-            resultDto.setData(grantPermissions);
+            PageInfo page = new PageInfo(grantPermissions);
+            resultDto.setData(page);
             if(grantPermissions.size() == 0){
                 resultDto.setMsg("无对应权限记录");
                 return resultDto;

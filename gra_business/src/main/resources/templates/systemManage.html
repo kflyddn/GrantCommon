@@ -140,9 +140,8 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">角色</label>
                                 <div class="layui-input-block">
-                                    <!-- TODO 加载角色列表供下拉选择 -->
-                                    <input type="checkbox" name="roleIdList[0]" value="1" title="超级管理员">
-                                    <input type="checkbox" name="roleIdList[1]" value="2" title="normal">
+                                    <input type="checkbox" name="roles" value="1" title="超级管理员">
+                                    <input type="checkbox" name="roles" value="2" title="normal">
                                 </div>
                             </div>
                         </div>
@@ -286,7 +285,7 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">账号</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="username" lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" name="username" disabled="true" lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -417,8 +416,78 @@
         </div>
     </div>
 
+    <!-- 授权 -->
+    <div class="modal fade modal-fixed-height" id="grant" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="layui-form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title mb30">授权</h4>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">账号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="username" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">角色列表</label>
+                            <div class="layui-input-block">
+                                <select class="layui-input" id="roleList" name="roleList" lay-filter="roleList">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="nickname" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="tel" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱</label>
+                            <div class="layui-input-block">
+                                <input type="email" name="email" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">可用</label>
+                            <div class="layui-input-block">
+                                <select name="isUse" lay-filter="isUse">
+                                    <option value="true">可用</option>
+                                    <option value="false">不可用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="userAdd">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- 表格操作toolbar -->
     <script type="text/html" id="userOption">
+        <a class="layui-btn layui-btn-xs" lay-event="grant">授权</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>

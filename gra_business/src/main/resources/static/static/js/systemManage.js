@@ -32,7 +32,6 @@
                 });
             }else if(obj.event === 'edit'){
                 if('admin'!=data.username) {
-                    // TODO
                     $("#userEdit input[name ='username']").val(data.username);
                     $("#userEdit input[name ='password']").val(data.password);
                     $("#userEdit input[name ='password']").val(data.password);
@@ -46,6 +45,16 @@
                 }else{
                     layer.alert('系统用户默认不能编辑！')
                 }
+            }else if(obj.event === 'grant'){
+                $("#grant input[name ='username']").val(data.username);
+                $("#grant input[name ='nickname']").val(data.nickname);
+                //TODO 加载角色列表至下拉框
+                loadRoleList();
+                $("#grant input[name ='email']").val(data.email);
+                $("#grant input[name ='tel']").val(data.tel);
+                $("#grant input[name ='isUse']").val(data.isUse);
+                $("#grant input[name ='userId']").val(data.userId);
+                $("#grant").modal();
             }
         });
         table.on('tool(role)', function(obj){
@@ -72,7 +81,6 @@
                     });
                 });
             }else if(obj.event === 'edit'){
-                // TODO
                 if('admin'!=data.roleName) {
                     $("#roleEdit input[name ='roleName']").val(data.roleName);
                     $("#roleEdit input[name ='roleRemark']").val(data.roleRemark);
@@ -107,7 +115,6 @@
                     });
                 });
             }else if(obj.event === 'edit'){
-                // TODO
                 if('系统管理'!=data.permissionName) {
                     $("#permissionEdit input[name ='permissionName']").val(data.permissionName);
                     $("#permissionEdit input[name ='permissionId']").val(data.permissionId);
@@ -138,7 +145,7 @@
                     {field: 'email', title: '邮箱地址'},
                     {field: 'tel', title: '电话号码'},
                     {field: 'isUse', title: '可用'},
-                    {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
+                    {fixed: 'right', width: 180, align: 'center', toolbar: '#userOption'},
                 ]],
                 parseData: function (res) {
                     return {
@@ -224,6 +231,27 @@
                 }
             });
         })
+    }
+    function loadRoleList(){
+        var op = $("#roleList");
+        $.ajax({
+            url: '/user/queryRole',
+            type: 'POST',
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    var items = result.data.list;
+                    $.each(items, function (index, data) {
+                        let temp = "<option value='"+ data.roleId+ "'>"+ data.roleName+ "</option>";
+                        op.append(temp);
+                        console.log(temp)
+                    })
+                }
+            },
+            failure : function() {
+                layer.alert('操作超时!');
+            }
+        });
     }
 
     /**

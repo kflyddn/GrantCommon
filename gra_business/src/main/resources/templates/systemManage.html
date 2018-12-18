@@ -53,18 +53,14 @@
                 <!-- 用户列表表头 -->
                 <div class="searchUser">
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#userAdd" ><i  class="iconfont icon-tianjia mr10"></i>新增</a>
-                    <form class="form-inline" id="con_from">
+                    <form class="layui-form form-inline" id="con_from">
                         <div class="form-group mgl15">
                             <label>搜索：</label>
-                            <select id="con" class="form-control" style="width:150px;">
-                                <option value="1">账号</option>
-                                <option value="2">姓名</option>
-                            </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="context" class="form-control" name="name" />
+                            <input type="text" class="form-control" placeholder="模糊查询请用%代替" name="username" />
                         </div>
-                        <button class="btn-color-blue" type="button" id="queryUser">
+                        <button class="btn-color-blue" type="button" lay-submit lay-filter="queryUser">
                             <i class="iconfont icon-chazhao"></i>
                         </button>
                     </form>
@@ -76,18 +72,14 @@
                 <!-- 角色列表表头 -->
                 <div class="searchUser">
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#roleAdd" ><i  class="iconfont icon-tianjia mr10"></i>新增</a>
-                    <form class="form-inline" id="con_from2">
+                    <form class="layui-form form-inline">
                         <div class="form-group mgl15">
                             <label>搜索：</label>
-                            <select id="con2" class="form-control" style="width:150px;">
-                                <option value="1">账号</option>
-                                <option value="2">姓名</option>
-                            </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="context2" class="form-control" name="name" />
+                            <input type="text" class="form-control" placeholder="模糊查询请用%代替" name="roleName" />
                         </div>
-                        <button class="btn-color-blue" type="button" id="queryRole">
+                        <button class="btn-color-blue" type="button" lay-submit lay-filter="queryRole">
                             <i class="iconfont icon-chazhao"></i>
                         </button>
                     </form>
@@ -99,18 +91,14 @@
                 <!-- 权限列表表头 -->
                 <div class="searchUser">
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#permissionAdd" ><i  class="iconfont icon-tianjia mr10"></i>新增</a>
-                    <form class="form-inline" id="con_from3">
+                    <form class="layui-form form-inline">
                         <div class="form-group mgl15">
                             <label>搜索：</label>
-                            <select id="con3" class="form-control" style="width:150px;">
-                                <option value="1">账号</option>
-                                <option value="2">姓名</option>
-                            </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="context3" class="form-control" name="name" />
+                            <input type="text" class="form-control" placeholder="模糊查询请用%代替" name="permissionName" />
                         </div>
-                        <button class="btn-color-blue" type="button" id="queryPermission">
+                        <button class="btn-color-blue" type="button" lay-submit lay-filter="queryPermission">
                             <i class="iconfont icon-chazhao"></i>
                         </button>
                     </form>

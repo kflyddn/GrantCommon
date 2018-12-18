@@ -4,7 +4,7 @@
         loadUserTable();
         loadRoleTable();
         loadPermissionTable();
-        //监听toolbar 筛选，前台的lay-event可以拿来判断
+        //监听toolbar 筛选，前端lay-filter判断是哪个tool，前台的lay-event可以拿来判断操作是什么
         table.on('tool(user)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
@@ -127,13 +127,14 @@
 
     });
 
-    function loadUserTable(){
+    function loadUserTable(param){
         layui.use('table', function () {
             table = layui.table;
             //用户列表渲染
             table.render({
                 elem: '#tableUser',
                 url: '/user/queryUser',
+                where: param,
                 method: 'post',
                 contentType: 'application/json',
                 page: true,
@@ -165,54 +166,56 @@
             });
         });
     }
-    function loadRoleTable() {
+    function loadRoleTable(param) {
         layui.use('table', function () {
             table = layui.table;
             //角色列表渲染
             table.render({
-            elem: '#tableRole',
-            url: '/user/queryRole',
-            method: 'post',
-            contentType: 'application/json',
-            page: true,
-            cols: [[
-                {field: 'roleId', title: 'ID', fixed: 'left', sort: true},
-                {field: 'roleName', title: '角色名'},
-                {field: 'roleRemark', title: '角色描述'},
-                {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
-            ]],
-            parseData: function (res) {
-                return {
-                    "code": res.code,
-                    "msg": res.msg,
-                    "data": res.data.list,
-                    "count": res.data.total,
-                };
-            },
-            request:{
-                pageName: 'pageNum', //页码的参数名称，默认：page
-                limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            },
-            response:{
-                statusCode: 10
-            }
-        });
+                elem: '#tableRole',
+                url: '/user/queryRole',
+                where: param,
+                method: 'post',
+                contentType: 'application/json',
+                page: true,
+                cols: [[
+                    {field: 'roleId', title: 'ID', fixed: 'left', sort: true},
+                    {field: 'roleName', title: '角色名'},
+                    {field: 'roleRemark', title: '角色描述'},
+                    {fixed: 'right', width: 180, align: 'center', toolbar: '#userOption'},
+                ]],
+                parseData: function (res) {
+                    return {
+                        "code": res.code,
+                        "msg": res.msg,
+                        "data": res.data.list,
+                        "count": res.data.total,
+                    };
+                },
+                request:{
+                    pageName: 'pageNum', //页码的参数名称，默认：page
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                response:{
+                    statusCode: 10
+                }
+            });
         });
     }
-    function loadPermissionTable(){
+    function loadPermissionTable(param){
         layui.use('table', function(){
             table = layui.table;
             //权限列表渲染
             table.render({
                 elem: '#tablePermission',
                 url: '/user/queryPermission',
+                where: param,
                 method: 'post',
                 contentType: 'application/json',
                 page: true,
                 cols: [[
                     {field: 'permissionId', title: 'ID', fixed: 'left', sort: true},
                     {field: 'permissionName', title: '权限名'},
-                    {fixed: 'right', width: 150, align: 'center', toolbar: '#userOption'},
+                    {fixed: 'right', width: 180, align: 'center', toolbar: '#userOption'},
                 ]],
                 parseData: function (res) {
                     return {
@@ -319,7 +322,8 @@
         });
 
         form.on('submit(userEdit)', function(data){
-            $ajax({
+            //TODO
+            $.ajax({
                 url: '/user/editUser',
                 type: 'post',
                 data: JSON.stringify(data.field),
@@ -332,9 +336,31 @@
                 }
             })
         });
-        // TODO 编辑后的submit操作
-        // 角色更新、权限更新
+        form.on('submit(roleEdit)', function () {
+            //TODO
+        });
+        form.on('submit(permissionEdit)', function () {
+            //TODO
+        });
 
+        form.on('submit(queryUser)', function (data) {
+            var jdata = {
+                "grantUser": data.field
+            }
+            loadUserTable(jdata);
+        });
+        form.on('submit(queryRole)', function (data) {
+            var jdata = {
+                "grantRole": data.field
+            }
+            loadRoleTable(jdata);
+        });
+        form.on('submit(queryPermission)', function (data) {
+            var jdata = {
+                "grantPermission": data.field
+            }
+            loadPermissionTable(jdata);
+        });
 
     });
 

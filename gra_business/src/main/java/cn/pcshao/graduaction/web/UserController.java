@@ -79,8 +79,8 @@ public class UserController extends BaseController {
         return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
     }
 
-    @ApiOperation("用户对象存储操作接口，编辑")
-    @PostMapping("/saveUser")
+    @ApiOperation("用户对象编辑接口")
+    @PostMapping("/editUser")
     public ResultDto saveUser(@RequestBody GrantUser grantUser, @RequestParam(required = false) List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isEmpty(grantUser.getUsername())) {

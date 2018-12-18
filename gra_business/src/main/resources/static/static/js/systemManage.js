@@ -292,7 +292,7 @@
 
         form.on('submit(userEdit)', function(data){
             $ajax({
-                url: '/user/saveUser',
+                url: '/user/editUser',
                 type: 'post',
                 data: JSON.stringify(data.field),
                 contentType: "application/json",

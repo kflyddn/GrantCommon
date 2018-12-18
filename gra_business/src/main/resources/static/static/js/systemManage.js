@@ -322,10 +322,9 @@
         });
 
         form.on('submit(userEdit)', function(data){
-            //TODO
             $.ajax({
                 url: '/user/editUser',
-                type: 'post',
+                type: 'POST',
                 data: JSON.stringify(data.field),
                 contentType: "application/json",
                 success: function (result) {
@@ -336,11 +335,22 @@
                 }
             })
         });
-        form.on('submit(roleEdit)', function () {
-            //TODO
+        form.on('submit(roleEdit)', function (data) {
+            $.ajax({
+                url: '/user/editRole',
+                type: 'POST',
+                data: JSON.stringify(data.field),
+                contentType: "application/json",
+                success: function (result) {
+                    if(result.code == 10){
+                        loadRoleTable();
+                    }
+                    layer.msg(result.msg);
+                }
+            })
         });
         form.on('submit(permissionEdit)', function () {
-            //TODO
+            //预留
         });
 
         form.on('submit(queryUser)', function (data) {

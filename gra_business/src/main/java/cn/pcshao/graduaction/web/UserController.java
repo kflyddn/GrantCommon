@@ -79,18 +79,6 @@ public class UserController extends BaseController {
         return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
     }
 
-    @ApiOperation("用户对象编辑接口")
-    @PostMapping("/editUser")
-    public ResultDto saveUser(@RequestBody GrantUser grantUser, @RequestParam(required = false) List<Short> roleIdList){
-        ResultDto resultDto = ResultDtoFactory.success();
-        if(StringUtils.isEmpty(grantUser.getUsername())) {
-            grantUser.setPassword(MD5Utils.transMD5Code(grantUser.getPassword()));
-            userService.saveUser(grantUser, roleIdList);
-            return resultDto;
-        }
-        return ResultDtoFactory.error();
-    }
-
     @ApiOperation("检查用户名是否已存在")
     @GetMapping("/checkUserName")
     public ResultDto checkUserName(@RequestParam String username){
@@ -122,6 +110,18 @@ public class UserController extends BaseController {
                 deleteNum += userService.delete(l);
             }
             resultDto.setData(deleteNum);
+            return resultDto;
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("用户对象编辑接口")
+    @PostMapping("/editUser")
+    public ResultDto saveUser(@RequestBody GrantUser grantUser){
+        ResultDto resultDto = ResultDtoFactory.success();
+        if(StringUtils.isNotEmpty(grantUser.getUsername())) {
+            grantUser.setPassword(MD5Utils.transMD5Code(grantUser.getPassword()));
+            userService.update(grantUser);
             return resultDto;
         }
         return ResultDtoFactory.error();
@@ -265,6 +265,24 @@ public class UserController extends BaseController {
                 }
             }
             resultDto.setData(deleteNum);
+            return resultDto;
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("编辑角色接口")
+    @PostMapping("/editRole")
+    public ResultDto editRole(@RequestBody GrantRole grantRole){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //检查角色权限
+        Subject subject = SecurityUtils.getSubject();
+        try{
+            subject.checkRole("admin");
+        }catch (UnauthorizedException e){
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+        }
+        if(StringUtils.isNotEmpty(grantRole.getRoleName())){
+            roleService.update(grantRole);
             return resultDto;
         }
         return ResultDtoFactory.error();

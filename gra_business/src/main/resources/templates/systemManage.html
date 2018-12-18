@@ -271,6 +271,12 @@
                     </div>
                         <div class="row">
                             <div class="layui-form-item">
+                                <label class="layui-form-label">编号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="userId" disabled="true" lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
                                 <label class="layui-form-label">账号</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="username" disabled="true" lay-verify="required" autocomplete="off" class="layui-input">
@@ -333,7 +339,7 @@
                         </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="userAdd">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="userEdit">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -352,9 +358,15 @@
                     </div>
                     <div class="row">
                         <div class="layui-form-item">
+                            <label class="layui-form-label">编号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="roleId" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
                             <label class="layui-form-label">角色名</label>
                             <div class="layui-input-block">
-                                <input type="text" name="roleName" placeholder="请输入唯一标识" autocomplete="off" class="layui-input">
+                                <input type="text" name="roleName" disabled="true" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                     </div>
@@ -368,7 +380,7 @@
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="roleAdd">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="roleEdit">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -395,7 +407,7 @@
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="permissionAdd">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="permissionEdit">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>

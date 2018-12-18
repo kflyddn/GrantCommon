@@ -1,15 +1,28 @@
-layui.use('upload', function(){
+layui.use(['upload', 'form'], function(){
     var upload = layui.upload;
+    var form = layui.form;
+    var dataParam;
+
+    form.on('submit(picUpload)', function(data){
+        dataParam = data.field;
+        console.log(dataParam);
+    });
 
     //执行实例
     var uploadInst = upload.render({
         elem: '#picUpload' //绑定元素
         ,url: '/album/add' //上传接口
+        ,multiple: false
+        ,before: function(obj){ //加载除文件之外的参数
+            this.data = dataParam;
+            layer.load(); //开始上传之后打开load层
+        }
         ,done: function(res){
             if(res.code == 10){
-                alert("上传成功！")
+                alert("done！")
             }
                 alert(res.msg)
+            location.reload();
         }
         ,error: function(){
             //请求异常回调

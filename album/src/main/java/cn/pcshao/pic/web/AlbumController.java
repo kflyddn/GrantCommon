@@ -138,7 +138,7 @@ public class AlbumController extends BaseController {
         ResultFtp resultFtp = null;
         String isPrivate = "";
         try {
-            if(null != request.getParameter("isPrivate")) {
+            if(StringUtils.isNotEmpty(request.getParameter("isPrivate"))) {
                 //目录private物理隔离
                 isPrivate = "/auth";
             }

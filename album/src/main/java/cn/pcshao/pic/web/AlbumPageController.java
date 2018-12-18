@@ -10,24 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author pcshao.cn
  * @date 2018-12-4
  */
-//@Controller
+@Controller
 public class AlbumPageController extends BaseController {
 
-    @GetMapping("/initPage")
-    @ResponseBody
-    public String initPage(){
-        return "init";
-    }
-
-    @GetMapping("/404")
-    @ResponseBody
-    public String Nope(){
-        return "404";
-    }
-
-    @GetMapping("/403")
-    public String NoPermission(){
-        return "403";
+    @GetMapping("/albumManage")
+    public String album(){
+        return "albumManage";
     }
 
 }

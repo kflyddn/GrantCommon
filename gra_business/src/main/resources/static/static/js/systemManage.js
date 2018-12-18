@@ -281,7 +281,7 @@
                     if(result.code == 10){
                         loadPermissionTable();
                     }
-                    layer.alert(result.msg);
+                    layer.msg(result.msg);
                 },
                 failure: function() {
                     layer.alert('操作超时!');
@@ -290,7 +290,23 @@
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
 
+        form.on('submit(userEdit)', function(data){
+            $ajax({
+                url: '/user/saveUser',
+                type: 'post',
+                data: JSON.stringify(data.field),
+                contentType: "application/json",
+                success: function (result) {
+                    if(result.code == 10){
+                        loadUserTable();
+                    }
+                    layer.msg(result.msg);
+                }
+            })
+        });
         // TODO 编辑后的submit操作
+        // 角色更新、权限更新
+
 
     });
 

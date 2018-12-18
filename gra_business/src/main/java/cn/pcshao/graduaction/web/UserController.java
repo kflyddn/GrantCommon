@@ -79,6 +79,18 @@ public class UserController extends BaseController {
         return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
     }
 
+    @ApiOperation("用户对象存储操作接口，编辑")
+    @PostMapping("/saveUser")
+    public ResultDto saveUser(@RequestBody GrantUser grantUser, @RequestParam(required = false) List<Short> roleIdList){
+        ResultDto resultDto = ResultDtoFactory.success();
+        if(StringUtils.isEmpty(grantUser.getUsername())) {
+            grantUser.setPassword(MD5Utils.transMD5Code(grantUser.getPassword()));
+            userService.saveUser(grantUser, roleIdList);
+            return resultDto;
+        }
+        return ResultDtoFactory.error();
+    }
+
     @ApiOperation("检查用户名是否已存在")
     @GetMapping("/checkUserName")
     public ResultDto checkUserName(@RequestParam String username){

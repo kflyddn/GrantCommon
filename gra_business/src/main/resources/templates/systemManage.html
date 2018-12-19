@@ -166,13 +166,13 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">电话</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="tel" placeholder="" autocomplete="off" class="layui-input">
+                                    <input type="text" name="tel" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">邮箱</label>
                                 <div class="layui-input-block">
-                                    <input type="email" name="email" placeholder="" autocomplete="off" class="layui-input">
+                                    <input type="email" name="email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -420,32 +420,36 @@
     <div class="modal fade modal-fixed-height" id="grant" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="layui-form">
+                <form class="layui-form" lay-filter="grant">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title mb30">授权</h4>
                     </div>
                     <div class="row">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">账号</label>
+                            <label class="layui-form-label">编号</label>
                             <div class="layui-input-block">
-                                <input type="text" name="username" lay-verify="required" autocomplete="off" class="layui-input">
+                                <input type="text" name="userId" disabled="true" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">角色列表</label>
+                            <label class="layui-form-label">账号</label>
                             <div class="layui-input-block">
-                                <select class="layui-input" id="roleList" name="roleList" lay-filter="roleList">
-
-                                </select>
+                                <input type="text" name="username" disabled="true" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="layui-form-item">
+                            <label class="layui-form-label">角色列表</label>
+                            <div class="layui-input-block" id="roleList">
+
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
                             <label class="layui-form-label">姓名</label>
                             <div class="layui-input-block">
-                                <input type="text" name="nickname" placeholder="" autocomplete="off" class="layui-input">
+                                <input type="text" name="nickname" disabled="true" placeholder="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                     </div>
@@ -453,13 +457,13 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">电话</label>
                             <div class="layui-input-block">
-                                <input type="text" name="tel" placeholder="" autocomplete="off" class="layui-input">
+                                <input type="text" name="tel" disabled="true" placeholder="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">邮箱</label>
                             <div class="layui-input-block">
-                                <input type="email" name="email" placeholder="" autocomplete="off" class="layui-input">
+                                <input type="email" name="email" disabled="true" placeholder="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                     </div>
@@ -467,16 +471,13 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">可用</label>
                             <div class="layui-input-block">
-                                <select name="isUse" lay-filter="isUse">
-                                    <option value="true">可用</option>
-                                    <option value="false">不可用</option>
-                                </select>
+                                <input type="text" name="isUse" disabled="true" class="layui-input">
                             </div>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="userAdd">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="bindUserRole">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>

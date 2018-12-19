@@ -1,3 +1,5 @@
+var form;
+var table;
     layui.use('table', function () {
         var table = layui.table;
 
@@ -46,15 +48,28 @@
                     layer.alert('系统用户默认不能编辑！')
                 }
             }else if(obj.event === 'grant'){
-                $("#grant input[name ='username']").val(data.username);
-                $("#grant input[name ='nickname']").val(data.nickname);
-                //TODO 加载角色列表至下拉框
-                loadRoleList();
-                $("#grant input[name ='email']").val(data.email);
-                $("#grant input[name ='tel']").val(data.tel);
-                $("#grant input[name ='isUse']").val(data.isUse);
-                $("#grant input[name ='userId']").val(data.userId);
-                $("#grant").modal();
+                if('admin'!=data.username) {
+                    loadRoleList(data.userId);
+                    form.val("grant", {
+                        "username": data.username // "name": "value"
+                        ,"nickname": data.nickname
+                        ,"email": data.email
+                        ,"tel": data.tel
+                        ,"isUse": data.isUse
+                        ,"userId": data.userId
+                    });
+                    $("#grant").modal();
+                    //JQ写法
+                    /*$("#grant input[name ='username']").val(data.username);
+                    $("#grant input[name ='nickname']").val(data.nickname);
+                    $("#grant input[name ='email']").val(data.email);
+                    $("#grant input[name ='tel']").val(data.tel);
+                    $("#grant input[name ='isUse']").val(data.isUse);
+                    $("#grant input[name ='userId']").val(data.userId);
+                    $("#grant").modal();*/
+                }else{
+                    layer.alert('系统用户默认不能编辑！')
+                }
             }
         });
         table.on('tool(role)', function(obj){
@@ -235,8 +250,32 @@
             });
         })
     }
-    function loadRoleList(){
+    function loadRoleList(currUserId){
         var op = $("#roleList");
+        var hadRoleId = [];
+        //首次ajax获取当前用户已拥有的角色
+        $.ajax({
+            url: '/user/queryRole',
+            type: 'POST',
+            async: false,
+            data: JSON.stringify({
+                grantUser:{
+                    userId: currUserId
+                },
+                pageNum: 1,
+                pageSize: 100
+            }),
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    var items = result.data.list;
+                    $.each(items, function (index, data) {
+                        hadRoleId.push(data.roleId);
+                    });
+                }
+            }
+        });
+        //第二次ajax渲染
         $.ajax({
             url: '/user/queryRole',
             type: 'POST',
@@ -244,11 +283,18 @@
             success: function (result) {
                 if(result.code == 10){
                     var items = result.data.list;
+                    op.html('');
                     $.each(items, function (index, data) {
-                        let temp = "<option value='"+ data.roleId+ "'>"+ data.roleName+ "</option>";
+                        let temp;
+                        if(hadRoleId.includes(data.roleId)){
+                            temp = '<input class="layui-input" checked lay-filter="roleItem" type="checkbox" name="roleItem" title="'+ data.roleName+ '" value="'+ data.roleId+ '"/>';
+                        }else {
+                            temp = '<input class="layui-input" lay-filter="roleItem" type="checkbox" name="roleItem" title="' + data.roleName + '" value="' + data.roleId + '"/>';
+                        }
                         op.append(temp);
-                        console.log(temp)
                     })
+                    //重新渲染某元素
+                    form.render('checkbox');
                 }
             },
             failure : function() {
@@ -261,7 +307,7 @@
      * 表单监听
      */
     layui.use('form', function(){
-        var form = layui.form;
+        form = layui.form;
 
         form.on('submit(userAdd)', function(data){
             // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -333,7 +379,7 @@
                     }
                     layer.msg(result.msg);
                 }
-            })
+            });
         });
         form.on('submit(roleEdit)', function (data) {
             $.ajax({
@@ -347,7 +393,7 @@
                     }
                     layer.msg(result.msg);
                 }
-            })
+            });
         });
         form.on('submit(permissionEdit)', function () {
             //预留
@@ -368,10 +414,36 @@
         form.on('submit(queryPermission)', function (data) {
             var jdata = {
                 "grantPermission": data.field
-            }
+            };
             loadPermissionTable(jdata);
         });
 
+        /**
+         * 准备授权界面中被选中的角色参数
+         */
+        var roleItemChecked = new Set;
+        form.on('checkbox(roleItem)', function (data) {
+            if(data.elem.checked) {
+                roleItemChecked.add(Number(data.value));
+            }else{
+                roleItemChecked.delete(Number(data.value));
+            }
+        });
+        form.on('submit(bindUserRole)', function (data) {
+            let roleUserId = Array.from(roleItemChecked);
+            $.ajax({
+                url: '/user/bindUserRoles'+ '?userId='+ data.field.userId,
+                type: 'POST',
+                data: JSON.stringify(roleUserId),
+                contentType: 'application/json',
+                success: function (result) {
+                    if(result.code == 10){
+                        loadUserTable();
+                    }
+                    layer.msg(result.msg);
+                }
+            });
+        });
     });
 
     /**

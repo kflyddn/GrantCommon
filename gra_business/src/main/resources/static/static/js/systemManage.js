@@ -6,13 +6,13 @@ var table;
         loadUserTable();
         loadRoleTable();
         loadPermissionTable();
-        //监听toolbar 筛选，前端lay-filter判断是哪个tool，前台的lay-event可以拿来判断操作是什么
+        //监听toolbar 筛选，前端lay-filter判断(user)是哪个tool，前台的lay-event可以拿来判断操作是什么
         table.on('tool(user)', function(obj){
             var data = obj.data;
+            if("admin" == data.username)
+                return;
             if(obj.event === 'del'){
                 layer.confirm("确认删除用户"+obj.data.username, {btn: ['确定', '取消'],title:"提示"},function () {
-                    if("admin" == data.username)
-                        return;
                     var userIdList = data.userId;
                     $.ajax({
                         url: '/user/removeUser',
@@ -33,47 +33,41 @@ var table;
                     });
                 });
             }else if(obj.event === 'edit'){
-                if('admin'!=data.username) {
-                    $("#userEdit input[name ='username']").val(data.username);
-                    $("#userEdit input[name ='password']").val(data.password);
-                    $("#userEdit input[name ='password']").val(data.password);
-                    $("#userEdit input[name ='nickname']").val(data.nickname);
-                    $("#userEdit select[name ='sex']").val(data.sex);
-                    $("#userEdit input[name ='email']").val(data.email);
-                    $("#userEdit input[name ='tel']").val(data.tel);
-                    $("#userEdit input[name ='isUse']").val(data.isUse);
-                    $("#userEdit input[name ='userId']").val(data.userId);
-                    $("#userEdit").modal();
-                }else{
-                    layer.alert('系统用户默认不能编辑！')
-                }
+                $("#userEdit input[name ='username']").val(data.username);
+                $("#userEdit input[name ='password']").val(data.password);
+                $("#userEdit input[name ='password']").val(data.password);
+                $("#userEdit input[name ='nickname']").val(data.nickname);
+                $("#userEdit select[name ='sex']").val(data.sex);
+                $("#userEdit input[name ='email']").val(data.email);
+                $("#userEdit input[name ='tel']").val(data.tel);
+                $("#userEdit input[name ='isUse']").val(data.isUse);
+                $("#userEdit input[name ='userId']").val(data.userId);
+                $("#userEdit").modal();
             }else if(obj.event === 'grant'){
-                if('admin'!=data.username) {
-                    loadRoleList(data.userId);
-                    form.val("grant", {
-                        "username": data.username // "name": "value"
-                        ,"nickname": data.nickname
-                        ,"email": data.email
-                        ,"tel": data.tel
-                        ,"isUse": data.isUse
-                        ,"userId": data.userId
-                    });
-                    $("#grant").modal();
-                    //JQ写法
-                    /*$("#grant input[name ='username']").val(data.username);
-                    $("#grant input[name ='nickname']").val(data.nickname);
-                    $("#grant input[name ='email']").val(data.email);
-                    $("#grant input[name ='tel']").val(data.tel);
-                    $("#grant input[name ='isUse']").val(data.isUse);
-                    $("#grant input[name ='userId']").val(data.userId);
-                    $("#grant").modal();*/
-                }else{
-                    layer.alert('系统用户默认不能编辑！')
-                }
+                loadRoleList(data.userId);
+                form.val("grant", {
+                    "username": data.username // "name": "value"
+                    ,"nickname": data.nickname
+                    ,"email": data.email
+                    ,"tel": data.tel
+                    ,"isUse": data.isUse
+                    ,"userId": data.userId
+                });
+                $("#grant").modal();
+                //JQ写法
+                /*$("#grant input[name ='username']").val(data.username);
+                $("#grant input[name ='nickname']").val(data.nickname);
+                $("#grant input[name ='email']").val(data.email);
+                $("#grant input[name ='tel']").val(data.tel);
+                $("#grant input[name ='isUse']").val(data.isUse);
+                $("#grant input[name ='userId']").val(data.userId);
+                $("#grant").modal();*/
             }
         });
         table.on('tool(role)', function(obj){
             var data = obj.data;
+            if('admin' == data.roleName)
+                return;
             if(obj.event === 'del'){
                 layer.confirm("确认删除角色"+obj.data.roleName, {btn: ['确定', '取消'],title:"提示"},function () {
                     var roleIdList = data.roleId;
@@ -96,18 +90,16 @@ var table;
                     });
                 });
             }else if(obj.event === 'edit'){
-                if('admin'!=data.roleName) {
-                    $("#roleEdit input[name ='roleName']").val(data.roleName);
-                    $("#roleEdit input[name ='roleRemark']").val(data.roleRemark);
-                    $("#roleEdit input[name ='roleId']").val(data.roleId);
-                    $("#roleEdit").modal();
-                }else{
-                    layer.alert('系统默认最高权限角色不能编辑！')
-                }
+                $("#roleEdit input[name ='roleName']").val(data.roleName);
+                $("#roleEdit input[name ='roleRemark']").val(data.roleRemark);
+                $("#roleEdit input[name ='roleId']").val(data.roleId);
+                $("#roleEdit").modal();
             }
         });
         table.on('tool(permission)', function(obj){
             var data = obj.data;
+            if('系统管理' == data.permissionName)
+                return;
             if(obj.event === 'del'){
                 layer.confirm("确认移除权限"+obj.data.permissionName, {btn: ['确定', '取消'],title:"提示"},function () {
                     var permissionIdList = data.permissionId;
@@ -130,13 +122,9 @@ var table;
                     });
                 });
             }else if(obj.event === 'edit'){
-                if('系统管理'!=data.permissionName) {
-                    $("#permissionEdit input[name ='permissionName']").val(data.permissionName);
-                    $("#permissionEdit input[name ='permissionId']").val(data.permissionId);
-                    $("#permissionEdit").modal();
-                }else{
-                    layer.alert('系统默认最高权限不能移除！')
-                }
+                $("#permissionEdit input[name ='permissionName']").val(data.permissionName);
+                $("#permissionEdit input[name ='permissionId']").val(data.permissionId);
+                $("#permissionEdit").modal();
             }
         });
 
@@ -196,7 +184,7 @@ var table;
                     {field: 'roleId', title: 'ID', fixed: 'left', sort: true},
                     {field: 'roleName', title: '角色名'},
                     {field: 'roleRemark', title: '角色描述'},
-                    {fixed: 'right', width: 180, align: 'center', toolbar: '#userOption'},
+                    {fixed: 'right', width: 180, align: 'center', toolbar: '#roleOption'},
                 ]],
                 parseData: function (res) {
                     return {
@@ -230,7 +218,7 @@ var table;
                 cols: [[
                     {field: 'permissionId', title: 'ID', fixed: 'left', sort: true},
                     {field: 'permissionName', title: '权限名'},
-                    {fixed: 'right', width: 180, align: 'center', toolbar: '#userOption'},
+                    {fixed: 'right', width: 180, align: 'center', toolbar: '#permissionOption'},
                 ]],
                 parseData: function (res) {
                     return {

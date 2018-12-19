@@ -229,7 +229,15 @@ public class UserController extends BaseController {
         }
         PageHelper.startPage(pageNum, pageSize);
         GrantRole grantRole = sysPageBo.getGrantRole();
-        List<GrantRole> grantRoles = roleService.listRoles(grantRole);
+        List<GrantRole> grantRoles = null;
+        if(null != sysPageBo.getGrantUser()){
+            Long userId;
+            if(null != (userId = sysPageBo.getGrantUser().getUserId())) {
+                grantRoles = roleService.listRolesByUserId(userId);
+            }
+        }else {
+            grantRoles = roleService.listRoles(grantRole);
+        }
         if(null != grantRoles){
             PageInfo page = new PageInfo(grantRoles);
             resultDto.setData(page);

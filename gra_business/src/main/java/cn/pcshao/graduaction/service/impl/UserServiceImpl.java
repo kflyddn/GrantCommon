@@ -80,6 +80,10 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
 
     @Override
     public void bindUserRoles(Long userId, List<Short> roleIdList) {
+        GrantUserRoleExample example = new GrantUserRoleExample();
+        GrantUserRoleExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        grantUserRoleMapper.deleteByExample(example);
         for(Short id : roleIdList){
             GrantRole grantRole = grantRoleMapper.selectByPrimaryKey(id);
             GrantUserRole grantUserRole = new GrantUserRole();

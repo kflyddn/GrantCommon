@@ -238,9 +238,9 @@ var table;
             });
         })
     }
+var hadRoleId = new Set;
     function loadRoleList(currUserId){
         var op = $("#roleList");
-        var hadRoleId = [];
         //首次ajax获取当前用户已拥有的角色
         $.ajax({
             url: '/user/queryRole',
@@ -257,9 +257,10 @@ var table;
             contentType: "application/json",
             success: function (result) {
                 if(result.code == 10){
+                    hadRoleId = new Set;
                     var items = result.data.list;
                     $.each(items, function (index, data) {
-                        hadRoleId.push(data.roleId);
+                        hadRoleId.add(data.roleId);
                     });
                 }
             }
@@ -275,7 +276,7 @@ var table;
                     op.html('');
                     $.each(items, function (index, data) {
                         let temp;
-                        if(hadRoleId.includes(data.roleId)){
+                        if(hadRoleId.has(data.roleId)){
                             temp = '<input class="layui-input" checked lay-filter="roleItem" type="checkbox" name="roleItem" title="'+ data.roleName+ '" value="'+ data.roleId+ '"/>';
                         }else {
                             temp = '<input class="layui-input" lay-filter="roleItem" type="checkbox" name="roleItem" title="' + data.roleName + '" value="' + data.roleId + '"/>';
@@ -407,11 +408,10 @@ var table;
             loadPermissionTable(jdata);
         });
 
-        /**
-         * 准备授权界面中被选中的角色参数
-         */
-        var roleItemChecked = new Set;
+var roleItemChecked = new Set;
+        //TODO 全部check之后再扫描生成上面的已选set
         form.on('checkbox(roleItem)', function (data) {
+            roleItemChecked = new Set;
             if(data.elem.checked) {
                 roleItemChecked.add(Number(data.value));
             }else{
@@ -419,7 +419,11 @@ var table;
             }
         });
         form.on('submit(bindUserRole)', function (data) {
-            let roleUserId = Array.from(roleItemChecked);
+            //加载授权页面时的已有 hadRoleId Set集合 & 授权页面选择结束后的 roleItemChecked Set集合
+            let roleUserId = Array.from( intersection(hadRoleId, roleItemChecked) );
+            console.log('had'+ Array.from(hadRoleId))
+            console.log('sel'+ Array.from(roleItemChecked))
+            console.log("uni"+ roleUserId)
             $.ajax({
                 url: '/user/bindUserRoles'+ '?userId='+ data.field.userId,
                 type: 'POST',
@@ -432,8 +436,48 @@ var table;
                     layer.msg(result.msg);
                 }
             });
+            return false;
         });
     });
+
+    /**
+     * 返回两个集合的并集
+     */
+    function unionSet(thisSet, otherSet) {
+        //初始化一个新集合，用于表示并集。
+        var unionSet = new Set();
+        //将当前集合转换为数组，并依次添加进unionSet
+        var values = Array.from(thisSet);
+        for (var i = 0; i < values.length; i++) {
+            unionSet.add(values[i]);
+        }
+        //将其它集合转换为数组，依次添加进unionSet。
+        //循环中的add方法保证了不会有重复元素的出现
+        values = Array.from(otherSet);
+        for (var i = 0; i < values.length; i++) {
+            unionSet.add(values[i]);
+        }
+        return unionSet;
+    };
+
+    /**
+     * 返回两个集合的交集
+     */
+    function intersection(thisSet, otherSet) {
+        //初始化一个新集合，用于表示交集。
+        var interSectionSet = new Set();
+        //将当前集合转换为数组
+        var values = Array.from(thisSet);
+        //遍历数组，如果另外一个集合也有该元素，则interSectionSet加入该元素。
+        for (var i = 0; i < values.length; i++) {
+
+            if (otherSet.has(values[i])) {
+                interSectionSet.add(values[i])
+            }
+        }
+
+        return interSectionSet;
+    };
 
     /**
      * 登出

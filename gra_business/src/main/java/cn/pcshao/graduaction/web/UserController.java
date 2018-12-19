@@ -379,7 +379,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("授权接口 给单个用户多个角色")
     @PostMapping("bindUserRoles")
-    public ResultDto bindUserRoles(@RequestParam Long userId, @RequestParam List<Short> roleIdList){
+    public ResultDto bindUserRoles(@RequestParam Long userId, @RequestBody List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
         Subject subject = SecurityUtils.getSubject();

@@ -262,6 +262,7 @@ var table;
                 grantUser:{
                     userId: currUserId
                 },
+                //需要带上分页参数
                 pageNum: 1,
                 pageSize: 100
             }),

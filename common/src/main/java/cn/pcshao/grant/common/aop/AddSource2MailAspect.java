@@ -69,9 +69,9 @@ public class AddSource2MailAspect {
         if(ret.getCode() != DtoCodeConsts.VIEW_SUCCESS){
             return;
         }
-        String[] data = ret.getData().toString().split("-");
+        String curruser = ret.getData().toString().split("-")[0];
         logger.info("开始邮件发送服务！");
-        logger.info("当前影响操作的用户名："+ data[0]);
+        logger.info("当前影响操作的用户名："+ curruser);
 
         //建立邮件消息
         SimpleMailMessage mainMessage = new SimpleMailMessage();
@@ -88,7 +88,7 @@ public class AddSource2MailAspect {
         //发送的标题
         mainMessage.setSubject(mail_subject);
         //发送的内容
-        mainMessage.setText(mail_text+ " 用户名为："+ data[0] +" 的用户 " + data[1]);
+        mainMessage.setText(mail_text+ " 用户名："+ curruser +"\n"+ mailAnnotation.value());
         logger.info("邮件："+ " from:"+ mail_from_address+ " to:"+ Arrays.toString(mailAnnotation.toMailAddress())+ " subject:"+ mail_subject);
         try {
             addSendMailTask(mainMessage);

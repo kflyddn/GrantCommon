@@ -32,9 +32,6 @@ public class DtoCodeConsts {
     public static final int ALBUM_PIC_NO = -26;
     public static final String ALBUM_PIC_NO_MSG = "不是图片资源文件！";
 
-    public static final int MAIL_ALBUM_ADDSOURCE = 30;
-    public static final String MAIL_ALBUM_ADDSOURCE_MSG = "【相册】有用户上传了新相册资源啦！";
-
     public static final int DB_PRIMARY_EXIST = -50;
     public static final String DB_PRIMARY_EXIST_MSG = "请检查数据序列ID";
 

@@ -115,7 +115,7 @@ public class AlbumController extends BaseController {
 
     @ApiOperation("新增资源接口")
     @PostMapping("/add")
-    @MailAnnotation(DtoCodeConsts.MAIL_ALBUM_ADDSOURCE_MSG)
+    @MailAnnotation("站点有用户上传资源文件啦！")
     public ResultDto add(HttpServletRequest request, @RequestParam MultipartFile file){
         ResultDto resultDto = ResultDtoFactory.success();
         //文件校验
@@ -161,7 +161,7 @@ public class AlbumController extends BaseController {
                 pic.setDisplay(true);
                 picService.getPublicPicMapper().insertSelective(pic);
             }
-            resultDto.setData(pic.getUserName()+ "-成功上传！"+ "contentType: "+ file.getContentType());
+            resultDto.setData(pic.getUserName()+ "-成功上传！");
             return resultDto;
         }
         return ResultDtoFactory.error(DtoCodeConsts.FTP_FAILUER, DtoCodeConsts.FTP_FAILUER_MSG);

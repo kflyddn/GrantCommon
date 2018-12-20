@@ -3,6 +3,7 @@ package cn.pcshao.graduaction;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.Properties;
 
 @SpringBootApplication(scanBasePackages = {"cn.pcshao.graduaction","cn.pcshao.grant.common", "cn.pcshao.pic"})
 @MapperScan("cn.pcshao.grant.common.dao")
+//@EnableEurekaClient
 @Configuration("cn.pcshao.graduaction.security.ShiroConfig")
 public class BusinessApplication {
 
@@ -23,4 +25,5 @@ public class BusinessApplication {
         app.setDefaultProperties(properties);
         app.run(args);
     }
+
 }

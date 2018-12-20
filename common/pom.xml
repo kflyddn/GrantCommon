@@ -17,6 +17,12 @@
     </parent>
 
     <dependencies>
+        <!-- springCloud注测中心客户端 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>RELEASE</version>
+        </dependency>
         <!-- SpringBoot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

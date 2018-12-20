@@ -57,7 +57,7 @@ public class AlbumController extends BaseController {
     }
 
     @ApiOperation("公共相册接口")
-    @PostMapping("/square")
+    @RequestMapping("/square")
     public ResultDto showPublic(@RequestBody(required = false) AlbumPageBo albumPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
         int pageNum = 1;

@@ -9,9 +9,9 @@ var table;
         //监听toolbar 筛选，前端lay-filter判断(user)是哪个tool，前台的lay-event可以拿来判断操作是什么
         table.on('tool(user)', function(obj){
             var data = obj.data;
-            if("admin" == data.username)
-                return;
             if(obj.event === 'del'){
+                if("admin" == data.username)
+                    return;
                 layer.confirm("确认删除用户"+obj.data.username, {btn: ['确定', '取消'],title:"提示"},function () {
                     var userIdList = data.userId;
                     $.ajax({
@@ -44,6 +44,8 @@ var table;
                 $("#userEdit input[name ='userId']").val(data.userId);
                 $("#userEdit").modal();
             }else if(obj.event === 'grant'){
+                if("admin" == data.username)
+                    return;
                 loadRoleList(data.userId);
                 form.val("grant", {
                     "username": data.username // "name": "value"
@@ -371,6 +373,7 @@ var table;
                     layer.msg(result.msg);
                 }
             });
+            return false;
         });
         form.on('submit(roleEdit)', function (data) {
             $.ajax({
@@ -385,6 +388,7 @@ var table;
                     layer.msg(result.msg);
                 }
             });
+            return false;
         });
         form.on('submit(permissionEdit)', function () {
             //预留

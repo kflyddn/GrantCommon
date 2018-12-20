@@ -1,0 +1,106 @@
+html, body {
+	height: 100%;
+}
+* html #page {
+	height: 100%;
+}
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	min-height: 100%;
+	width: 100%;
+}
+body {
+	margin: 0;
+	padding: 0;
+	font-size:14px;
+	background-color: #333;
+	min-width: 1000px;
+}
+.pageContent {
+	width: 980px;
+	height: 500px;
+	overflow: hidden;
+	position:relative;
+	margin:0px auto;
+}
+.pageContent,.imgContainer {
+	/*width: 720px;
+	height: 400px;*/
+	height: 100%;
+	width:100%;
+}
+.pageContent{
+	width:50%;
+	height:50%;
+	float: left;
+	/*border: 1px solid #004368;*/
+	border: 1px solid #015584;
+}
+.positionButtonDiv {
+	background: rgb(58, 56, 63);
+	background: rgba(58, 56, 63, 0.8);
+	border: solid 1px #100000;
+	color: #FFFFFF;
+	padding: 8px;
+	text-align: left;
+	position: absolute;
+	right:35px;
+	top:35px;
+}
+.positionButtonDiv .positionButtonSpan img {
+	float: right;
+	border: 0;
+}
+.positionMapClass area {
+	cursor: pointer;
+}
+.zoomButton {
+	border: 0;
+	cursor: pointer;
+}
+.zoomableContainer {
+	/*background-image: url("assets/transparent.png");*/
+	/*border: 1px solid #004368;*/
+}
+/*****չʾΥ��Ŀ��ͼƬ  4��ͼƬ��Դ��ͬչʾ*****/
+.object-license{
+	width:220px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 32px;
+	text-align:center;
+	background:rgba(255,255,255,0.8);
+	position:absolute;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	margin:auto;
+	border-radius: 8px;
+	color:#555;
+}
+.object-license-yellow{
+	color:#fff;
+	background:rgba(255, 190, 0, 0.8)
+}
+.object-license-blue{
+	color:#fff;
+	background:rgba(43, 87, 255, 0.8)
+}
+.object-license-black{
+	color:#fff;
+	background-color:#272727;
+}
+.object-license-white{
+	background-color:#fff;
+}
+.object-license-green{
+	background:rgba(21, 179, 44, 0.8);
+	color:#FFFFFF;
+}
+.object-license-kelly{
+	background: #e0e42c;
+	color:#FFFFFF;
+}

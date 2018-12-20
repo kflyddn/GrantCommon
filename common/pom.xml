@@ -55,6 +55,11 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
         </dependency>
+        <!-- Shiro ehcache -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+        </dependency>
         <!-- 加入上传文件组件 -->
         <!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
         <dependency>

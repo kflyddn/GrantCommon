@@ -1,6 +1,8 @@
 package cn.pcshao.graduaction.security;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.WebSecurityManager;
@@ -23,12 +25,25 @@ public class ShiroConfig {
     private Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 
     /**
+     * 配置EhCache缓存
+     * @return
+     */
+    @Bean
+    public EhCacheManager getEhCacheManager(){
+        EhCacheManager ehcacheManager = new EhCacheManager();
+        ehcacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+        return ehcacheManager;
+    }
+
+    /**
      * 为自定义Relam添加适当规则
      * @return
      */
     @Bean
     public ShiroRelam shiroRelam(){
         ShiroRelam shiroRelam = new ShiroRelam();
+        //配置ehCache缓存，请求响应时间实测减少近一半！
+        shiroRelam.setCacheManager(getEhCacheManager());
         //TODO 现在是控制层MD5加解密,密文存在token中，用credentialsMatcher加密效果一样但是是明文
         //shiroRelam.setCredentialsMatcher(hashedCredentialsMatcher());
         return shiroRelam;
@@ -45,6 +60,18 @@ public class ShiroConfig {
         defaultWebSecurityManager.setRealm(shiroRelam());
         //之后可以添加多个Realm
         return defaultWebSecurityManager;
+    }
+
+    /**
+     * 配置注解使用shiro
+     * @param securityManager
+     * @return
+     */
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(WebSecurityManager securityManager){
+        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
+        advisor.setSecurityManager(securityManager);
+        return advisor;
     }
 
     /**

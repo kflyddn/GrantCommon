@@ -23,6 +23,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -209,16 +210,10 @@ public class UserController extends BaseController {
 
     @ApiOperation("查询角色列表（条件可选）")
     @ApiParam("单一查角色接口")
+    @RequiresRoles("admin")
     @PostMapping("/queryRole")
     public ResultDto queryRole(@RequestBody(required = false) SysPageBo sysPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
-        //检查角色权限
-        Subject subject = SecurityUtils.getSubject();
-        try{
-            subject.checkRole("admin");
-        }catch (UnauthorizedException e){
-            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
-        }
         int pageNum = 1;
         int pageSize = 8;
         if(null != sysPageBo && sysPageBo.checkSelf()){
@@ -324,16 +319,10 @@ public class UserController extends BaseController {
 
     @ApiOperation("查询权限列表（条件可选）")
     @ApiParam("单一查权限接口")
+    @RequiresRoles("admin")
     @PostMapping("/queryPermission")
     public ResultDto queryPermission(@RequestBody(required = false) SysPageBo sysPageBo){
         ResultDto resultDto = ResultDtoFactory.success();
-        //检查角色权限
-        Subject subject = SecurityUtils.getSubject();
-        try{
-            subject.checkRole("admin");
-        }catch (UnauthorizedException e){
-            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
-        }
         int pageNum = 1;
         int pageSize = 8;
         if(null != sysPageBo && sysPageBo.checkSelf()){

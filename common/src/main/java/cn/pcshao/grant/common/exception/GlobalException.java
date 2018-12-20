@@ -1,6 +1,8 @@
 package cn.pcshao.grant.common.exception;
 
+import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,6 +38,9 @@ public class GlobalException {
             //将异常转成自定义页面异常作处理
             customException = (CustomException) e;
             return ResultDtoFactory.error(customException.getCode(), customException.getMessage());
+        }else if (e instanceof UnauthorizedException){
+            //使用shiro注解抛出的验证失败异常
+            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
         return e.getMessage();
     }

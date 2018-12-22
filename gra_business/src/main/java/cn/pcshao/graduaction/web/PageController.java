@@ -33,8 +33,4 @@ public class PageController extends BaseController {
     public String systemManage(){
         return "systemManage";
     }
-    @GetMapping("/album")
-    public String album(){
-        return "album";
-    }
 }

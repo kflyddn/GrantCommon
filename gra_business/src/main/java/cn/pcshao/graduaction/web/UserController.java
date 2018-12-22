@@ -25,10 +25,12 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -46,7 +48,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("用户登录接口")
     @PostMapping("/login")
-    public ResultDto login(@RequestBody GrantUser grantUser){
+    public ResultDto login(HttpServletRequest request, @RequestBody GrantUser grantUser){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
             //MD5解密
@@ -55,7 +57,11 @@ public class UserController extends BaseController {
             AuthenticationToken token = new UsernamePasswordToken(grantUser.getUsername(), grantUser.getPassword());
             try{
                 subject.login(token);
-                resultDto.setData(token);
+                String url = "/";
+                if(null != WebUtils.getSavedRequest(request)){
+                    url = WebUtils.getSavedRequest(request).getRequestUrl();
+                }
+                resultDto.setData(url);
                 return resultDto;
             }catch (AuthenticationException e){
                 //静默处理登录失败

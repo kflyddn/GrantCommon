@@ -12,7 +12,7 @@ import java.util.Properties;
 
 @SpringBootApplication(scanBasePackages = {"cn.pcshao.graduaction","cn.pcshao.grant.common", "cn.pcshao.pic"})
 @MapperScan("cn.pcshao.grant.common.dao")
-//@EnableEurekaClient
+@EnableEurekaClient
 @Configuration("cn.pcshao.graduaction.security.ShiroConfig")
 public class BusinessApplication {
 

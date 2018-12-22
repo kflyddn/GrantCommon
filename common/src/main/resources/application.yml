@@ -19,8 +19,9 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   type-aliases-package: cn.pcshao.grant.common.entity  # 注意：对应实体类的路径
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka.didispace.com/eureka/
 

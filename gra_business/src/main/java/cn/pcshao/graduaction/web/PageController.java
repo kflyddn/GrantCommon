@@ -33,4 +33,8 @@ public class PageController extends BaseController {
     public String systemManage(){
         return "systemManage";
     }
+    @GetMapping("/user/import")
+    public String userImport(){
+        return "upload/importUsers";
+    }
 }

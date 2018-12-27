@@ -22,5 +22,8 @@ public class AlbumPageController extends BaseController {
     public String albumSquare(){
         return "album";
     }
-
+    @GetMapping("/upload")
+    public String userImport(){
+        return "upload/uploadAlbum";
+    }
 }

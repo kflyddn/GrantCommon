@@ -1,42 +1,3 @@
-    layui.use(['upload', 'form'], function(){
-        var upload = layui.upload;
-        var form = layui.form;
-        var dataParam;
-
-        /**
-         * 监听上传按钮，准备request参数
-         */
-        form.on('submit(picUpload)', function(data){
-            dataParam = data.field;
-            console.log(dataParam);
-        });
-
-        /**
-         * 上传组件
-         */
-        var uploadInst = upload.render({
-            elem: '#picUpload' //绑定元素
-            ,url: '/album/add' //上传接口
-            ,multiple: false
-            ,before: function(obj){ //加载除文件之外的参数
-                this.data = dataParam;
-                layer.load(); //开始上传之后打开load层
-            }
-            ,done: function(res){
-                if(res.code == 10){
-                    alert("done！")
-                }
-                    alert(res.msg)
-                location.reload();
-            }
-            ,error: function(){
-                //请求异常回调
-            }
-            ,size: 40*1024
-            ,accept: 'images' //images（图片）、file（所有文件）、video（视频）、audio（音频）
-        });
-    });
-
     function loadAlbumTable(){
         layui.use('table', function() {
             var table = layui.table;
@@ -73,6 +34,15 @@
         });
     }
 
+    function openUploadAlbumFrame(){
+        layer.open({
+            title: '相册资源上传',
+            area: ['800px', '600px'],
+            //skin: 'layui-layer-lan',
+            type: 2,
+            content: ['/album/upload', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        });
+    }
 
     layui.use('table', function(){
         var table = layui.table;

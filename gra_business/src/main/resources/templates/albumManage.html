@@ -7,41 +7,7 @@
 </head>
 <body>
 
-    <!-- 上传文件表单 -->
-    <form class="layui-form">
-        <div class="layui-form-item">
-            <label class="layui-form-label">图片名称</label>
-            <div class="layui-input-block">
-                <input type="text" name="name" placeholder="请输入图片名称" lay-verify="required" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">图片描述</label>
-            <div class="layui-input-block">
-                <input type="text" name="discribe" placeholder="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
-            <div class="layui-input-block">
-                <input type="text" name="userNickname" placeholder="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">公开</label>
-            <div class="layui-input-block">
-                <select name="isPrivate" lay-filter="picType">
-                    <option value="">公开</option>
-                    <option value="true">私有</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <button type="button" class="layui-btn" id="picUpload" lay-submit lay-filter="picUpload">
-                <i class="layui-icon">&#xe67c;</i>上传图片
-            </button>
-        </div>
-    </form>
+    <button onclick="openUploadAlbumFrame()" class="layui-btn">上传</button>
 
     <table id="square" lay-filter="album"></table>
 

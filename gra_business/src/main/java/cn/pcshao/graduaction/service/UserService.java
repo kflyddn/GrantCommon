@@ -53,4 +53,11 @@ public interface UserService extends BaseService<GrantUser, Long> {
      */
     void bindUserRoles(Long userId, List<Short> roleIdList);
 
+    /**
+     * 通过数组拼装user对象
+     * @param list
+     * @return
+     */
+    List<GrantUser> getUsersFromList(List<List> list);
+
 }

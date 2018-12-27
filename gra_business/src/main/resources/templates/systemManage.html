@@ -54,7 +54,7 @@
                 <!-- 用户列表表头 -->
                 <div class="searchUser">
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#userAdd" ><i  class="iconfont icon-tianjia mr10"></i>新增单条</a>
-                    <a class="addBtn pull-right" data-toggle="modal" onclick="openImportDataFrame()" >批量用户导入</a>
+                    <a class="addBtn pull-right" data-toggle="modal" onclick="openImportUsersFrame()">批量用户导入</a>
                     <form class="layui-form form-inline" id="con_from">
                         <div class="form-group mgl15">
                             <label>搜索：</label>
@@ -553,16 +553,5 @@
 
     <script src="/static/js/systemManage.js"></script>
     <!-- <script src="D:\PCSHAO\IDEAworkspace\GrantCommon\gra_business\src\main\resources/static/static/js/systemManage.js"></script> -->
-    <script>
-        function openImportDataFrame(){
-            layer.open({
-                title: '数据导入',
-                area: ['800px', '600px'],
-                //skin: 'layui-layer-lan',
-                type: 2,
-                content: ['/user/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
-            });
-        }
-    </script>
 </body>
 </html>

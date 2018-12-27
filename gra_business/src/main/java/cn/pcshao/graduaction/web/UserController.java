@@ -10,10 +10,7 @@ import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantPermission;
 import cn.pcshao.grant.common.entity.GrantRole;
 import cn.pcshao.grant.common.entity.GrantUser;
-import cn.pcshao.grant.common.util.ListUtils;
-import cn.pcshao.grant.common.util.MD5Utils;
-import cn.pcshao.grant.common.util.ResultDtoFactory;
-import cn.pcshao.grant.common.util.StringUtils;
+import cn.pcshao.grant.common.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -30,8 +27,12 @@ import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -85,6 +86,55 @@ public class UserController extends BaseController {
             }
         }
         return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
+    }
+
+    @ApiOperation("获取上传文件模板URL")
+    @GetMapping("/importUsersTemplate")
+    public ResultDto importUsersTemplate(){
+        ResultDto resultDto = ResultDtoFactory.success();
+        String url = PropertiesUtil.getBusinessConfig("importUsersTemplate.url");
+        resultDto.setData(url);
+        return resultDto;
+    }
+
+    @ApiOperation("上传excel导入用户")
+    @PostMapping("/importUsers")
+    public ResultDto importUsers(@RequestParam MultipartFile file){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //文件校验
+        try {
+            if (null == file || file.isEmpty() || !file.getContentType().contains("excel")) {
+                return ResultDtoFactory.error(DtoCodeConsts.EXCEL_NO, DtoCodeConsts.EXCEL_NO_MSG);
+            }
+        } catch (Exception e) {
+            logger.error(e.toString());
+            e.printStackTrace();
+            return ResultDtoFactory.error();
+        }
+        List<List> excels = null;
+        try {
+            excels = ExcelUtil.TransExcelToVector(file.getInputStream());
+        }catch (Exception e){
+            logger.info("转换失败");
+        }
+        if(ListUtils.isNotEmptyList(excels)) {
+            List<GrantUser> usersFromList = null;
+            try{
+                usersFromList = userService.getUsersFromList(excels);
+            }catch (Exception e){
+                return ResultDtoFactory.error(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
+            }
+            // TODO 插库 是否插库前展示确认一下
+            Long time = System.currentTimeMillis();
+            if(ListUtils.isNotEmptyList(usersFromList)) {
+                for (GrantUser user : usersFromList) {
+                    userService.insert(user);
+                }
+            }
+            resultDto.setMsg("插库时间："+ (System.currentTimeMillis()-time));
+            return resultDto;
+        }
+        return ResultDtoFactory.error();
     }
 
     @ApiOperation("检查用户名是否已存在")

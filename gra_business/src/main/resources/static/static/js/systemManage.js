@@ -573,3 +573,16 @@ var table;
             }
         });
     }
+
+    /**
+     * 打开批量导入用户列表页面
+     */
+    function openImportUsersFrame(){
+        layer.open({
+            title: '数据导入',
+            area: ['800px', '600px'],
+            //skin: 'layui-layer-lan',
+            type: 2,
+            content: ['/user/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        });
+    }

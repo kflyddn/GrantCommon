@@ -40,6 +40,12 @@ public class PropertiesUtil {
         return loadProp("album.properties").getProperty(key);
     }
 
+    public static String getBusinessConfig(String key){
+        if(null == loadProp("business.properties"))
+            return "";
+        return loadProp("business.properties").getProperty(key);
+    }
+
     /**
      * 根据配置文件名返回配置文件路径
      * @param prop

@@ -31,6 +31,10 @@ public class DtoCodeConsts {
     public static final String ALBUM_PIC_EMPTY_MSG = "图片资源为空！";
     public static final int ALBUM_PIC_NO = -26;
     public static final String ALBUM_PIC_NO_MSG = "不是图片资源文件！";
+    public static final int EXCEL_NO = -27;
+    public static final String EXCEL_NO_MSG = "EXCEL文件格式错误！";
+    public static final int EXCEL_FORMAT = -28;
+    public static final String EXCEL_FORMAT_MSG = "EXCEL文件格式错误，请下载模板后校验！";
 
     public static final int DB_PRIMARY_EXIST = -50;
     public static final String DB_PRIMARY_EXIST_MSG = "请检查数据序列ID";

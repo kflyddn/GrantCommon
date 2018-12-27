@@ -6,6 +6,7 @@ var table;
         loadUserTable();
         loadRoleTable();
         loadPermissionTable();
+        loadCurrUser();
         //监听toolbar 筛选，前端lay-filter判断(user)是哪个tool，前台的lay-event可以拿来判断操作是什么
         table.on('tool(user)', function(obj){
             var data = obj.data;
@@ -68,9 +69,9 @@ var table;
         });
         table.on('tool(role)', function(obj){
             var data = obj.data;
-            if('admin' == data.roleName)
-                return;
             if(obj.event === 'del'){
+                if('admin' == data.roleName)
+                    return;
                 layer.confirm("确认删除角色"+obj.data.roleName, {btn: ['确定', '取消'],title:"提示"},function () {
                     var roleIdList = data.roleId;
                     $.ajax({
@@ -92,10 +93,20 @@ var table;
                     });
                 });
             }else if(obj.event === 'edit'){
+                if('admin' == data.roleName)
+                    return;
                 $("#roleEdit input[name ='roleName']").val(data.roleName);
                 $("#roleEdit input[name ='roleRemark']").val(data.roleRemark);
                 $("#roleEdit input[name ='roleId']").val(data.roleId);
                 $("#roleEdit").modal();
+            }else if(obj.event === 'grant'){
+                loadPermissionList(data.roleId);
+                form.val("grantRolePermission", {
+                    "roleId": data.roleId
+                    ,"roleName": data.roleName
+                    ,"roleRemark": data.roleRemark
+                });
+                $("#grantRolePermission").modal();
             }
         });
         table.on('tool(permission)', function(obj){
@@ -241,8 +252,8 @@ var table;
         })
     }
     function loadRoleList(currUserId){
-        var op = $("#roleList");
-        var hadRoleId = new Set;
+        let op = $("#roleList");
+        let hadRoleId = new Set;
         //首次ajax获取当前用户已拥有的角色
         $.ajax({
             url: '/user/queryRole',
@@ -260,7 +271,7 @@ var table;
             success: function (result) {
                 if(result.code == 10){
                     hadRoleId = new Set;
-                    var items = result.data.list;
+                    let items = result.data.list;
                     $.each(items, function (index, data) {
                         hadRoleId.add(data.roleId);
                     });
@@ -272,17 +283,81 @@ var table;
             url: '/user/queryRole',
             type: 'POST',
             async: false,
+            data: JSON.stringify({
+                pageNum: 1,
+                pageSize: 100
+            }),
             contentType: "application/json",
             success: function (result) {
                 if(result.code == 10){
-                    var items = result.data.list;
+                    let items = result.data.list;
                     op.html('');
                     $.each(items, function (index, data) {
                         let temp;
                         if(hadRoleId.has(data.roleId)){
-                            temp = '<input class="layui-input" checked="checked" lay-filter="roleItem" type="checkbox" name="roleItem" title="'+ data.roleName+ '" value="'+ data.roleId+ '"/>';
+                            temp = '<input class="layui-input" checked="checked" lay-filter="roleItem" type="checkbox" name="roleItem" id="roleItem" title="'+ data.roleName+ '" value="'+ data.roleId+ '"/>';
                         }else {
-                            temp = '<input class="layui-input" lay-filter="roleItem" type="checkbox" name="roleItem" title="' + data.roleName + '" value="' + data.roleId + '"/>';
+                            temp = '<input class="layui-input" lay-filter="roleItem" type="checkbox" name="roleItem" id="roleItem" title="' + data.roleName + '" value="' + data.roleId + '"/>';
+                        }
+                        op.append(temp);
+                    })
+                    //重新渲染某元素
+                    form.render('checkbox');
+                }
+            },
+            failure : function() {
+                layer.alert('操作超时!');
+            }
+        });
+    }
+    function loadPermissionList(currRoleId){
+        let op = $("#permissionList");
+        let hadPermissionId = new Set;
+        //首次ajax获取当前用户已拥有的角色
+        $.ajax({
+            url: '/user/queryPermission',
+            type: 'POST',
+            async: false,
+            data: JSON.stringify({
+                grantRole:{
+                    roleId: currRoleId
+                },
+                //需要带上分页参数
+                pageNum: 1,
+                pageSize: 100
+            }),
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    hadPermissionId = new Set;
+                    let items = result.data.list;
+                    $.each(items, function (index, data) {
+                        hadPermissionId.add(data.permissionId);
+                    });
+                }
+            }
+        });
+        //第二次ajax渲染
+        $.ajax({
+            url: '/user/queryPermission',
+            type: 'POST',
+            async: false,
+            data: JSON.stringify({
+                //需要带上分页参数
+                pageNum: 1,
+                pageSize: 100
+            }),
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    let items = result.data.list;
+                    op.html('');
+                    $.each(items, function (index, data) {
+                        let temp;
+                        if(hadPermissionId.has(data.permissionId)){
+                            temp = '<input class="layui-input" checked="checked" lay-filter="permissionItem" type="checkbox" name="permissionItem" title="'+ data.permissionName+ '" value="'+ data.permissionId+ '"/>';
+                        }else {
+                            temp = '<input class="layui-input" lay-filter="permissionItem" type="checkbox" name="permissionItem" title="' + data.permissionName + '" value="' + data.permissionId + '"/>';
                         }
                         op.append(temp);
                     })
@@ -414,8 +489,8 @@ var table;
         });
 
         form.on('submit(bindUserRole)', function (data) {
-            var roleItemChecked = new Set;
-            $.each($("input:checkbox:checked"), function () {
+            let roleItemChecked = new Set;
+                $.each($("input:checkbox:checked"), function () {
                 roleItemChecked.add(Number(this.value));
             });
             let roleUserId = Array.from(roleItemChecked);
@@ -431,6 +506,30 @@ var table;
                 success: function (result) {
                     if(result.code == 10){
                         loadUserTable();
+                    }
+                    layer.msg(result.msg);
+                }
+            });
+            return false;
+        });
+        form.on('submit(bindRolePermission)', function (data) {
+            let permissionItemChecked = new Set;
+                $.each($("input:checkbox:checked"), function () {
+                    permissionItemChecked.add(Number(this.value));
+            });
+            let permissionRoleId = Array.from(permissionItemChecked);
+            if(permissionRoleId.length == 0){
+                layer.msg("至少需要一个权限!");
+                return false;
+            }
+            $.ajax({
+                url: '/user/bindRolePermissions'+ '?roleId='+ data.field.roleId,
+                type: 'POST',
+                data: JSON.stringify(permissionRoleId),
+                contentType: 'application/json',
+                success: function (result) {
+                    if(result.code == 10){
+                        loadPermissionTable();
                     }
                     layer.msg(result.msg);
                 }
@@ -458,3 +557,19 @@ var table;
         }
     });
 }
+
+    /**
+     * 当前用户名
+     */
+    function loadCurrUser() {
+        $.ajax({
+            url: '/user/currUser',
+            type: 'POST',
+            success: function (result) {
+                if (result.code == 10) {
+                    let user = result.data;
+                    $("#currUsername").html("用户名: "+ user.username);
+                }
+            }
+        });
+    }

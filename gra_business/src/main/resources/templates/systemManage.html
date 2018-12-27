@@ -32,6 +32,7 @@
             <div class="leftLine"></div>
             <div><h1>GrantCommon</h1></div>
             <div class="leftLine rightLine">
+                <div id="currUsername"></div>
                 <a class="logout" onclick="logOut()"><i class="iconfont icon-ic_power_settings_new_px"></i><span>注销</span></a>
                 <!--<a class="system logout " ><i class="iconfont icon-ic_power_settings_new_px"></i><span>系统管理</span></a>-->
             </div>
@@ -416,7 +417,7 @@
         </div>
     </div>
 
-    <!-- 授权 -->
+    <!-- 用户角色授权 -->
     <div class="modal fade modal-fixed-height" id="grant" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -485,6 +486,53 @@
             </div>
         </div>
     </div>
+    <!-- 角色权限授权 -->
+    <div class="modal fade modal-fixed-height" id="grantRolePermission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="layui-form" lay-filter="grantRolePermission">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title mb30">授权</h4>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">角色编号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="roleId" disabled="true" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">角色名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="roleName" disabled="true" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">权限列表</label>
+                            <div class="layui-input-block" id="permissionList">
+
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">角色描述</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="roleRemark" disabled="true" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="bindRolePermission">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- 表格操作toolbar -->
     <script type="text/html" id="userOption">
@@ -493,6 +541,7 @@
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
     <script type="text/html" id="roleOption">
+        <a class="layui-btn layui-btn-xs" lay-event="grant">授权</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>

@@ -61,6 +61,10 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
 
     @Override
     public void bindRolePermissions(Short roleId, List<Long> permissionIdList) {
+        GrantRolePermissionExample example = new GrantRolePermissionExample();
+        GrantRolePermissionExample.Criteria criteria = example.createCriteria();
+        criteria.andRoleIdEqualTo(roleId);
+        grantRolePermissionMapper.deleteByExample(example);
         for(Long l : permissionIdList){
             GrantPermission grantPermission = grantPermissionMapper.selectByPrimaryKey(l);
             GrantRolePermission grantRolePermission = new GrantRolePermission();

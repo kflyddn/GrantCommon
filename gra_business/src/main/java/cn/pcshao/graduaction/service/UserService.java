@@ -60,4 +60,10 @@ public interface UserService extends BaseService<GrantUser, Long> {
      */
     List<GrantUser> getUsersFromList(List<List> list);
 
+    /**
+     * 批量插入用户数据
+     * @param users
+     * @return
+     */
+    int insertBatch(List<GrantUser> users);
 }

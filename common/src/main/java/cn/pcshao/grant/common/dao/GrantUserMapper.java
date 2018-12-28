@@ -35,4 +35,6 @@ public interface GrantUserMapper extends BaseDao<GrantUser, Long> {
     int updateByPrimaryKeySelective(GrantUser record);
 
     int updateByPrimaryKey(GrantUser record);
+
+    int insertBatch(@Param("users") List<GrantUser> users);
 }

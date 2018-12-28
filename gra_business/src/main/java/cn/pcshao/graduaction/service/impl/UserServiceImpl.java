@@ -96,6 +96,11 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     }
 
     @Override
+    public int insertBatch(List<GrantUser> users) {
+        return grantUserMapper.insertBatch(users);
+    }
+
+    @Override
     public List<GrantUser> listUsersByUserName(String username) {
         GrantUserExample grantUserExample = new GrantUserExample();
         grantUserExample.createCriteria().andUsernameEqualTo(username);

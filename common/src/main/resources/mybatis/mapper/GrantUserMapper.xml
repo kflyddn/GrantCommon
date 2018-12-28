@@ -245,7 +245,7 @@
     </set>
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.pcshao.grant.common.entity.GrantUser" >
+  <update id="updateByPrimaryKey" parameterType="GrantUser" >
     update grant_user
     set username = #{username,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
@@ -264,4 +264,21 @@
         select user_id from grant_user_role where role_id = #{roleId}
       )
   </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into grant_user (
+      username,email,nickname,password,sex,tel,is_use
+    )
+    values
+      <foreach collection="users" item="item" index="index" separator=",">
+        (
+        #{item.username,jdbcType=VARCHAR},
+        #{item.email,jdbcType=VARCHAR},
+        #{item.nickname,jdbcType=VARCHAR},
+        #{item.password,jdbcType=VARCHAR},
+        #{item.sex,jdbcType=TINYINT},
+        #{item.tel,jdbcType=VARCHAR},
+        #{item.isUse,jdbcType=TINYINT}
+        )
+      </foreach>
+  </insert>
 </mapper>

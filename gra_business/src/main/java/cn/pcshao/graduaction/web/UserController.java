@@ -127,9 +127,7 @@ public class UserController extends BaseController {
             // TODO 插库 是否插库前展示确认一下
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(usersFromList)) {
-                for (GrantUser user : usersFromList) {
-                    userService.insert(user);
-                }
+                userService.insertBatch(usersFromList);
             }
             resultDto.setMsg("插库时间："+ (System.currentTimeMillis()-time));
             return resultDto;

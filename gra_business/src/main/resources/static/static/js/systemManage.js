@@ -162,7 +162,7 @@ var table;
                     {field: 'email', title: '邮箱地址'},
                     {field: 'tel', title: '电话号码'},
                     {field: 'isUse', title: '可用'},
-                    {fixed: 'right', width: 180, align: 'center', toolbar: '#userOption'},
+                    {fixed: 'right', width: 160, align: 'center', toolbar: '#userOption'},
                 ]],
                 parseData: function (res) {
                     return {

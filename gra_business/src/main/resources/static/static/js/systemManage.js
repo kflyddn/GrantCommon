@@ -490,7 +490,7 @@ var table;
 
         form.on('submit(bindUserRole)', function (data) {
             let roleItemChecked = new Set;
-                $.each($("input:checkbox:checked"), function () {
+                $.each($("input[name='roleItem']:checkbox:checked"), function () {
                 roleItemChecked.add(Number(this.value));
             });
             let roleUserId = Array.from(roleItemChecked);
@@ -514,7 +514,7 @@ var table;
         });
         form.on('submit(bindRolePermission)', function (data) {
             let permissionItemChecked = new Set;
-                $.each($("input:checkbox:checked"), function () {
+                $.each($("input[name='permissionItem']:checkbox:checked"), function () {
                     permissionItemChecked.add(Number(this.value));
             });
             let permissionRoleId = Array.from(permissionItemChecked);
@@ -580,7 +580,7 @@ var table;
     function openImportUsersFrame(){
         layer.open({
             title: '数据导入',
-            area: ['800px', '600px'],
+            area: ['400px', '300px'],
             //skin: 'layui-layer-lan',
             type: 2,
             content: ['/user/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/1/3
  */
 @RestController
-@RequestMapping("/graduation")
+@RequestMapping("/huser")
 public class HUserController {
 
     @Autowired

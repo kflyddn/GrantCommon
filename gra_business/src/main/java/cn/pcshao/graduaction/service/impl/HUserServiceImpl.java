@@ -9,6 +9,7 @@ import cn.pcshao.grant.common.entity.GrantHuserExample;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author pcshao.cn
@@ -31,11 +32,11 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
     }
 
     @Override
-    public GrantHuser getHUserByUserId(Long userId) {
+    public List<GrantHuser> getHUsersByUserId(Long userId) {
         GrantHuserExample example = new GrantHuserExample();
         GrantHuserExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(userId);
-        GrantHuser grantHusers = grantHuserMapper.selectByExample(example).get(0);
-        return grantHusers;
+        List<GrantHuser> grantHUserList = grantHuserMapper.selectByExample(example);
+        return grantHUserList;
     }
 }

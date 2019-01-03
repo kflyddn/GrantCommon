@@ -43,25 +43,55 @@ layui.use('table', function () {
             $("#hUserEdit input[name ='userId']").val(data.userId);
             $("#hUserEdit").modal();
         } else if (obj.event === 'files') {
-            //TODO 一人一档
             let fileData = getHUserFile(data.userId);
-            console.log(fileData.name)
-            form.val("hUserFileForm", {
-                "idCard": fileData.idCard
-                ,"name": fileData.name
-                ,"sex": fileData.sex==true? '男':'女'
-                ,"telephone": fileData.telephone
-                ,"email": fileData.email
-                ,"huserId": fileData.huserId
-                ,"userId": fileData.userId
-            });
-            $("#hUserFile").modal();
+            if(null === fileData) {
+                layer.confirm(
+                    obj.data.username + "-没有挂载档案，是否挂载？",
+                    {
+                        btn: ['确定', '取消'],
+                        title: "提示"
+                    },
+                    function () {
+                        layer.close(layer.index);
+                        let userId = data.userId;
+                        //弹出挂载页面
+                        form.val("hUserAddForm", {
+                            "userId": userId
+                        });
+                        $("#hUserAdd").modal();
+                    });
+            }else {
+                form.val("hUserFileForm", {
+                    "idCard": fileData.idCard
+                    , "name": fileData.name
+                    , "sex": fileData.sex == true ? '男' : '女'
+                    , "telephone": fileData.telephone
+                    , "email": fileData.email
+                    , "huserId": fileData.huserId
+                    , "userId": fileData.userId
+                });
+                $("#hUserFile").modal();
+            }
         }
     });
 });
 
+/**
+ * 刷新挂载档案页面，置空
+ */
+function refreshHUserAddForm(){
+    form.val("hUserAddForm", {
+        "userId": null
+    });
+}
+
+/**
+ * 取到用户档案
+ * @param hUserId
+ * @returns {*}
+ */
 function getHUserFile(hUserId) {
-    let fileData = new Object;
+    let fileData = null;
     $.ajax({
         url: '/huser/getHUserFile' + '?hUserId='+ hUserId,
         type: 'POST',
@@ -76,6 +106,10 @@ function getHUserFile(hUserId) {
     return fileData;
 }
 
+/**
+ * 刷新数据表格
+ * @param param
+ */
 function loadHUserTable(param){
     layui.use('table', function () {
         table = layui.table;
@@ -158,7 +192,7 @@ layui.use('form', function(){
         return false;
     });
     form.on('submit(queryHUser)', function (data) {
-        var jdata = {
+        let jdata = {
             "grantUser": data.field
         }
         loadHUserTable(jdata);
@@ -166,23 +200,7 @@ layui.use('form', function(){
 });
 
 /**
- * 当前用户名
- */
-function loadCurrUser() {
-    $.ajax({
-        url: '/user/currUser',
-        type: 'POST',
-        success: function (result) {
-            if (result.code == 10) {
-                let user = result.data;
-                $("#currUsername").html("用户名: "+ user.username);
-            }
-        }
-    });
-}
-
-/**
- * 打开批量导入用户列表页面
+ * 打开批量导入用户及用户档案列表页面
  */
 function openImportHUsersFrame(){
     layer.open({
@@ -190,6 +208,6 @@ function openImportHUsersFrame(){
         area: ['400px', '300px'],
         //skin: 'layui-layer-lan',
         type: 2,
-        content: ['/graduation/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        content: ['/huser/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
     });
 }

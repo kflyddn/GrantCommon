@@ -34,8 +34,8 @@
             <div class="tab-pane active" role="tabpanel" id="HUser">
                 <!-- 用户列表表头 -->
                 <div class="searchUser">
-                    <a class="addBtn pull-right" data-toggle="modal" data-target="#hUserAdd" ><i  class="iconfont icon-tianjia mr10"></i>新增单条</a>
-                    <a class="addBtn pull-right" data-toggle="modal" onclick="openImportHUsersFrame()">批量用户信息导入</a>
+                    <a class="addBtn pull-right" data-toggle="modal" data-target="#hUserAdd" onclick="refreshHUserAddForm()" ><i  class="iconfont icon-tianjia mr10"></i>挂载或新增档案</a>
+                    <a class="addBtn pull-right" data-toggle="modal" onclick="openImportHUsersFrame()">批量用户信息档案导入</a>
                     <form class="layui-form form-inline" id="con_from">
                         <div class="form-group mgl15">
                             <label>搜索：</label>
@@ -55,51 +55,39 @@
         </div>
     </div>
 
-    <!-- 新增用户 -->
+    <!-- 挂载档案 -->
     <div class="modal fade modal-fixed-height" id="hUserAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="layui-form">
+                <form class="layui-form" lay-filter="hUserAddForm">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title mb30">新增</h4>
+                        <h4 class="modal-title mb30">挂载档案</h4>
                     </div>
-                        <div class="row">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">账号</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="username" lay-verify="required" placeholder="请输入唯一标识" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">角色</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" name="roles" value="1" title="超级管理员">
-                                    <input type="checkbox" name="roles" value="2" title="normal">
-                                </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户ID</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="userId" autocomplete="off" placeholder="不填则，默认新增用户，默认挂载用户档案" class="layui-input">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">密码</label>
-                                <div class="layui-input-block">
-                                    <input type="password" name="password" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">密码</label>
-                                <div class="layui-input-block">
-                                    <input type="password" name="password" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                                </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">身份证号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="idCard" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">姓名</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="nickname" placeholder="" autocomplete="off" class="layui-input">
-                                </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
                             <label class="layui-form-label">性别</label>
                             <div class="layui-input-block">
                                 <select name="sex" lay-filter="sex">
@@ -108,31 +96,21 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">电话</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="tel" lay-verify="phone" placeholder="" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">邮箱</label>
-                                <div class="layui-input-block">
-                                    <input type="email" name="email" lay-verify="email" placeholder="" autocomplete="off" class="layui-input">
-                                </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">联系电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="telephone" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">可用</label>
-                                <div class="layui-input-block">
-                                    <select name="isUse" lay-filter="isUse">
-                                        <option value="true">可用</option>
-                                        <option value="false">不可用</option>
-                                    </select>
-                                </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱地址</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="email" autocomplete="off" class="layui-input">
                             </div>
                         </div>
+                    </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <button class="layui-btn" lay-submit lay-filter="hUserAdd">立即提交</button>

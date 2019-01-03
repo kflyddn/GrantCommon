@@ -46,18 +46,27 @@ layui.use('table', function () {
         } else if (obj.event === 'files') {
             //TODO 一人一档
             let fileData = getHUserFile(data.userId);
-            $("#hUserFileContent").val(fileData);
+            console.log(fileData.name)
+            form.val("hUserFileForm", {
+                "idCard": fileData.idCard
+                ,"name": fileData.name
+                ,"sex": fileData.sex==true? '男':'女'
+                ,"telephone": fileData.telephone
+                ,"email": fileData.email
+                ,"huserId": fileData.huserId
+                ,"userId": fileData.userId
+            });
             $("#hUserFile").modal();
         }
     });
 });
 
-function getHUserFile(userId) {
+function getHUserFile(hUserId) {
     let fileData = new Object;
     $.ajax({
-        url: '/graduation/getHUserFile',
+        url: '/graduation/getHUserFile' + '?hUserId='+ hUserId,
         type: 'POST',
-        data: JSON.stringify(userId),
+        async: false,
         contentType: 'application/json',
         success: function (result) {
             if (result.code == 10) {

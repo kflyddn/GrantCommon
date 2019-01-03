@@ -234,11 +234,62 @@
     <div class="modal fade modal-fixed-height" id="hUserFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title mb30">档案</h4>
-                </div>
-                <table id="hUserFileContent"></table>
+                <form class="layui-form" lay-filter="hUserFileForm">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title mb30">档案</h4>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">身份证号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="idCard" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">性别</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="sex" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">联系电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="telephone" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱地址</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="email" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">档案编号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="huserId" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">userId</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="userId" disabled="true" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

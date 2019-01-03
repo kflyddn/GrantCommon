@@ -111,6 +111,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/album/square", "anon");
         filterChainDefinitionMap.put("/album/**", "authc");
 
+        //毕业设计基于hadoop的人员信息系统
+        filterChainDefinitionMap.put("/graduation/**", "authc");
+
         shiroFilterFactoryBean
                 .setFilterChainDefinitionMap(filterChainDefinitionMap);
         logger.debug("Shiro拦截器工厂类注入成功");

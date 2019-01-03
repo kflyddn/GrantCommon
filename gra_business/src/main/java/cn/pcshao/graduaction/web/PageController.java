@@ -37,4 +37,8 @@ public class PageController extends BaseController {
     public String userImport(){
         return "upload/importUsers";
     }
+    @GetMapping("/graduation")
+    public String graduation(){
+        return "graduation/dashboard";
+    }
 }

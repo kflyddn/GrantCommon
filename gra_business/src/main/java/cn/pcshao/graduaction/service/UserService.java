@@ -44,7 +44,7 @@ public interface UserService extends BaseService<GrantUser, Long> {
      * @param grantUser
      * @param roleIdList
      */
-    void saveUser(GrantUser grantUser, List<Short> roleIdList);
+    Long saveUser(GrantUser grantUser, List<Short> roleIdList);
 
     /**
      * 给单个用户授权多个角色

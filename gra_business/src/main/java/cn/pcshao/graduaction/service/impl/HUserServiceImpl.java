@@ -39,4 +39,19 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
         List<GrantHuser> grantHUserList = grantHuserMapper.selectByExample(example);
         return grantHUserList;
     }
+
+    @Override
+    public int addHUserFile(GrantHuser huser) {
+        return 0;
+    }
+
+    @Override
+    public int insertBatch(List<GrantHuser> huserList) {
+        return 0;
+    }
+
+    @Override
+    public int editHUserFile(GrantHuser huser) {
+        return 0;
+    }
 }

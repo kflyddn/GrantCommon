@@ -113,7 +113,7 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     }
 
     @Override
-    public void saveUser(GrantUser grantUser, List<Short> roleIdList) {
+    public Long saveUser(GrantUser grantUser, List<Short> roleIdList) {
         grantUser.setIsUse(true);
         try {
             grantUserMapper.insertSelective(grantUser);
@@ -130,6 +130,7 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
         grantUserExample.createCriteria().andUsernameEqualTo(grantUser.getUsername());
         Long userId = grantUserMapper.selectByExample(grantUserExample).get(0).getUserId();
         this.bindUserRoles(userId, roleIdList);
+        return userId;
     }
 
     @Override

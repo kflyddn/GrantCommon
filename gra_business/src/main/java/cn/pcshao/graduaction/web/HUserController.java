@@ -1,18 +1,22 @@
 package cn.pcshao.graduaction.web;
 
 import cn.pcshao.graduaction.service.HUserService;
+import cn.pcshao.graduaction.service.UserService;
+import cn.pcshao.grant.common.base.BaseController;
+import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantHuser;
+import cn.pcshao.grant.common.entity.GrantUser;
+import cn.pcshao.grant.common.util.ExcelUtil;
 import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,11 +26,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/huser")
-public class HUserController {
+public class HUserController extends BaseController {
 
     @Autowired
     @Qualifier("hUserServiceImpl")
     private HUserService hUserService;
+    @Autowired
+    @Qualifier("userServiceImpl")
+    private UserService userService;
 
     @ApiOperation("获取HUser档案")
     @PostMapping("/getHUserFile")
@@ -38,6 +45,86 @@ public class HUserController {
                 resultDto.setData(huserList.get(0));
                 return resultDto;
             }
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("挂载档案接口")
+    @PostMapping("/addFile")
+    public ResultDto addFile (@RequestBody GrantHuser huser){
+        ResultDto resultDto = ResultDtoFactory.success();
+        if(null != huser) {
+            if(null != huser.getUserId()) {
+                if(ListUtils.isEmptyList(hUserService.getHUsersByUserId(huser.getUserId()))){
+                    if(null != userService.selectById(huser.getUserId())) {
+                        hUserService.insert(huser);
+                        return resultDto;
+                    }
+                }
+            }else {
+                GrantUser grantUser = new GrantUser();
+                grantUser.setUsername(huser.getIdCard());
+                grantUser.setNickname(huser.getName());
+                grantUser.setSex(huser.getSex());
+                grantUser.setTel(huser.getTelephone());
+                grantUser.setEmail(huser.getEmail());
+                grantUser.setIsUse(false);
+                if(ListUtils.isEmptyList(userService.listUsersByUserName(grantUser.getUsername()))) {
+                    List<Short> roleList = new ArrayList<>();
+                    roleList.add((short)3);
+                    Long id = userService.saveUser(grantUser, roleList);
+                    huser.setUserId(id);
+                    hUserService.insert(huser);
+                    return resultDto;
+                }
+            }
+        }
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("编辑档案接口，一次修改机会")
+    @PostMapping("/editFile")
+    public ResultDto editFile (@RequestBody GrantHuser huser){
+        ResultDto resultDto = ResultDtoFactory.success();
+        hUserService.editHUserFile(huser);
+        return ResultDtoFactory.error();
+    }
+
+    @ApiOperation("批量导入档案接口，校验哪些用户名已经被添加过了")
+    @PostMapping("/importFiles")
+    public ResultDto importFiles (@RequestParam MultipartFile file){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //文件校验
+        try {
+            if (null == file || !file.getContentType().contains("excel") || file.isEmpty()) {
+                return ResultDtoFactory.error(DtoCodeConsts.EXCEL_NO, DtoCodeConsts.EXCEL_NO_MSG);
+            }
+        } catch (Exception e) {
+            logger.error(e.toString());
+            e.printStackTrace();
+            return ResultDtoFactory.error();
+        }
+        List<List> excels = null;
+        try {
+            excels = ExcelUtil.TransExcelToVector(file.getInputStream());
+        }catch (Exception e){
+            logger.info("转换失败");
+        }
+        if(ListUtils.isNotEmptyList(excels)) {
+            List<GrantHuser> usersFromList = null;
+            try{
+                //TODO
+                //usersFromList = userService.getUsersFromList(excels);
+            }catch (Exception e){
+                return ResultDtoFactory.error(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
+            }
+            // TODO 插库 弹出已经有的用户名
+            Long time = System.currentTimeMillis();
+            if(ListUtils.isNotEmptyList(usersFromList)) {
+                //userService.insertBatch(usersFromList);
+            }
+            resultDto.setMsg("插库时间："+ (System.currentTimeMillis()-time));
+            return resultDto;
         }
         return ResultDtoFactory.error();
     }

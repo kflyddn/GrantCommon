@@ -155,18 +155,18 @@ function loadHUserTable(param){
  */
 layui.use('form', function(){
     form = layui.form;
-    form.on('submit(userAdd)', function(data){
+    form.on('submit(hUserAdd)', function(data){
         // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
         // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
         // alert(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
         $.ajax({
-            url: '/user/register'/*+ '?roleIdList='+ data.field.roleIdList.join(',')*/,
+            url: '/huser/addFile',
             type: 'POST',
             data: JSON.stringify(data.field),
             contentType: "application/json",
             success: function (result) {
                 if(result.code == 10){
-                    loadUserTable();
+                    loadHUserTable();
                 }
                 layer.alert(result.msg);
             },
@@ -176,7 +176,7 @@ layui.use('form', function(){
         });
         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
-    form.on('submit(userEdit)', function(data){
+    form.on('submit(hUserEdit)', function(data){
         $.ajax({
             url: '/user/editUser',
             type: 'POST',
@@ -208,6 +208,6 @@ function openImportHUsersFrame(){
         area: ['400px', '300px'],
         //skin: 'layui-layer-lan',
         type: 2,
-        content: ['/huser/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        content: ['/huser/importFiles', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
     });
 }

@@ -17,7 +17,7 @@ public class ExcelUtil {
      * 读取excel文件
      * 	输出Vector
      */
-    public static List<List> TransExcelToVector(InputStream excel){
+    public static List<List> TransExcelToList(InputStream excel){
         List<List> ret = new ArrayList<>();
         List v = null;
         Workbook wb_in = null;

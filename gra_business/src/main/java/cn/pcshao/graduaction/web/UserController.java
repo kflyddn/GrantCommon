@@ -10,6 +10,7 @@ import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantPermission;
 import cn.pcshao.grant.common.entity.GrantRole;
 import cn.pcshao.grant.common.entity.GrantUser;
+import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -101,16 +102,16 @@ public class UserController extends BaseController {
         //文件校验
         try {
             if (null == file || file.isEmpty() || !file.getContentType().contains("excel")) {
-                return ResultDtoFactory.error(DtoCodeConsts.EXCEL_NO, DtoCodeConsts.EXCEL_NO_MSG);
+                throw new CustomException(DtoCodeConsts.EXCEL_NO, DtoCodeConsts.EXCEL_NO_MSG);
             }
         } catch (Exception e) {
             logger.error(e.toString());
             e.printStackTrace();
-            return ResultDtoFactory.error();
+            throw new CustomException(DtoCodeConsts.VIEW_ERROR, DtoCodeConsts.VIEW_ERROR_MSG);
         }
         List<List> excels = null;
         try {
-            excels = ExcelUtil.TransExcelToVector(file.getInputStream());
+            excels = ExcelUtil.TransExcelToList(file.getInputStream());
         }catch (Exception e){
             logger.info("转换失败");
         }
@@ -119,9 +120,9 @@ public class UserController extends BaseController {
             try{
                 usersFromList = userService.getUsersFromList(excels);
             }catch (Exception e){
-                return ResultDtoFactory.error(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
+                throw new CustomException(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
             }
-            // TODO 插库 是否插库前展示确认一下
+            // TODO 插库 是否插库前展示确认一下 逐个校验的话不用批处理插入 速度慢 huser已经做成逐个校验
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(usersFromList)) {
                 userService.insertBatch(usersFromList);
@@ -140,7 +141,7 @@ public class UserController extends BaseController {
             if(ListUtils.isEmptyList(userService.listUsersByUserName(username))){
                 return resultDto;
             }else{
-                return ResultDtoFactory.error(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
+                throw new CustomException(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG);
             }
         }
         return ResultDtoFactory.error();
@@ -156,7 +157,7 @@ public class UserController extends BaseController {
         try{
             subject.checkRole("admin");
         }catch (UnauthorizedException e){
-            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+            throw new CustomException(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
         if(null != userIdList){
             int deleteNum = 0;
@@ -254,7 +255,7 @@ public class UserController extends BaseController {
                 roleService.saveRole(grantRole, userIdList);
                 return resultDto;
             }else{
-                return ResultDtoFactory.error(DtoCodeConsts.ROLE_EXISTS, DtoCodeConsts.ROLE_EXISTS_MSG);
+                throw new CustomException(DtoCodeConsts.ROLE_EXISTS, DtoCodeConsts.ROLE_EXISTS_MSG);
             }
         }
         return ResultDtoFactory.error();
@@ -307,7 +308,7 @@ public class UserController extends BaseController {
             for(Short s : roleIdList) {
                 //校验该角色是否对应有用户绑定
                 if(ListUtils.isNotEmptyList(userService.listUserByRoleId(s))){
-                    return ResultDtoFactory.error(DtoCodeConsts.CASCADE_DATA, DtoCodeConsts.CASCADE_DATA_MSG);
+                    throw new CustomException(DtoCodeConsts.CASCADE_DATA, DtoCodeConsts.CASCADE_DATA_MSG);
                 }else{
                     deleteNum += roleService.delete(s);
                 }
@@ -344,14 +345,14 @@ public class UserController extends BaseController {
         try{
             subject.checkRole("admin");
         }catch (UnauthorizedException e){
-            return ResultDtoFactory.error(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
+            throw new CustomException(DtoCodeConsts.NO_PERMISSION, DtoCodeConsts.NO_PERMISSION_MSG);
         }
         if(StringUtils.isNotEmpty(grantPermission.getPermissionName())){
             if(!permissionService.findPermissionByName(grantPermission.getPermissionName())){
                 permissionService.savePermission(grantPermission, userRoleList);
                 return resultDto;
             }else{
-                return ResultDtoFactory.error(DtoCodeConsts.ROLE_EXISTS, DtoCodeConsts.ROLE_EXISTS_MSG);
+                throw new CustomException(DtoCodeConsts.ROLE_EXISTS, DtoCodeConsts.ROLE_EXISTS_MSG);
             }
         }
         return ResultDtoFactory.error();
@@ -404,7 +405,7 @@ public class UserController extends BaseController {
             for(Long l : permissionIdList) {
                 //校验该角色是否对应有用户绑定
                 if(ListUtils.isNotEmptyList(roleService.listRolesByPermissionId(l))){
-                    return ResultDtoFactory.error(DtoCodeConsts.CASCADE_DATA, DtoCodeConsts.CASCADE_DATA_MSG);
+                    throw new CustomException(DtoCodeConsts.CASCADE_DATA, DtoCodeConsts.CASCADE_DATA_MSG);
                 }else {
                     deleteNum += permissionService.delete(l);
                 }

@@ -29,6 +29,7 @@ public class PageController extends BaseController {
     public String NB2(){
         return "error/404";
     }
+
     @GetMapping("/user")
     public String systemManage(){
         return "systemManage";
@@ -37,8 +38,13 @@ public class PageController extends BaseController {
     public String userImport(){
         return "upload/importUsers";
     }
+
     @GetMapping("/graduation")
     public String graduation(){
         return "graduation/dashboard";
+    }
+    @GetMapping("/huser/import")
+    public String fieImport(){
+        return "upload/importFiles";
     }
 }

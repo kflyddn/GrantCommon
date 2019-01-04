@@ -241,4 +241,21 @@
       email = #{email,jdbcType=VARCHAR}
     where huser_id = #{huserId,jdbcType=BIGINT}
   </update>
+
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into grant_huser (
+      user_id, id_card, `name`, sex, telephone, email
+    )
+    values
+    <foreach collection="users" item="item" index="index" separator=",">
+      (
+      #{item.userId,jdbcType=VARCHAR},
+      #{item.idCard,jdbcType=VARCHAR},
+      #{item.name,jdbcType=VARCHAR},
+      #{item.sex,jdbcType=TINYINT},
+      #{item.telephone,jdbcType=VARCHAR},
+      #{item.email,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
 </mapper>

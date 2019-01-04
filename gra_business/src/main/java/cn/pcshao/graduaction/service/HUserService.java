@@ -19,14 +19,6 @@ public interface HUserService extends BaseService<GrantHuser, Long> {
     List<GrantHuser> getHUsersByUserId(Long userId);
 
     /**
-     * 挂载或新增用户档案
-     *  若参数中含有userId则为挂载
-     *  否则同步插库
-     * @param huser
-     */
-    int addHUserFile(GrantHuser huser);
-
-    /**
      * 批量插入
      * @param huserList
      * @return
@@ -41,6 +33,10 @@ public interface HUserService extends BaseService<GrantHuser, Long> {
      */
     int editHUserFile(GrantHuser huser);
 
-
-
+    /**
+     * 转换
+     * @param excels
+     * @return
+     */
+    List<GrantHuser> getUsersFromList(List<List> excels);
 }

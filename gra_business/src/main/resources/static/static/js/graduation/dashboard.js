@@ -208,6 +208,6 @@ function openImportHUsersFrame(){
         area: ['400px', '300px'],
         //skin: 'layui-layer-lan',
         type: 2,
-        content: ['/huser/importFiles', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        content: ['/huser/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
     });
 }

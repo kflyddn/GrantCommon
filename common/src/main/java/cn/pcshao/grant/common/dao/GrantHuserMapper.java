@@ -28,4 +28,6 @@ public interface GrantHuserMapper extends BaseDao<GrantHuser, Long> {
     int updateByPrimaryKeySelective(GrantHuser record);
 
     int updateByPrimaryKey(GrantHuser record);
+
+    int insertBatch(@Param("users") List<GrantHuser> hUsers);
 }

@@ -295,6 +295,12 @@
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stop">停止</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">移除</a>
     </script>
+    <!-- 进度条 -->
+    <script type="text/html" id="taskProcessBar">
+        <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="taskProcessBar" lay-event="processBB">
+            <div class="layui-progress-bar layui-bg-orange" lay-percent="50%"></div>
+        </div>
+    </script>
 
     <script src="/static/js/graduation/dashboard.js"></script>
     <script src="/static/js/common.js"></script>

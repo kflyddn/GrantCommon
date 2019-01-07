@@ -1,5 +1,13 @@
 var table;
 var form;
+var element;
+/**
+ * 进度条
+ * 注意进度条依赖 element 模块，否则无法进行正常渲染和功能性操作
+ */
+layui.use('element', function(){
+    element = layui.element;
+});
 
 layui.use('table', function () {
     let table = layui.table;
@@ -74,6 +82,13 @@ layui.use('table', function () {
                 });
                 $("#hUserFile").modal();
             }
+        }
+    });
+    table.on('tool(task)', function (obj) {
+        let data = obj.data;
+        if(obj.event === 'processBB'){
+            console.log(data)
+            element.progress('taskProcessBar', data.process+ '%');
         }
     });
 });
@@ -152,6 +167,11 @@ function loadHUserTable(param){
     });
 }
 
+function refreshProcessBar(currProcess) {
+    //刷新进度条进度
+    element.progress('taskProcessBar', currProcess+ '%');
+}
+
 /**
  * 刷新任务管理数据表格
  * @param param
@@ -173,8 +193,8 @@ function loadTaskManageTable(param) {
                 {field: 'type', title: '任务类型'},
                 {field: 'describe', title: '描述'},
                 {field: 'createTime', title: '创建时间'},
-                {field: 'process', title: '进度'},
                 {field: 'state', title: '状态'},
+                {field: 'process', title: '任务进度', width: 220, align: 'center'/*, toolbar: '#taskProcessBar'*/},
                 {fixed: 'right', width: 220, align: 'center', toolbar: '#taskOption'},
             ]],
             parseData: function (res) {

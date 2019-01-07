@@ -25,16 +25,16 @@
             </div>
 
         </div>
-        <div class="content">
-            <ul id="myTab" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#HUser" role="presentation" data-toggle="tab">用户信息管理</a>
-                </li>
-                <li class="">
-                    <a href="#TaskManage" role="presentation" data-toggle="tab">分析任务管理</a>
-                </li>
-            </ul>
-            <div class="tab-pane fade active" role="tabpanel" id="HUser">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#HUser" role="menu" data-toggle="tab">用户信息管理</a>
+            </li>
+            <li>
+                <a href="#TaskManage" role="menu" data-toggle="tab">分析任务管理</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" role="tabpanel" id="HUser">
                 <!-- 用户列表表头 -->
                 <div class="searchUser">
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#hUserAdd" onclick="refreshHUserAddForm()" ><i  class="iconfont icon-tianjia mr10"></i>挂载或新增档案</a>

@@ -11,6 +11,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -85,7 +86,8 @@ public class ShiroRelam extends AuthorizingRealm {
                 getName() // realm name
         );
         //TODO 设置盐度
-        //simpleAuthorizationInfo.setCredentialsSalt(ByteSource.Util.bytes(grantUser.getUserId())); //设置盐
+        String saltCode = grantUser.getUserId().toString();
+        info.setCredentialsSalt(ByteSource.Util.bytes(saltCode)); //设置盐
         return info;
     }
 }

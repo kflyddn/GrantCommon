@@ -25,13 +25,16 @@
             </div>
 
         </div>
-        <div class="content">
-            <ul id="myTab" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#HUser" role="presentation" data-toggle="tab">用户信息管理</a>
-                </li>
-            </ul>
-            <div class="tab-pane active" role="tabpanel" id="HUser">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#HUser" role="menu" data-toggle="tab">用户信息管理</a>
+            </li>
+            <li>
+                <a href="#TaskManage" role="menu" data-toggle="tab">分析任务管理</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" role="tabpanel" id="HUser">
                 <!-- 用户列表表头 -->
                 <div class="searchUser">
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#hUserAdd" onclick="refreshHUserAddForm()" ><i  class="iconfont icon-tianjia mr10"></i>挂载或新增档案</a>
@@ -51,6 +54,13 @@
                 </div>
                 <!-- 数据展示 -->
                 <table id="tableHUser" lay-filter="hUser"></table>
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="TaskManage">
+                <div>
+
+                </div>
+                <!-- 任务管理 数据展示 -->
+                <table id="tableTaskList" lay-filter="task"></table>
             </div>
         </div>
     </div>
@@ -278,8 +288,21 @@
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
+    <!-- 任务管理操作toolbar -->
+    <script type="text/html" id="taskOption">
+        <a class="layui-btn layui-btn-xs" lay-event="look">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="restart">重启</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stop">停止</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">移除</a>
+    </script>
+    <!-- 进度条 -->
+    <script type="text/html" id="taskProcessBar">
+        <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="taskProcessBar" lay-event="processBB">
+            <div class="layui-progress-bar layui-bg-orange" lay-percent="50%"></div>
+        </div>
+    </script>
 
     <script src="/static/js/graduation/dashboard.js"></script>
-    <script src="/static/js/systemManage.js"></script>
+    <script src="/static/js/common.js"></script>
 </body>
 </html>

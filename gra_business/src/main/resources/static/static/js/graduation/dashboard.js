@@ -1,9 +1,11 @@
 var table;
 var form;
+
 layui.use('table', function () {
     let table = layui.table;
 
     loadHUserTable();
+    loadTaskManageTable();
     loadCurrUser();
     //监听toolbar 筛选，前端lay-filter判断(user)是哪个tool，前台的lay-event可以拿来判断操作是什么
     table.on('tool(hUser)', function(obj) {
@@ -148,6 +150,51 @@ function loadHUserTable(param){
             }
         });
     });
+}
+
+/**
+ * 刷新任务管理数据表格
+ * @param param
+ */
+function loadTaskManageTable(param) {
+    layui.use('table', function () {
+        table = layui.table;
+        //任务列表渲染
+        table.render({
+            elem: '#tableTaskList',
+            url: '/task/getTaskList',
+            where: param,
+            method: 'post',
+            contentType: 'application/json',
+            page: true,
+            cols: [[
+                {field: 'taskId', title: 'ID', fixed: 'left', sort: true},
+                {field: 'serialNumber', title: '序列号'},
+                {field: 'type', title: '任务类型'},
+                {field: 'describe', title: '描述'},
+                {field: 'createTime', title: '创建时间'},
+                {field: 'process', title: '进度'},
+                {field: 'state', title: '状态'},
+                {fixed: 'right', width: 220, align: 'center', toolbar: '#taskOption'},
+            ]],
+            parseData: function (res) {
+                return {
+                    "code": res.code,
+                    "msg": res.msg,
+                    "data": res.data.list,
+                    "count": res.data.total,
+                };
+            },
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                statusCode: 10
+            }
+        });
+    });
+
 }
 
 /**

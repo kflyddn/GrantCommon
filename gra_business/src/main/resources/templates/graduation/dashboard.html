@@ -30,8 +30,11 @@
                 <li class="active">
                     <a href="#HUser" role="presentation" data-toggle="tab">用户信息管理</a>
                 </li>
+                <li class="">
+                    <a href="#TaskManage" role="presentation" data-toggle="tab">分析任务管理</a>
+                </li>
             </ul>
-            <div class="tab-pane active" role="tabpanel" id="HUser">
+            <div class="tab-pane fade active" role="tabpanel" id="HUser">
                 <!-- 用户列表表头 -->
                 <div class="searchUser">
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#hUserAdd" onclick="refreshHUserAddForm()" ><i  class="iconfont icon-tianjia mr10"></i>挂载或新增档案</a>
@@ -51,6 +54,13 @@
                 </div>
                 <!-- 数据展示 -->
                 <table id="tableHUser" lay-filter="hUser"></table>
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="TaskManage">
+                <div>
+
+                </div>
+                <!-- 任务管理 数据展示 -->
+                <table id="tableTaskList" lay-filter="task"></table>
             </div>
         </div>
     </div>
@@ -277,6 +287,13 @@
         <a class="layui-btn layui-btn-sm" lay-event="files">档案</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <!-- 任务管理操作toolbar -->
+    <script type="text/html" id="taskOption">
+        <a class="layui-btn layui-btn-xs" lay-event="look">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="restart">重启</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stop">停止</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">移除</a>
     </script>
 
     <script src="/static/js/graduation/dashboard.js"></script>

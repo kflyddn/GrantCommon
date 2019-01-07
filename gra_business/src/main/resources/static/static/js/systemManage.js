@@ -538,25 +538,6 @@ var table;
         });
     });
 
-    /**
-     * 登出
-     */
-    function logOut() {
-    $.ajax({
-        url: '/user/logout',
-        type: 'get',
-        data: {},
-        dataType: 'json',
-        success: function (res) {
-            if (res.code == 10) {
-                alert('注销成功');
-                window.location.href = "/login";
-            } else {
-                alert("注销失败");
-            }
-        }
-    });
-}
 
     /**
      * 打开批量导入用户列表页面

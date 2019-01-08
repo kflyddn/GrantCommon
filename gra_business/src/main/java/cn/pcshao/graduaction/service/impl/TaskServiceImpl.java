@@ -65,6 +65,6 @@ public class TaskServiceImpl extends BaseServiceImpl<GrantTask, Integer> impleme
             criteria.andTaskIdIn(taskId);
             task.setState((byte) 3);
         }
-        grantTaskMapper.updateByExample(task, example);
+        grantTaskMapper.updateByExampleSelective(task, example);
     }
 }

@@ -57,7 +57,19 @@
             </div>
             <div class="tab-pane fade" role="tabpanel" id="TaskManage">
                 <div>
-
+                    <a class="addBtn pull-right" data-toggle="modal" data-target="#taskAdd" onclick="" ><i  class="iconfont icon-tianjia mr10"></i>新建任务</a>
+                    <form class="layui-form form-inline">
+                        <div class="form-group mgl15">
+                            <label>搜索：</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="模糊查询请用%代替" name="username" />
+                            <input type="text" class="form-control" placeholder="根据序列号查询" name="nickname" />
+                        </div>
+                        <button class="btn-color-blue" type="button" lay-submit lay-filter="queryHUser">
+                            <i class="iconfont icon-chazhao"></i>
+                        </button>
+                    </form>
                 </div>
                 <!-- 任务管理 数据展示 -->
                 <table id="tableTaskList" lay-filter="task"></table>
@@ -65,6 +77,47 @@
         </div>
     </div>
 
+    <!-- 新建任务 -->
+    <div class="modal fade modal-fixed-height" id="taskAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="layui-form" lay-filter="taskAddForm">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title mb30">新建分析任务</h4>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">任务类型</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="type" autocomplete="off" placeholder="" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">描述</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="describe" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">任务参数</label>
+                            <div class="layui-input-block">
+                                <textarea type="text" name="param" lay-verify="required" autocomplete="off" placeholder='"json":{    "":""    }' class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="taskAdd">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- 挂载档案 -->
     <div class="modal fade modal-fixed-height" id="hUserAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">

@@ -89,9 +89,33 @@ layui.use('table', function () {
         if(obj.event === 'processBB'){
             console.log(data)
             element.progress('taskProcessBar', data.process+ '%');
+        }else if(obj.event === 'restart'){
+            restartTask(data.taskId);
+        }else if(obj.event === 'look'){
+
+        }else if(obj.event === 'stop'){
+
+        }else if(obj.event === 'remove'){
         }
     });
 });
+
+function restartTask(taskId){
+    let taskIdSet = new Set();
+    taskIdSet.add(taskId);
+    let taskIdList = Array.from(taskIdSet)
+    $.ajax({
+        url: '/task/restartTask',
+        type: 'POST',
+        data: JSON.stringify(Array.from(taskIdList)),
+        contentType: 'application/json',
+        success: function (result) {
+            if (result.code == 10) {
+                loadTaskManageTable();
+            }
+        }
+    });
+}
 
 /**
  * 刷新挂载档案页面，置空
@@ -193,7 +217,7 @@ function loadTaskManageTable(param) {
                 {field: 'type', title: '任务类型'},
                 {field: 'describe', title: '描述'},
                 {field: 'createTime', title: '创建时间'},
-                {field: 'state', title: '状态'},
+                {field: 'state', title: '状态0停 1完成 2进行 3等待'},
                 {field: 'process', title: '任务进度', width: 220, align: 'center'/*, toolbar: '#taskProcessBar'*/},
                 {fixed: 'right', width: 220, align: 'center', toolbar: '#taskOption'},
             ]],
@@ -222,6 +246,27 @@ function loadTaskManageTable(param) {
  */
 layui.use('form', function(){
     form = layui.form;
+    form.on('submit(taskAdd)', function(data){
+        // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+        // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+        // alert(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+        $.ajax({
+            url: '/task/add',
+            type: 'POST',
+            data: JSON.stringify(data.field),
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    loadTaskManageTable();
+                }
+                layer.alert(result.msg);
+            },
+            failure : function() {
+                layer.alert('操作超时!');
+            }
+        });
+        return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    });
     form.on('submit(hUserAdd)', function(data){
         // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
         // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回

@@ -3,8 +3,10 @@ package cn.pcshao.graduaction.web;
 import cn.pcshao.graduaction.service.TaskService;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.bo.TaskBo;
+import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantTask;
+import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -35,17 +37,25 @@ public class TaskController extends BaseController {
     public ResultDto addTask(@RequestBody GrantTask task){
         ResultDto resultDto = ResultDtoFactory.success();
         //TODO 任务的具体体现
-        int insert = taskService.insert(task);
-        resultDto.setData(insert);
+        int insert;
+        try{
+            task.setSerialNumber((int) System.currentTimeMillis());
+            task.setState((byte) 0);
+            task.setProcess((short) 0);
+            insert = taskService.insert(task);
+            resultDto.setData(insert);
+        }catch (Exception e){
+            throw new CustomException(DtoCodeConsts.VIEW_ERROR, DtoCodeConsts.VIEW_ERROR_MSG);
+        }
         return resultDto;
     }
 
     @ApiOperation("移除任务接口")
     @PostMapping("/remove")
-    public ResultDto removeTask(Integer[] taskId){
+    public ResultDto removeTask(List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //TODO 任务的具体体现
-        for(Integer id : taskId) {
+        for(Integer id : taskIdList) {
             taskService.delete(id);
         }
         return resultDto;
@@ -53,19 +63,28 @@ public class TaskController extends BaseController {
 
     @ApiOperation("启动任务接口")
     @PostMapping("/startTask")
-    public ResultDto startTask(List<Integer> taskId){
+    public ResultDto startTask(List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //TODO 任务的具体实现
-        taskService.startTask(taskId);
+        taskService.startTask(taskIdList);
+        return resultDto;
+    }
+
+    @ApiOperation("重启任务接口")
+    @PostMapping("/restartTask")
+    public ResultDto restartTask(@RequestBody List<Integer> taskIdList){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //TODO 任务的具体实现
+        taskService.startTask(taskIdList);
         return resultDto;
     }
 
     @ApiOperation("停止任务接口")
     @PostMapping("/stopTask")
-    public ResultDto stopTask(List<Integer> taskId){
+    public ResultDto stopTask(List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //TODO 任务的具体实现
-        taskService.stopTask(taskId);
+        taskService.stopTask(taskIdList);
         return resultDto;
     }
 

@@ -101,12 +101,7 @@ public class AddSource2MailAspect {
 
     private void addSendMailTask(SimpleMailMessage mailMessage){
         logger.debug("开启新线程发送邮件中...");
-        taskExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mailSender.send(mailMessage);
-            }
-        });
+        taskExecutor.execute(() -> mailSender.send(mailMessage));
         logger.debug("线程发送邮件成功...");
     }
 

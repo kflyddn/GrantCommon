@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -47,6 +48,10 @@ public class AnalysisHUserTask {
     @Value("${task.AnalysisHUser.switch}")
     private String taskSwitch;
 
+    @Resource
+    @Qualifier("taskExecutor")
+    private TaskExecutor taskExecutor;
+
     @Scheduled(cron = "${task.AnalysisHUser.readCron}")
     public void read(){
         if("OFF".equals(taskSwitch))
@@ -74,15 +79,7 @@ public class AnalysisHUserTask {
             Map<String, Object> fromJson = JSONUtils.getMapFromJson(param);
             if(fromJson.get("countName") != null){
                 //Map中可以嵌套map
-                currTask.setState((byte) 2);
-                taskMapper.updateByPrimaryKeySelective(currTask);
-                //APP
-                if(countName((String) fromJson.get("countName"))) {
-                    //任务完毕
-                    currTask.setState((byte) 1);
-                    currTask.setProcess((short) 100);
-                    taskMapper.updateByPrimaryKeySelective(currTask);
-                }
+                addCountNameTask(currTask, (String) fromJson.get("countName"));
             }
             if(fromJson.get("test") != null){
                 //GO ON
@@ -90,8 +87,16 @@ public class AnalysisHUserTask {
         }
     }
 
+    private void addCountNameTask(GrantTask currTask, String name){
+        logger.debug("开启新线程运算countName任务中...");
+        taskExecutor.execute(() -> countName(currTask, name));
+    }
+
     //APP 需要做成多线程的，执行完毕返回后再去使任务记录标识变化
-    private boolean countName(String name){
+    private void countName(GrantTask currTask, String name){
+        //任务进行
+        currTask.setState((byte) 2);
+        taskMapper.updateByPrimaryKeySelective(currTask);
         logger.info("开始统计姓名任务！");
         Map map = new HashMap<String, Object>(); //后期多线程下需要考虑线程安全问题
         GrantHuserExample example1 = new GrantHuserExample();
@@ -106,10 +111,13 @@ public class AnalysisHUserTask {
         map.put("containName", containName);
         int lastName = huserMapper.countByExample(example3);
         map.put("lastName", lastName);
-        //TODO 持久化或者直接写入hadoop
         logger.info(JSONUtils.getJsonFromMap(map));
-
-        return true;
+        //经过线程休眠模拟任务执行时间不同，此处线程池可以达到多个任务同步进行并实时更新任务状态
+        //TODO 持久化或者直接写入hadoop
+        //任务完成
+        currTask.setState((byte) 1);
+        currTask.setProcess((short) 100);
+        taskMapper.updateByPrimaryKeySelective(currTask);
     }
 
 }

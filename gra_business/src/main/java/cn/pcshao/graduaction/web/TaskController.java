@@ -41,7 +41,7 @@ public class TaskController extends BaseController {
         int insert;
         try{
             task.setSerialNumber((int) System.currentTimeMillis());
-            task.setState((byte) 0);
+            task.setState((byte) 3);
             task.setProcess((short) 0);
             task.setCreateTime(new Date());
             insert = taskService.insert(task);

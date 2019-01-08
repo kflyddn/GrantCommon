@@ -238,6 +238,7 @@ function refreshProcessBar(currProcess) {
     element.progress('taskProcessBar', currProcess+ '%');
 }
 
+window.setInterval(loadTaskManageTable, 1500);
 /**
  * 刷新任务管理数据表格
  * @param param

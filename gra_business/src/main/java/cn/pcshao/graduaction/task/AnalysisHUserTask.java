@@ -3,9 +3,11 @@ package cn.pcshao.graduaction.task;
 import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantTaskMapper;
+import cn.pcshao.grant.common.dao.GrantTaskResultMapper;
 import cn.pcshao.grant.common.entity.GrantHuserExample;
 import cn.pcshao.grant.common.entity.GrantTask;
 import cn.pcshao.grant.common.entity.GrantTaskExample;
+import cn.pcshao.grant.common.entity.GrantTaskResult;
 import cn.pcshao.grant.common.util.JSONUtils;
 import cn.pcshao.grant.common.util.StringUtils;
 import org.slf4j.Logger;
@@ -44,6 +46,8 @@ public class AnalysisHUserTask {
     private GrantHuserMapper huserMapper;
     @Resource
     private GrantTaskMapper taskMapper;
+    @Resource
+    private GrantTaskResultMapper taskResultMapper;
 
     @Value("${task.AnalysisHUser.switch}")
     private String taskSwitch;
@@ -111,10 +115,14 @@ public class AnalysisHUserTask {
         map.put("containName", containName);
         int lastName = huserMapper.countByExample(example3);
         map.put("lastName", lastName);
-        logger.info(JSONUtils.getJsonFromMap(map));
         //经过线程休眠模拟任务执行时间不同，此处线程池可以达到多个任务同步进行并实时更新任务状态
-        //TODO 持久化或者直接写入hadoop
-        //任务完成
+        //TODO 持久化或者直接写入hadoop 多线程问题待考究
+        GrantTaskResult taskResult = new GrantTaskResult();
+        taskResult.setTaskId(currTask.getTaskId());
+        taskResult.setCreateTime(new Date());
+        taskResult.setF1(JSONUtils.getJsonFromMap(map));
+        taskResultMapper.insert(taskResult);
+        //任务完成状态写入DB
         currTask.setState((byte) 1);
         currTask.setProcess((short) 100);
         taskMapper.updateByPrimaryKeySelective(currTask);

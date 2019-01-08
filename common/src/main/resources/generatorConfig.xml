@@ -62,9 +62,13 @@
 
         <!--</table>-->
 
-        <table tableName="grant_task" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+        <table tableName="grant_task_result" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
 
         </table>
+
+        <!--<table tableName="grant_task" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+
+        <!--</table>-->
 
         <!--<table tableName="album_pic_personal" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
 

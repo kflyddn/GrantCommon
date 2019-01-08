@@ -63,6 +63,7 @@ public class TaskServiceImpl extends BaseServiceImpl<GrantTask, Integer> impleme
         if(null != taskId){
             GrantTaskExample.Criteria criteria = example.createCriteria();
             criteria.andTaskIdIn(taskId);
+            task.setProcess((short) 0);
             task.setState((byte) 3);
         }
         grantTaskMapper.updateByExampleSelective(task, example);

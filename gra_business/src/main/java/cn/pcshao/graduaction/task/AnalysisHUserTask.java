@@ -74,7 +74,15 @@ public class AnalysisHUserTask {
             Map<String, Object> fromJson = JSONUtils.getMapFromJson(param);
             if(fromJson.get("countName") != null){
                 //Map中可以嵌套map
-                countName((String) fromJson.get("countName"));
+                currTask.setState((byte) 2);
+                taskMapper.updateByPrimaryKeySelective(currTask);
+                //APP
+                if(countName((String) fromJson.get("countName"))) {
+                    //任务完毕
+                    currTask.setState((byte) 1);
+                    currTask.setProcess((short) 100);
+                    taskMapper.updateByPrimaryKeySelective(currTask);
+                }
             }
             if(fromJson.get("test") != null){
                 //GO ON
@@ -82,7 +90,8 @@ public class AnalysisHUserTask {
         }
     }
 
-    private void countName(String name){
+    //APP 需要做成多线程的，执行完毕返回后再去使任务记录标识变化
+    private boolean countName(String name){
         logger.info("开始统计姓名任务！");
         Map map = new HashMap<String, Object>(); //后期多线程下需要考虑线程安全问题
         GrantHuserExample example1 = new GrantHuserExample();
@@ -90,7 +99,7 @@ public class AnalysisHUserTask {
         GrantHuserExample example2 = new GrantHuserExample();
           example2.createCriteria().andNameLike("%"+ name + "%");
         GrantHuserExample example3 = new GrantHuserExample();
-          example3.createCriteria().andNameLike(name + "%");
+          example3.createCriteria().andNameLike("%"+ name);
         int firstName = huserMapper.countByExample(example1);
         map.put("firstName", firstName);
         int containName = huserMapper.countByExample(example2);
@@ -98,7 +107,9 @@ public class AnalysisHUserTask {
         int lastName = huserMapper.countByExample(example3);
         map.put("lastName", lastName);
         //TODO 持久化或者直接写入hadoop
-        logger.info(map.toString());
+        logger.info(JSONUtils.getJsonFromMap(map));
+
+        return true;
     }
 
 }

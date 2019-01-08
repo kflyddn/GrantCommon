@@ -22,16 +22,35 @@ public class JSONUtils {
      * @return
      */
     public static Map<String,Object> getMapFromJson(String jsonString) {
-        JSONObject jsonObject = JSONObject.fromObject(jsonString);
-        Iterator<?> keyIter = jsonObject.keys();
-        String key;
-        Object value;
-        Map<String,Object> valueMap = new HashMap<String,Object>();
-        while (keyIter.hasNext()) {
-            key = (String) keyIter.next();
-            value = jsonObject.get(key);
-            valueMap.put(key, value);
+        Map<String, Object> valueMap = null;
+        if(StringUtils.isNotEmpty(jsonString)) {
+            JSONObject jsonObject = JSONObject.fromObject(jsonString);
+            Iterator<?> keyIter = jsonObject.keys();
+            String key;
+            Object value;
+            valueMap = new HashMap<>();
+            while (keyIter.hasNext()) {
+                key = (String) keyIter.next();
+                value = jsonObject.get(key);
+                valueMap.put(key, value);
+            }
         }
         return valueMap;
+    }
+
+    /**
+     * map转json
+     * @param paramMap
+     * @return
+     */
+    public static String getJsonFromMap(Map<String, Object> paramMap){
+        String value = null;
+        if(null != paramMap) {
+            JSONObject jsonObject = JSONObject.fromObject(paramMap);
+            if(null != jsonObject){
+                value = jsonObject.toString();
+            }
+        }
+        return value;
     }
 }

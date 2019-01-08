@@ -18,6 +18,8 @@ public class GrantTask implements Serializable {
 
     private Byte state;
 
+    private String param;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getTaskId() {
@@ -76,6 +78,14 @@ public class GrantTask implements Serializable {
         this.state = state;
     }
 
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param == null ? null : param.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -89,6 +99,7 @@ public class GrantTask implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", process=").append(process);
         sb.append(", state=").append(state);
+        sb.append(", param=").append(param);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

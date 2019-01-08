@@ -9,6 +9,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="process" property="process" jdbcType="SMALLINT" />
     <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="param" property="param" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    task_id, serial_number, `type`, `describe`, create_time, `process`, `state`
+    task_id, serial_number, `type`, `describe`, create_time, `process`, `state`, param
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pcshao.grant.common.entity.GrantTaskExample" >
     select
@@ -105,10 +106,10 @@
   <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantTask" >
     insert into grant_task (task_id, serial_number, `type`, 
       `describe`, create_time, `process`, 
-      `state`)
+      `state`, param)
     values (#{taskId,jdbcType=INTEGER}, #{serialNumber,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
       #{describe,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{process,jdbcType=SMALLINT}, 
-      #{state,jdbcType=TINYINT})
+      #{state,jdbcType=TINYINT}, #{param,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantTask" >
     insert into grant_task
@@ -134,6 +135,9 @@
       <if test="state != null" >
         `state`,
       </if>
+      <if test="param != null" >
+        param,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="taskId != null" >
@@ -156,6 +160,9 @@
       </if>
       <if test="state != null" >
         #{state,jdbcType=TINYINT},
+      </if>
+      <if test="param != null" >
+        #{param,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -189,6 +196,9 @@
       <if test="record.state != null" >
         `state` = #{record.state,jdbcType=TINYINT},
       </if>
+      <if test="record.param != null" >
+        param = #{record.param,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -202,7 +212,8 @@
       `describe` = #{record.describe,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       `process` = #{record.process,jdbcType=SMALLINT},
-      `state` = #{record.state,jdbcType=TINYINT}
+      `state` = #{record.state,jdbcType=TINYINT},
+      param = #{record.param,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -228,6 +239,9 @@
       <if test="state != null" >
         `state` = #{state,jdbcType=TINYINT},
       </if>
+      <if test="param != null" >
+        param = #{param,jdbcType=VARCHAR},
+      </if>
     </set>
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
@@ -238,7 +252,8 @@
       `describe` = #{describe,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       `process` = #{process,jdbcType=SMALLINT},
-      `state` = #{state,jdbcType=TINYINT}
+      `state` = #{state,jdbcType=TINYINT},
+      param = #{param,jdbcType=VARCHAR}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
 </mapper>

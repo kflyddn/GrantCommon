@@ -92,10 +92,18 @@ layui.use('table', function () {
         }else if(obj.event === 'restart'){
             restartTask(data.taskId);
         }else if(obj.event === 'look'){
-
+            form.val("taskDetailForm", {
+                "type": data.type
+                , "describe": data.describe
+                , "param": data.param
+            });
+            $("#taskDetail").modal();
         }else if(obj.event === 'stop'){
-
+            stopTask(data.taskId);
         }else if(obj.event === 'remove'){
+            layer.confirm("确认移除任务" + obj.data.serialNumber, {btn: ['确定', '取消'], title: "提示"}, function () {
+                removeTask(data.taskId);
+            });
         }
     });
 });
@@ -113,6 +121,40 @@ function restartTask(taskId){
             if (result.code == 10) {
                 loadTaskManageTable();
             }
+        }
+    });
+}
+function stopTask(taskId){
+    let taskIdSet = new Set();
+    taskIdSet.add(taskId);
+    let taskIdList = Array.from(taskIdSet)
+    $.ajax({
+        url: '/task/stopTask',
+        type: 'POST',
+        data: JSON.stringify(Array.from(taskIdList)),
+        contentType: 'application/json',
+        success: function (result) {
+            if (result.code == 10) {
+                loadTaskManageTable();
+            }
+        }
+    });
+}
+function removeTask(taskId){
+    let taskIdSet = new Set();
+    taskIdSet.add(taskId);
+    let taskIdList = Array.from(taskIdSet)
+    $.ajax({
+        url: '/task/remove',
+        type: 'POST',
+        data: JSON.stringify(Array.from(taskIdList)),
+        contentType: 'application/json',
+        success: function (result) {
+            if (result.code == 10) {
+                loadTaskManageTable();
+            }
+                layer.alert(result.msg);
+            return result;
         }
     });
 }

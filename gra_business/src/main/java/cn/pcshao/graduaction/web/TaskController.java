@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +43,7 @@ public class TaskController extends BaseController {
             task.setSerialNumber((int) System.currentTimeMillis());
             task.setState((byte) 0);
             task.setProcess((short) 0);
+            task.setCreateTime(new Date());
             insert = taskService.insert(task);
             resultDto.setData(insert);
         }catch (Exception e){
@@ -52,7 +54,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("移除任务接口")
     @PostMapping("/remove")
-    public ResultDto removeTask(List<Integer> taskIdList){
+    public ResultDto removeTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //TODO 任务的具体体现
         for(Integer id : taskIdList) {
@@ -63,7 +65,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("启动任务接口")
     @PostMapping("/startTask")
-    public ResultDto startTask(List<Integer> taskIdList){
+    public ResultDto startTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //TODO 任务的具体实现
         taskService.startTask(taskIdList);
@@ -81,7 +83,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("停止任务接口")
     @PostMapping("/stopTask")
-    public ResultDto stopTask(List<Integer> taskIdList){
+    public ResultDto stopTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //TODO 任务的具体实现
         taskService.stopTask(taskIdList);

@@ -53,7 +53,7 @@ public class TaskServiceImpl extends BaseServiceImpl<GrantTask, Integer> impleme
             task.setState((byte) 0);
             task.setProcess((short) -1);
         }
-        grantTaskMapper.updateByExample(task, example);
+        grantTaskMapper.updateByExampleSelective(task, example);
     }
 
     @Override

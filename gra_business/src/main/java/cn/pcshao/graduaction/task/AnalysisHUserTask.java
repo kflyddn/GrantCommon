@@ -13,10 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -25,8 +24,7 @@ import java.util.*;
  * @author pcshao.cn
  * @date 2019/1/8
  */
-@Configuration
-@EnableScheduling
+@Component
 @PropertySource({"classpath:business.properties"})
 public class AnalysisHUserTask {
 
@@ -34,8 +32,7 @@ public class AnalysisHUserTask {
 
     //结果集
     public Map resultMap;
-    //任务列表
-    private Set<GrantTask> taskSet = new HashSet<>();
+    //任务队列
     private Queue<GrantTask> taskQueue = new LinkedList<>();
 
     @Autowired
@@ -59,7 +56,6 @@ public class AnalysisHUserTask {
         //将状态为3的读进待处理的任务列表
         criteria.andStateEqualTo((byte) 3);
         List<GrantTask> tasks = taskMapper.selectByExample(example);
-        taskSet.addAll(tasks);
         //遍历Set
         for(GrantTask task : tasks){
             if(!taskQueue.contains(task)){
@@ -68,7 +64,7 @@ public class AnalysisHUserTask {
         }
     }
 
-    @Scheduled(cron = "${task.AnalysisHUser.consumeCron")
+    @Scheduled(cron = "${task.AnalysisHUser.consumeCron}")
     public void consume(){
         GrantTask currTask = taskQueue.poll();
         if(null == currTask)

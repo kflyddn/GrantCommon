@@ -4,7 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,7 @@ import java.util.Properties;
 @SpringBootApplication(scanBasePackages = {"cn.pcshao.graduaction","cn.pcshao.grant.common", "cn.pcshao.pic"})
 @MapperScan("cn.pcshao.grant.common.dao")
 @EnableEurekaClient
-@Configuration("cn.pcshao.graduaction.security.ShiroConfig")
+@EnableScheduling
 public class BusinessApplication {
 
     public static void main(String[] args) throws IOException {

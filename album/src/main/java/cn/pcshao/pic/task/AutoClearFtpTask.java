@@ -8,10 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -21,8 +20,7 @@ import java.util.List;
  * @author pcshao.cn
  * @date 2018/12/11
  */
-@Configuration
-@EnableScheduling
+@Component
 @PropertySource({"classpath:album.properties"})
 public class AutoClearFtpTask {
 

@@ -104,4 +104,12 @@ public class GrantTask implements Serializable {
         sb.append("]");
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        GrantTask task = (GrantTask) obj;
+        if(this.serialNumber.equals(task.serialNumber))
+            return true;
+        return false;
+    }
 }

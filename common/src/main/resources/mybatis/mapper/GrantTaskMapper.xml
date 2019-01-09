@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.pcshao.grant.common.dao.GrantTaskMapper" >
+  <!-- 开启二级缓存 -->
+  <cache type="cn.pcshao.grant.common.cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="cn.pcshao.grant.common.entity.GrantTask" >
     <id column="task_id" property="taskId" jdbcType="INTEGER" />
     <result column="serial_number" property="serialNumber" jdbcType="INTEGER" />

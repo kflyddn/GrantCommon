@@ -37,7 +37,6 @@ public class TaskController extends BaseController {
     @PostMapping("/add")
     public ResultDto addTask(@RequestBody GrantTask task){
         ResultDto resultDto = ResultDtoFactory.success();
-        //TODO 任务的具体体现
         int insert;
         try{
             task.setSerialNumber((int) System.currentTimeMillis());
@@ -56,7 +55,6 @@ public class TaskController extends BaseController {
     @PostMapping("/remove")
     public ResultDto removeTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
-        //TODO 任务的具体体现
         for(Integer id : taskIdList) {
             taskService.delete(id);
         }
@@ -67,7 +65,6 @@ public class TaskController extends BaseController {
     @PostMapping("/startTask")
     public ResultDto startTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
-        //TODO 任务的具体实现
         taskService.startTask(taskIdList);
         return resultDto;
     }
@@ -76,7 +73,6 @@ public class TaskController extends BaseController {
     @PostMapping("/restartTask")
     public ResultDto restartTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
-        //TODO 任务的具体实现
         taskService.startTask(taskIdList);
         return resultDto;
     }
@@ -85,7 +81,6 @@ public class TaskController extends BaseController {
     @PostMapping("/stopTask")
     public ResultDto stopTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
-        //TODO 任务的具体实现
         taskService.stopTask(taskIdList);
         return resultDto;
     }

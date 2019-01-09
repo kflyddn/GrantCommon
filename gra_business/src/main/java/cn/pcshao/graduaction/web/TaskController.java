@@ -6,6 +6,7 @@ import cn.pcshao.grant.common.bo.TaskBo;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantTask;
+import cn.pcshao.grant.common.entity.GrantTaskResult;
 import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import com.github.pagehelper.PageHelper;
@@ -13,10 +14,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -106,6 +104,19 @@ public class TaskController extends BaseController {
         List<GrantTask> grantTasks = taskService.listTask(taskBo);
         PageInfo page = new PageInfo(grantTasks);
         resultDto.setData(page);
+        return resultDto;
+    }
+
+    @ApiOperation("获取任务结果接口")
+    @PostMapping("/getTaskResult")
+    public ResultDto getTaskResult(@RequestParam Integer taskId){
+        ResultDto resultDto = ResultDtoFactory.success();
+        if(null != taskId) {
+            List<GrantTaskResult> taskResultList = taskService.listTaskResult(taskId);
+            if(null != taskResultList){
+                resultDto.setData(taskResultList);
+            }
+        }
         return resultDto;
     }
 

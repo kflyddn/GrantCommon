@@ -3,6 +3,7 @@ package cn.pcshao.graduaction.service;
 import cn.pcshao.grant.common.base.BaseService;
 import cn.pcshao.grant.common.bo.TaskBo;
 import cn.pcshao.grant.common.entity.GrantTask;
+import cn.pcshao.grant.common.entity.GrantTaskResult;
 
 import java.util.List;
 
@@ -30,4 +31,10 @@ public interface TaskService extends BaseService<GrantTask, Integer> {
      * @param taskId
      */
     void startTask(List<Integer> taskId);
+
+    /**
+     * 获取任务结果
+     * @param taskId
+     */
+    List<GrantTaskResult> listTaskResult(Integer taskId);
 }

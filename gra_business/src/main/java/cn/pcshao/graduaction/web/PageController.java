@@ -3,7 +3,8 @@ package cn.pcshao.graduaction.web;
 import cn.pcshao.grant.common.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 基础页面控制器
@@ -44,8 +45,12 @@ public class PageController extends BaseController {
         return "graduation/dashboard";
     }
     @GetMapping("/graduation/taskResult")
-    public String taskResult(){
-        return "graduation/taskResult";
+    public ModelAndView taskResult(@RequestParam String taskId){
+        //现在是跳转后的页面自己去url中拿参数，不是model传参
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("taskId", taskId);
+        modelAndView.setViewName("graduation/taskResult");
+        return modelAndView;
     }
     @GetMapping("/huser/import")
     public String fieImport(){

@@ -5,8 +5,11 @@ import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.base.BaseServiceImpl;
 import cn.pcshao.grant.common.bo.TaskBo;
 import cn.pcshao.grant.common.dao.GrantTaskMapper;
+import cn.pcshao.grant.common.dao.GrantTaskResultMapper;
 import cn.pcshao.grant.common.entity.GrantTask;
 import cn.pcshao.grant.common.entity.GrantTaskExample;
+import cn.pcshao.grant.common.entity.GrantTaskResult;
+import cn.pcshao.grant.common.entity.GrantTaskResultExample;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,6 +24,8 @@ public class TaskServiceImpl extends BaseServiceImpl<GrantTask, Integer> impleme
 
     @Resource
     private GrantTaskMapper grantTaskMapper;
+    @Resource
+    private GrantTaskResultMapper taskResultMapper;
 
     @Override
     public BaseDao<GrantTask, Integer> getDao() {
@@ -67,5 +72,14 @@ public class TaskServiceImpl extends BaseServiceImpl<GrantTask, Integer> impleme
             task.setState((byte) 3);
         }
         grantTaskMapper.updateByExampleSelective(task, example);
+    }
+
+    @Override
+    public List<GrantTaskResult> listTaskResult(Integer taskId) {
+        GrantTaskResultExample example = new GrantTaskResultExample();
+        GrantTaskResultExample.Criteria criteria = example.createCriteria();
+        criteria.andTaskIdEqualTo(taskId);
+        List<GrantTaskResult> taskResult = taskResultMapper.selectByExample(example);
+        return taskResult;
     }
 }

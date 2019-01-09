@@ -15,22 +15,54 @@
     <script src="/static/js/layui-v2.4.3/layui.js"></script>
 </head>
 <body id="HadoopUser">
-<div>
     <div class="header" >
         <div class="leftLine"></div>
         <div><h1>基于hadoop的人员信息系统</h1></div>
         <div class="leftLine rightLine">
             <div id="currUsername"></div>
             <a class="logout" onclick="logOut()"><i class="iconfont icon-ic_power_settings_new_px"></i><span>注销</span></a>
+            <input type="hidden" value="${taskId}" id="taskId">
         </div>
-
-        <textarea class="layui-textarea"></textarea>
     </div>
-</div>
+
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#taskResult" role="menu" data-toggle="tab">任务分析结果</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" role="tabpanel" id="taskResult">
+            <!-- 数据展示 -->
+            <textarea class="layui-textarea" id="taskResultArea"></textarea>
+        </div>
+    </div>
 
 <script src="/static/js/common.js"></script>
 <script>
-    $.ajax()
+    $(function() {
+        /* 获取跳转页面带来的id数据 */
+        let url = window.location.search; //获取url中"?"符后的字串
+        console.log(url);
+        let taskId = url.substr(url.indexOf("=")+1);
+        loadTaskResult(taskId);
+    });
+    function loadTaskResult(taskId){
+        $.ajax({
+            url: '/task/getTaskResult'+ '?taskId='+ taskId,
+            type: 'POST',
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    let resultList = result.data;
+                    let outPut = "";
+                    resultList.forEach(function (value, i) {
+                        outPut += value.taskId+ ":"+ value.createTime+ value.f1+ "\n";
+                    });
+                    $("#taskResultArea").val(outPut);
+                }
+            }
+        });
+    }
 </script>
 </body>
 </html>

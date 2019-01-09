@@ -349,6 +349,9 @@ layui.use('form', function(){
     });
     form.on('submit(taskResult)', function(data){
         let taskId = data.field.taskId;
+        console.log(taskId)
+        let url = "/graduation/taskResult"+ "?taskId="+ taskId;
+        window.open(url);
         return false;
     });
     form.on('submit(queryHUser)', function (data) {

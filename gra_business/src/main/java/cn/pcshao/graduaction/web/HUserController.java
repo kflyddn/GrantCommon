@@ -129,6 +129,7 @@ public class HUserController extends BaseController {
                 throw new CustomException(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
             }
             // TODO 插库 是否插库前展示确认一下 逐个校验的话不用批处理插入 速度慢 huser已经做成逐个校验
+            // TODO 是否开启事务，excel文件中已经有的档案插到一半回滚
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(hUsersFromList)) {
                 for(GrantHuser huser : hUsersFromList){

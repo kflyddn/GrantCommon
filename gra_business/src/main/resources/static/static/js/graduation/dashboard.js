@@ -96,6 +96,7 @@ layui.use('table', function () {
                 "type": data.type
                 , "describe": data.describe
                 , "param": data.param
+                , "taskId": data.taskId
             });
             $("#taskDetail").modal();
         }else if(obj.event === 'stop'){
@@ -238,7 +239,7 @@ function refreshProcessBar(currProcess) {
     element.progress('taskProcessBar', currProcess+ '%');
 }
 
-window.setInterval(loadTaskManageTable, 1500);
+window.setInterval(loadTaskManageTable, 3000);
 /**
  * 刷新任务管理数据表格
  * @param param
@@ -339,11 +340,15 @@ layui.use('form', function(){
             contentType: "application/json",
             success: function (result) {
                 if(result.code == 10){
-                    loadUserTable();
+                    loadHUserTable();
                 }
                 layer.msg(result.msg);
             }
         });
+        return false;
+    });
+    form.on('submit(taskResult)', function(data){
+        let taskId = data.field.taskId;
         return false;
     });
     form.on('submit(queryHUser)', function (data) {

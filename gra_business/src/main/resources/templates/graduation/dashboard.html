@@ -129,9 +129,15 @@
                     </div>
                     <div class="row">
                         <div class="layui-form-item">
+                            <label class="layui-form-label">任务ID</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="taskId" disabled autocomplete="off" placeholder="" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
                             <label class="layui-form-label">任务类型</label>
                             <div class="layui-input-block">
-                                <input type="text" name="type" contenteditable="false" autocomplete="off" placeholder="" class="layui-input">
+                                <input type="text" name="type" disabled autocomplete="off" placeholder="" class="layui-input">
                             </div>
                         </div>
                     </div>
@@ -139,14 +145,20 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">描述</label>
                             <div class="layui-input-block">
-                                <input type="text" name="describe" contenteditable="false" autocomplete="off" class="layui-input">
+                                <input type="text" name="describe" disabled autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">任务参数</label>
                             <div class="layui-input-block">
-                                <textarea type="text" name="param" contenteditable="false" autocomplete="off" class="layui-textarea"></textarea>
+                                <textarea type="text" name="param" disabled autocomplete="off" class="layui-textarea"></textarea>
                             </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="taskResult">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
                 </form>

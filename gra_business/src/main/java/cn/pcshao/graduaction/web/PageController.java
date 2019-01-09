@@ -43,6 +43,10 @@ public class PageController extends BaseController {
     public String graduation(){
         return "graduation/dashboard";
     }
+    @GetMapping("/graduation/taskResult")
+    public String taskResult(){
+        return "graduation/taskResult";
+    }
     @GetMapping("/huser/import")
     public String fieImport(){
         return "upload/importFiles";

@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author pcshao.cn
@@ -112,9 +114,13 @@ public class TaskController extends BaseController {
     public ResultDto getTaskResult(@RequestParam Integer taskId){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != taskId) {
-            List<GrantTaskResult> taskResultList = taskService.listTaskResult(taskId);
+            List taskResultList = taskService.listTaskResult(taskId);
+            GrantTask task = taskService.selectById(taskId);
             if(null != taskResultList){
-                resultDto.setData(taskResultList);
+                Map map = new HashMap<String, Object>();
+                map.put("taskInfo", task);
+                map.put("taskResultList", taskResultList);
+                resultDto.setData(map);
             }
         }
         return resultDto;

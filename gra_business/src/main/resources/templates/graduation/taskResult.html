@@ -33,7 +33,7 @@
     <div class="tab-content">
         <div class="tab-pane fade in active" role="tabpanel" id="taskResult">
             <!-- 数据展示 -->
-            <textarea class="layui-textarea" id="taskResultArea"></textarea>
+            <textarea class="layui-textarea" style="color: #000" rows="30" disabled id="taskResultArea"></textarea>
         </div>
     </div>
 
@@ -46,6 +46,7 @@
         let taskId = url.substr(url.indexOf("=")+1);
         loadTaskResult(taskId);
     });
+
     function loadTaskResult(taskId){
         $.ajax({
             url: '/task/getTaskResult'+ '?taskId='+ taskId,
@@ -53,10 +54,11 @@
             contentType: "application/json",
             success: function (result) {
                 if(result.code == 10){
-                    let resultList = result.data;
-                    let outPut = "";
+                    let taskInfo = result.data.taskInfo;
+                    let resultList = result.data.taskResultList;
+                    let outPut = taskInfo.describe+ "\n"+ taskInfo.param+ "\n";
                     resultList.forEach(function (value, i) {
-                        outPut += value.taskId+ ":"+ value.createTime+ value.f1+ "\n";
+                        outPut += value.id+ "\t"+ value.taskId+ ": "+ value.createTime+ "\t"+ value.f1+ "\n";
                     });
                     $("#taskResultArea").val(outPut);
                 }

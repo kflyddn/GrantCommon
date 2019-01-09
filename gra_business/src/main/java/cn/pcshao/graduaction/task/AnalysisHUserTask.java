@@ -83,6 +83,9 @@ public class AnalysisHUserTask {
             Map<String, Object> fromJson = JSONUtils.getMapFromJson(param);
             if(fromJson.get("countName") != null){
                 //Map中可以嵌套map
+                //任务进行操作DB更改状态，越早越好，消费一条立马改一条防止重复生成
+                currTask.setState((byte) 2);
+                taskMapper.updateByPrimaryKeySelective(currTask);
                 addCountNameTask(currTask, (String) fromJson.get("countName"));
             }
             if(fromJson.get("test") != null){
@@ -98,9 +101,6 @@ public class AnalysisHUserTask {
 
     //APP 需要做成多线程的，执行完毕返回后再去使任务记录标识变化
     private void countName(GrantTask currTask, String name){
-        //任务进行
-        currTask.setState((byte) 2);
-        taskMapper.updateByPrimaryKeySelective(currTask);
         logger.info("开始统计姓名任务！");
         Map map = new HashMap<String, Object>(); //后期多线程下需要考虑线程安全问题
         GrantHuserExample example1 = new GrantHuserExample();

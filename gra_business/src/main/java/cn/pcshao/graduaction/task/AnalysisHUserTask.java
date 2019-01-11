@@ -33,14 +33,8 @@ public class AnalysisHUserTask {
 
     private Logger logger = LoggerFactory.getLogger(AnalysisHUserTask.class);
 
-    //结果集
-    public Map resultMap;
     //任务队列
     private Queue<GrantTask> taskQueue = new LinkedList<>();
-
-    @Autowired
-    @Qualifier("hUserServiceImpl")
-    private HUserService hUserService;
 
     @Resource
     private GrantHuserMapper huserMapper;

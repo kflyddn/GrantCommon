@@ -15,6 +15,24 @@
     favicon:
       enabled: false
 
+  servlet:
+    #文件上传配置
+    multipart:
+      enabled: true
+      max-file-size: 40MB
+      max-request-size: 100MB
+
+#pagehelper分页配置 yml配置对于依赖jar包有一定的不兼容，现仍保持bean配置
+pagehelper:
+#  helperDialect: mysql #配置mysql数据库的方言
+#  autoRuntimeDialect: false #设置为true时，多数据源会自动选择合适的分页方言。默认false
+#  reasonable: true #传入参数不合法时返回第一或者最后一页结果
+#  offsetAsPageNum: true #offset limit == pageNum pageSize
+#  rowBoundsWithCount: true #配置pageInfo类或者查询返回总数
+#  params: count=countSql #用于从对象中根据属性名取值， 可以配置 pageNum,pageSize,count,pageSizeZero,reasonable，不配置映射的用默认值，默认值为pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
+#  supportMethodsArguments: false #默认值false，分页插件会从查询方法的参数值中，自动根据上面 params 配置的字段中取值，查找到合适的值时就会自动分页。
+#  closeConn: true #当使用运行时动态数据源或没有设置 helperDialect 属性自动获取数据库类型时，会自动获取一个数据库连接， 通过该属性来设置是否关闭获取的这个连接，默认true
+
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   type-aliases-package: cn.pcshao.grant.common.entity  # 注意：对应实体类的路径

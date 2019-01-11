@@ -37,19 +37,6 @@ public class CommonApplication {
     }
 
     /**
-     * 文件上传配置
-     */
-    @Bean
-    public MultipartConfigElement multipartConfigElement() {
-        MultipartConfigFactory factory = new MultipartConfigFactory();
-        //单个文件最大
-        factory.setMaxFileSize("40960KB"); //KB,MB
-        /// 设置总上传数据总大小
-        factory.setMaxRequestSize("102400KB");
-        return factory.createMultipartConfig();
-    }
-
-    /**
      * 线程池配置
      */
     @Bean

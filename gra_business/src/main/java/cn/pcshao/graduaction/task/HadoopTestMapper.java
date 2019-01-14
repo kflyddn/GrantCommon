@@ -16,6 +16,8 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,6 +29,7 @@ import java.util.Map;
  * @author pcshao.cn
  * @date 2019/1/11
  */
+@Component
 public class HadoopTestMapper extends Configured implements Tool {
 
     @Override
@@ -54,7 +57,7 @@ public class HadoopTestMapper extends Configured implements Tool {
 
     public static class MapClass extends Mapper<LongWritable, Text, Text, Text> {
         // 用于缓存 dept文件中的数据
-        private Map<String, String> deptMap = new HashMap<String, String>();
+        private Map<String, String> deptMap = new HashMap<>();
         private String[] kv;
 
         // 此方法会在Map方法执行之前执行且执行一次
@@ -89,6 +92,7 @@ public class HadoopTestMapper extends Configured implements Tool {
             }
         }
 
+        @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             // 对员工文件字段进行拆分
             kv = value.toString().split(",");
@@ -103,6 +107,7 @@ public class HadoopTestMapper extends Configured implements Tool {
     }
 
     public static class Reduce extends Reducer<Text, Text, Text, LongWritable> {
+        @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException,
                 InterruptedException {
             // 对同一部门的员工工资进行求和
@@ -117,11 +122,20 @@ public class HadoopTestMapper extends Configured implements Tool {
 
     /**
      * 主方法，执行入口
-     * @param args 输入参数
+     * @param args 输入参数 要处理的HDFS文件路径
      */
     public static void main(String[] args) throws Exception {
         int res = ToolRunner.run(new Configuration(), new HadoopTestMapper(), args);
         System.exit(res);
     }
 
+    @Scheduled(cron = "0/1 * * * * *")
+    public void testHadoop() throws Exception {
+        String[] filePath = new String[3];
+        filePath[0] = "D:\\PCSHAO\\IDEAworkspace\\GrantCommon\\gra_business\\src\\main\\resources\\hadoop\\dept";
+        filePath[1] = "D:\\PCSHAO\\IDEAworkspace\\GrantCommon\\gra_business\\src\\main\\resources\\hadoop\\emp";
+        filePath[2] = "D:\\PCSHAO\\IDEAworkspace\\GrantCommon\\gra_business\\src\\main\\resources\\hadoop\\out";
+        int res = ToolRunner.run(new Configuration(), new HadoopTestMapper(), filePath);
+        System.exit(res);
+    }
 }

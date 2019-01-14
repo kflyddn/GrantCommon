@@ -1,6 +1,5 @@
 package cn.pcshao.graduaction.task;
 
-import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantTaskMapper;
 import cn.pcshao.grant.common.dao.GrantTaskResultMapper;
@@ -12,7 +11,6 @@ import cn.pcshao.grant.common.util.JSONUtils;
 import cn.pcshao.grant.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;

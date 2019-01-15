@@ -79,8 +79,8 @@ public class AddSource2MailAspect {
         mainMessage.setTo(mailAnnotation.toMailAddress());
         //存储收件人列表
         for(String s : mailAnnotation.toMailAddress()){
-            if(null != toMailAddressRecordMap.get(s)) {
-                toMailAddressRecordMap.put(s, toMailAddressRecordMap.get(s) + 1);
+            if(toMailAddressRecordMap.containsKey(s)) {
+                toMailAddressRecordMap.put(s, toMailAddressRecordMap.get(s)+ 1);
             }else {
                 toMailAddressRecordMap.put(s, 1);
             }

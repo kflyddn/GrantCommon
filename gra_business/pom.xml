@@ -61,6 +61,7 @@
             <artifactId>hadoop-common</artifactId>
             <version>2.9.0</version>
         </dependency>
+        <!-- junit test -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

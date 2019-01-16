@@ -54,16 +54,16 @@ public class AddSource2MailAspect {
      * 定义一个切点，切在注解上
      */
     @Pointcut("@annotation(cn.pcshao.grant.common.aop.MailAnnotation)")
-    public void MailAnnotation(){
+    public void MailPoint(){
 
     }
 
-   /* @Before("MailAnnotation()")
+   /* @Before("MailPoint()")
     public void doBefore(ProceedingJoinPoint joinPoint){
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
     }*/
 
-    @AfterReturning(returning = "ret", pointcut = "MailAnnotation() && @annotation(mailAnnotation)")
+    @AfterReturning(returning = "ret", pointcut = "MailPoint() && @annotation(mailAnnotation)")
     public void doAfterReturning(ResultDto ret, MailAnnotation mailAnnotation){
         //TODO 后期建议改成消息队列，积累到一定量的资源上传再向管理员发送邮件
         if(ret.getCode() != DtoCodeConsts.VIEW_SUCCESS){
@@ -79,8 +79,8 @@ public class AddSource2MailAspect {
         mainMessage.setTo(mailAnnotation.toMailAddress());
         //存储收件人列表
         for(String s : mailAnnotation.toMailAddress()){
-            if(null != toMailAddressRecordMap.get(s)) {
-                toMailAddressRecordMap.put(s, toMailAddressRecordMap.get(s) + 1);
+            if(toMailAddressRecordMap.containsKey(s)) {
+                toMailAddressRecordMap.put(s, toMailAddressRecordMap.get(s)+ 1);
             }else {
                 toMailAddressRecordMap.put(s, 1);
             }
@@ -106,18 +106,18 @@ public class AddSource2MailAspect {
     }
 
     /*
-    @AfterThrowing("MailAnnotation()")
+    @AfterThrowing("MailPoint()")
     public void throwss(JoinPoint jp){
         logger.info("方法异常时执行.....");
     }
 
-    @After("MailAnnotation()")
+    @After("MailPoint()")
     public void after(JoinPoint jp){
         logger.info("方法最后执行.....");
     }*/
 
-    /*@Around(value = "MailAnnotation() && @annotation(mailAnnotation)")
-    public Object doArround(ProceedingJoinPoint joinPoint, MailAnnotation mailAnnotation){
+    /*@Around(value = "MailPoint() && @annotation(mailAnnotation)")
+    public Object doArround(ProceedingJoinPoint joinPoint, MailPoint mailAnnotation){
         logger.info("方法环绕通知开始..");
         try {
             //环绕通知必须执行，否则不进入注解的方法

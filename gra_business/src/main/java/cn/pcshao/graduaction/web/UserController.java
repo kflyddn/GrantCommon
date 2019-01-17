@@ -4,6 +4,7 @@ import cn.pcshao.graduaction.bo.SysPageBo;
 import cn.pcshao.graduaction.service.PermissionService;
 import cn.pcshao.graduaction.service.RoleService;
 import cn.pcshao.graduaction.service.UserService;
+import cn.pcshao.grant.common.aop.LogAnnotation;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
@@ -48,6 +49,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("用户登录接口")
     @PostMapping("/login")
+    @LogAnnotation("用户登录")
     public ResultDto login(HttpServletRequest request, @RequestBody GrantUser grantUser){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){

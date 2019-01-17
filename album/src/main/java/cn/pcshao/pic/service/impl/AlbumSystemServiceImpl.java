@@ -1,6 +1,6 @@
 package cn.pcshao.pic.service.impl;
 
-import cn.pcshao.grant.common.aop.AddSource2MailAspect;
+import cn.pcshao.grant.common.aop.MailAspect;
 import cn.pcshao.grant.common.bo.MailSystemBo;
 import cn.pcshao.grant.common.dao.AlbumPicPersonalMapper;
 import cn.pcshao.grant.common.dao.AlbumPicPublicMapper;
@@ -51,7 +51,7 @@ public class AlbumSystemServiceImpl implements AlbumSystemService {
     @Override
     public MailSystemBo getMailStatus() {
         MailSystemBo bo = new MailSystemBo();
-        bo.setToMailAddressRecordMap(AddSource2MailAspect.getToMailAddressRecordMap());
+        bo.setToMailAddressRecordMap(MailAspect.getToMailAddressRecordMap());
         bo.setFrom_address(PropertiesUtil.getMailConfig("mail.fromAddress"));
         bo.setSubject(PropertiesUtil.getMailConfig("mail.subject"));
         bo.setText(PropertiesUtil.getMailConfig("mail.text"));

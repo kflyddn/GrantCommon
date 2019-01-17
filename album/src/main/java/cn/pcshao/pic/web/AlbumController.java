@@ -1,5 +1,6 @@
 package cn.pcshao.pic.web;
 
+import cn.pcshao.grant.common.aop.LogAnnotation;
 import cn.pcshao.grant.common.aop.MailAnnotation;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.bo.AlbumSource;
@@ -116,6 +117,7 @@ public class AlbumController extends BaseController {
     @ApiOperation("新增资源接口")
     @PostMapping("/add")
     @MailAnnotation("站点有用户上传资源文件啦！")
+    @LogAnnotation("相册上传")
     public ResultDto add(HttpServletRequest request, @RequestParam MultipartFile file){
         ResultDto resultDto = ResultDtoFactory.success();
         //文件校验

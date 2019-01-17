@@ -7,10 +7,13 @@
     <result column="time" property="time" jdbcType="TIMESTAMP" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="ip_address" property="ipAddress" jdbcType="VARCHAR" />
+    <result column="time_out" property="timeOut" jdbcType="BIGINT" />
+    <result column="last_access_time" property="lastAccessTime" jdbcType="TIMESTAMP" />
     <result column="content" property="content" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, `type`, `time`, user_id, user_name, content
+    id, `type`, `time`, user_id, user_name, ip_address, time_out, last_access_time, content
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -24,10 +27,12 @@
   </delete>
   <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantLog" >
     insert into grant_log (id, `type`, `time`, 
-      user_id, user_name, content
+      user_id, user_name, ip_address, 
+      time_out, last_access_time, content
       )
     values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
-      #{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}
+      #{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{ipAddress,jdbcType=VARCHAR}, 
+      #{timeOut,jdbcType=BIGINT}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantLog" >
@@ -47,6 +52,15 @@
       </if>
       <if test="userName != null" >
         user_name,
+      </if>
+      <if test="ipAddress != null" >
+        ip_address,
+      </if>
+      <if test="timeOut != null" >
+        time_out,
+      </if>
+      <if test="lastAccessTime != null" >
+        last_access_time,
       </if>
       <if test="content != null" >
         content,
@@ -68,6 +82,15 @@
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
       </if>
+      <if test="ipAddress != null" >
+        #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOut != null" >
+        #{timeOut,jdbcType=BIGINT},
+      </if>
+      <if test="lastAccessTime != null" >
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
@@ -88,6 +111,15 @@
       <if test="userName != null" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
+      <if test="ipAddress != null" >
+        ip_address = #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOut != null" >
+        time_out = #{timeOut,jdbcType=BIGINT},
+      </if>
+      <if test="lastAccessTime != null" >
+        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -100,6 +132,9 @@
       `time` = #{time,jdbcType=TIMESTAMP},
       user_id = #{userId,jdbcType=BIGINT},
       user_name = #{userName,jdbcType=VARCHAR},
+      ip_address = #{ipAddress,jdbcType=VARCHAR},
+      time_out = #{timeOut,jdbcType=BIGINT},
+      last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>

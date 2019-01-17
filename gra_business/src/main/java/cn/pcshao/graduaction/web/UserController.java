@@ -75,6 +75,7 @@ public class UserController extends BaseController {
     @ApiOperation("用户注册接口 用户新增接口（带角色）")
     @ApiParam("用户对象与用户角色列表，角色列表默认为2 normal")
     @PostMapping("/register")
+    @LogAnnotation("用户注册")
     public ResultDto register(@RequestBody GrantUser grantUser, @RequestParam(required = false) List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername()) && StringUtils.isNotEmpty(grantUser.getPassword())){
@@ -152,6 +153,7 @@ public class UserController extends BaseController {
     @ApiOperation("删除用户接口")
     @RequiresPermissions("用户管理")
     @PostMapping("/removeUser")
+    @LogAnnotation("删除用户")
     public ResultDto removeUser(@RequestParam Long[] userIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
@@ -175,6 +177,7 @@ public class UserController extends BaseController {
     @ApiOperation("用户对象编辑接口")
     @RequiresPermissions("用户管理")
     @PostMapping("/editUser")
+    @LogAnnotation("编辑用户")
     public ResultDto saveUser(@RequestBody GrantUser grantUser){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantUser.getUsername())) {
@@ -230,6 +233,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("登出接口")
     @GetMapping("/logout")
+    @LogAnnotation("用户登出")
     public ResultDto logout(@RequestParam(required = false) String token){
         ResultDto resultDto = ResultDtoFactory.success();
         Subject subject = SecurityUtils.getSubject();
@@ -250,6 +254,7 @@ public class UserController extends BaseController {
     @ApiOperation("新增角色接口（可选带用户）")
     @RequiresPermissions("用户管理")
     @PostMapping("/addRole")
+    @LogAnnotation("新增角色")
     public ResultDto addRole(@RequestBody GrantRole grantRole, @RequestParam(required = false) List<Long> userIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantRole.getRoleName()) && StringUtils.isNotEmpty(grantRole.getRoleRemark())){
@@ -303,6 +308,7 @@ public class UserController extends BaseController {
     @ApiOperation("删除角色接口（成功则返回删除条数）")
     @RequiresPermissions("用户管理")
     @PostMapping("/removeRole")
+    @LogAnnotation("删除角色")
     public ResultDto deleteRole(@RequestParam Short[] roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != roleIdList){
@@ -324,6 +330,7 @@ public class UserController extends BaseController {
     @ApiOperation("编辑角色接口")
     @RequiresPermissions("用户管理")
     @PostMapping("/editRole")
+    @LogAnnotation("编辑角色")
     public ResultDto editRole(@RequestBody GrantRole grantRole){
         ResultDto resultDto = ResultDtoFactory.success();
         if(StringUtils.isNotEmpty(grantRole.getRoleName())){
@@ -340,6 +347,7 @@ public class UserController extends BaseController {
     @ApiOperation("新增权限接口（可选带角色）")
     @RequiresPermissions("用户管理")
     @PostMapping("/addPermission")
+    @LogAnnotation("新增权限")
     public ResultDto addPermission(@RequestBody GrantPermission grantPermission, @RequestParam(required = false) List<Short> userRoleList){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限
@@ -400,6 +408,7 @@ public class UserController extends BaseController {
     @ApiOperation("删除权限接口，（成功则返回删除条数）")
     @RequiresPermissions("用户管理")
     @PostMapping("/removePermission")
+    @LogAnnotation("删除权限")
     public ResultDto deletePermission(@RequestParam Long[] permissionIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != permissionIdList){
@@ -421,6 +430,7 @@ public class UserController extends BaseController {
     @ApiOperation("授权接口 给单个用户多个角色")
     @RequiresPermissions("授权")
     @PostMapping("bindUserRoles")
+    @LogAnnotation("授权U2R")
     public ResultDto bindUserRoles(@RequestParam Long userId, @RequestBody List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != userId && ListUtils.isNotEmptyList(roleIdList)){
@@ -433,6 +443,7 @@ public class UserController extends BaseController {
     @ApiOperation("授权接口 给单个角色多个用户")
     @RequiresPermissions("授权")
     @PostMapping("bindRoleUsers")
+    @LogAnnotation("授权R2U")
     public ResultDto bindRoleUsers(@RequestParam Short roleId, @RequestBody List<Long> userIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != roleId && ListUtils.isNotEmptyList(userIdList)){
@@ -445,6 +456,7 @@ public class UserController extends BaseController {
     @ApiOperation("授权接口 给单个角色多个权限")
     @RequiresPermissions("授权")
     @PostMapping("bindRolePermissions")
+    @LogAnnotation("授权R2P")
     public ResultDto bindRolePermissions(@RequestParam Short roleId, @RequestBody List<Long> permissionIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != roleId && ListUtils.isNotEmptyList(permissionIdList)) {
@@ -457,6 +469,7 @@ public class UserController extends BaseController {
     @ApiOperation("授权接口 给单个权限多个用户")
     @RequiresPermissions("授权")
     @PostMapping("bindPermissionRoles")
+    @LogAnnotation("授权P2U")
     public ResultDto bindPermissionRoles(@RequestParam Long permissionId, @RequestBody List<Short> roleIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         if(null != permissionId && ListUtils.isNotEmptyList(roleIdList)) {

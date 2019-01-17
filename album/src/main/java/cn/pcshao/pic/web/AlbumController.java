@@ -208,6 +208,7 @@ public class AlbumController extends BaseController {
 
     @ApiOperation("删除资源接口")
     @PostMapping("/delete")
+    @LogAnnotation("资源删除")
     public ResultDto delete(@RequestParam Long[] idList, @RequestParam String sourceType){
         ResultDto resultDto = ResultDtoFactory.success();
         //检查角色权限

@@ -14,6 +14,12 @@ public class GrantLog implements Serializable {
 
     private String userName;
 
+    private String ipAddress;
+
+    private Long timeOut;
+
+    private Date lastAccessTime;
+
     private String content;
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +64,30 @@ public class GrantLog implements Serializable {
         this.userName = userName == null ? null : userName.trim();
     }
 
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress == null ? null : ipAddress.trim();
+    }
+
+    public Long getTimeOut() {
+        return timeOut;
+    }
+
+    public void setTimeOut(Long timeOut) {
+        this.timeOut = timeOut;
+    }
+
+    public Date getLastAccessTime() {
+        return lastAccessTime;
+    }
+
+    public void setLastAccessTime(Date lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
+
     public String getContent() {
         return content;
     }
@@ -77,6 +107,9 @@ public class GrantLog implements Serializable {
         sb.append(", time=").append(time);
         sb.append(", userId=").append(userId);
         sb.append(", userName=").append(userName);
+        sb.append(", ipAddress=").append(ipAddress);
+        sb.append(", timeOut=").append(timeOut);
+        sb.append(", lastAccessTime=").append(lastAccessTime);
         sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

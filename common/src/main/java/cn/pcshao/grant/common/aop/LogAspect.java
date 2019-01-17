@@ -2,6 +2,10 @@ package cn.pcshao.grant.common.aop;
 
 import cn.pcshao.grant.common.dao.GrantLogMapper;
 import cn.pcshao.grant.common.dto.ResultDto;
+import cn.pcshao.grant.common.entity.GrantLog;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -10,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.lang.annotation.Annotation;
+import java.util.Date;
 
 /**
  * @author pcshao.cn
@@ -38,8 +42,21 @@ public class LogAspect {
 
     @AfterReturning(returning = "ret", pointcut = "LogPoint() && @annotation(logAnnotation)")
     public void doAfterReturning(ResultDto ret, LogAnnotation logAnnotation){
-        String value = logAnnotation.value();
-        logger.info(ret.getData().toString());
+        String value = logAnnotation.value()+ "-"+ ret.getMsg();
+        Subject subject = SecurityUtils.getSubject();
+        String currUsername = (String) subject.getPrincipal();
+        Session session = subject.getSession();
+        GrantLog log = new GrantLog();
+        //TODO 日志字段缺省
+        log.setUserId(null);
+        log.setType(null);
+        log.setUserName(currUsername);
+        log.setIpAddress(session.getHost());
+        log.setTime(new Date());
+        log.setTimeOut(session.getTimeout()/1000);
+        log.setLastAccessTime(session.getLastAccessTime());
+        log.setContent(value);
+        logMapper.insert(log);
     }
 
 }

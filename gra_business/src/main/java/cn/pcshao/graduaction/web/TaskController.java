@@ -1,6 +1,7 @@
 package cn.pcshao.graduaction.web;
 
 import cn.pcshao.graduaction.service.TaskService;
+import cn.pcshao.grant.common.aop.LogAnnotation;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.bo.TaskBo;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
@@ -35,6 +36,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("新增任务接口")
     @PostMapping("/add")
+    @LogAnnotation("任务新增")
     public ResultDto addTask(@RequestBody GrantTask task){
         ResultDto resultDto = ResultDtoFactory.success();
         int insert;
@@ -53,6 +55,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("移除任务接口")
     @PostMapping("/remove")
+    @LogAnnotation("任务移除")
     public ResultDto removeTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         for(Integer id : taskIdList) {
@@ -63,6 +66,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("启动任务接口")
     @PostMapping("/startTask")
+    @LogAnnotation("任务启动")
     public ResultDto startTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         taskService.startTask(taskIdList);
@@ -71,6 +75,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("重启任务接口")
     @PostMapping("/restartTask")
+    @LogAnnotation("任务重启")
     public ResultDto restartTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         taskService.startTask(taskIdList);
@@ -79,6 +84,7 @@ public class TaskController extends BaseController {
 
     @ApiOperation("停止任务接口")
     @PostMapping("/stopTask")
+    @LogAnnotation("任务停止")
     public ResultDto stopTask(@RequestBody List<Integer> taskIdList){
         ResultDto resultDto = ResultDtoFactory.success();
         taskService.stopTask(taskIdList);

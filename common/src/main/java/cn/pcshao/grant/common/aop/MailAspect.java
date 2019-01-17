@@ -28,9 +28,9 @@ import java.util.Map;
 @Aspect
 @Component
 @PropertySource(value = {"classpath:mail-config.properties"}, encoding = "utf-8")
-public class AddSource2MailAspect {
+public class MailAspect {
 
-    private Logger logger = LoggerFactory.getLogger(AddSource2MailAspect.class);
+    private Logger logger = LoggerFactory.getLogger(MailAspect.class);
 
     private static Map<String, Integer> toMailAddressRecordMap = new HashMap<>();
 

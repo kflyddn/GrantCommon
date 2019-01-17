@@ -129,7 +129,7 @@ public class HadoopTestMapper extends Configured implements Tool {
         System.exit(res);
     }
 
-    @Scheduled(cron = "0/1 * * * * *")
+    //@Scheduled(cron = "0/1 * * * * *")
     public void testHadoop() throws Exception {
         String[] filePath = new String[3];
         filePath[0] = "D:\\PCSHAO\\IDEAworkspace\\GrantCommon\\gra_business\\src\\main\\resources\\hadoop\\dept";

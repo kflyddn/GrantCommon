@@ -100,8 +100,6 @@ public class TaskController extends BaseController {
         if(null != taskBo && taskBo.checkSelf()){
             pageNum = taskBo.getPageNum();
             pageSize = taskBo.getPageSize();
-        }else{
-            taskBo = new TaskBo();
         }
         PageHelper.startPage(pageNum, pageSize);
         List<GrantTask> grantTasks = taskService.listTask(taskBo);

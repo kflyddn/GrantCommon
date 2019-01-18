@@ -31,11 +31,12 @@ spring:
         database: 3
         # redis服务器地址（默认为localhost）
     #    host: localhost
-        host: 172.16.31.128
+#        host: 172.16.31.128
+        host: 192.168.123.200
         # redis端口（默认为6379）
         port: 6379
         # redis访问密码（默认为空）
-        password:
+        password: 123456
         # redis连接超时时间（单位为毫秒）
         timeout: 5000
         # redis连接池配置

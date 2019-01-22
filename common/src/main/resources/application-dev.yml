@@ -32,7 +32,7 @@ spring:
         # redis服务器地址（默认为localhost）
     #    host: localhost
 #        host: 172.16.31.128
-        host: 192.168.123.200
+        host: 192.168.1.201
         # redis端口（默认为6379）
         port: 6379
         # redis访问密码（默认为空）

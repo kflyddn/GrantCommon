@@ -20,7 +20,7 @@
         <!-- springCloud注测中心客户端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
             <version>RELEASE</version>
         </dependency>
         <!-- SpringBoot -->

@@ -43,6 +43,8 @@ public class AnalysisHUserTask {
 
     @Value("${task.AnalysisHUser.switch}")
     private String taskSwitch;
+    @Value("${task.AnalysisHUser.useHadoop}")
+    private String useHadoop;
 
     @Resource
     @Qualifier("taskExecutor")
@@ -78,7 +80,12 @@ public class AnalysisHUserTask {
                 //任务进行操作DB更改状态，越早越好，消费一条立马改一条防止重复生成
                 currTask.setState((byte) 2);
                 taskMapper.updateByPrimaryKeySelective(currTask);
-                addCountNameTask(currTask, (String) fromJson.get("countName"));
+                if("OFF".equals(useHadoop)) {
+                    addCountNameTask(currTask, (String) fromJson.get("countName"));
+                }else{
+                    //TODO hadoop 执行countName
+
+                }
             }
             if(fromJson.get("test") != null){
                 //GO ON

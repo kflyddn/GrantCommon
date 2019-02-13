@@ -48,6 +48,9 @@ public class WordCount extends Configured implements Tool {
         Job job = new Job(getConf());
         job.setJarByClass(WordCount.class);
         job.setJobName("wordCount");
+        //设置输入键值类型 如果map、reduce的键值类型一致则只用写下面的outputKey、value就行了，马士兵说的
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(IntWritable.class);
         //设置输出键值类型
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);

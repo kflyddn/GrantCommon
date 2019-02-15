@@ -23,8 +23,11 @@ public class LocalTest {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
 
-        FileInputFormat.setInputPaths(job, "E:\\Hado\\localtest\\input.txt");
-        FileOutputFormat.setOutputPath(job, new Path("E:\\Hado\\localtest\\out"));
+//        FileInputFormat.setInputPaths(job, "E:\\Hado\\localtest\\input.txt");
+//        FileOutputFormat.setOutputPath(job, new Path("E:\\Hado\\localtest\\out"));
+
+        FileInputFormat.setInputPaths(job, "hdfs://hadoop0:9000/input");
+        FileOutputFormat.setOutputPath(job, new Path("hdfs://hadoop0:9000/output"));
 
         job.waitForCompletion(true);
     }

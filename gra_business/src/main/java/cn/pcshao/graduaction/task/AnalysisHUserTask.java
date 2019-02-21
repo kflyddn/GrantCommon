@@ -1,5 +1,6 @@
 package cn.pcshao.graduaction.task;
 
+import cn.pcshao.graduaction.task.hadoop.HTaskTypeFactory;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantTaskMapper;
 import cn.pcshao.grant.common.dao.GrantTaskResultMapper;
@@ -84,13 +85,18 @@ public class AnalysisHUserTask {
                     addCountNameTask(currTask, (String) fromJson.get("countName"));
                 }else{
                     //TODO hadoop 执行countName
-
+                    //例如WordCount，封装其map、reduce，
                 }
             }
             if(fromJson.get("test") != null){
-                //GO ON
+                //TODO 不同的任务处理方式 GO ON
             }
         }
+    }
+
+    private void addWordCountHTask(GrantTask currTask, String name){
+        logger.debug("开启新线程运算基于Haadoop的任务中...");
+        taskExecutor.execute(() -> HTaskTypeFactory.startWordCountHTask(name));
     }
 
     private void addCountNameTask(GrantTask currTask, String name){

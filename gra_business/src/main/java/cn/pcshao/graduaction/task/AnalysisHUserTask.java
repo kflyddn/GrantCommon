@@ -1,6 +1,7 @@
 package cn.pcshao.graduaction.task;
 
 import cn.pcshao.graduaction.task.hadoop.HTaskTypeFactory;
+import cn.pcshao.graduaction.task.hadoop.WordCount;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantTaskMapper;
 import cn.pcshao.grant.common.dao.GrantTaskResultMapper;
@@ -96,7 +97,8 @@ public class AnalysisHUserTask {
 
     private void addWordCountHTask(GrantTask currTask, String name){
         logger.debug("开启新线程运算基于Haadoop的任务中...");
-        taskExecutor.execute(() -> HTaskTypeFactory.startWordCountHTask(name));
+        taskExecutor.execute(() -> HTaskTypeFactory.getFacJob(WordCount.Map.class, WordCount.Reduce.class,
+                "E:\\Hado\\localtest\\input.txt", "E:\\Hado\\localtest\\out\\"+ name));
     }
 
     private void addCountNameTask(GrantTask currTask, String name){

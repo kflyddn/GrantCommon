@@ -403,9 +403,21 @@ function hdfsNow(){
             }
         ]
     };
-
     setInterval(function () {
-        option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+        // option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+        let process = 50;
+        $.ajax({
+            url: '/huser/hdfsNow',
+            type: 'GET',
+            async: false,
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    process = result.data;
+                }
+            }
+        });
+        option.series[0].data[0].value = process.toFixed(2) - 0;
         myChart.setOption(option, true);
     },2000);
 }

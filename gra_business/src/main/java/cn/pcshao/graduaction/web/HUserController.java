@@ -158,4 +158,13 @@ public class HUserController extends BaseController {
         return ResultDtoFactory.error();
     }
 
+    @ApiOperation("获取Mysql同步Hdfs实时状态")
+    @GetMapping("/hdfsNow")
+    public ResultDto hdfsNow(){
+        ResultDto resultDto = ResultDtoFactory.success();
+        //TODO 同步状态功能实现
+        resultDto.setData(66);
+        return resultDto;
+    }
+
 }

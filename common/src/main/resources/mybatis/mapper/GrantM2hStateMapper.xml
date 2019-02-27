@@ -198,7 +198,7 @@
     select max(huser_id) from grant_m2h_state
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into grant_m2hdfs_state (
+    insert into grant_m2h_state (
       huser_id, state, create_time
     )
     values
@@ -206,7 +206,7 @@
       (
       #{item.huserId,jdbcType=BIGINT},
       1,
-      sysdate(),
+      sysdate()
       )
     </foreach>
   </insert>

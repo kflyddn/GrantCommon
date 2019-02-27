@@ -19,9 +19,8 @@
         <div class="header" >
             <div class="leftLine"></div>
             <div><h1>基于hadoop的人员信息系统</h1></div>
-            <div class="leftLine rightLine">
-                <div id="currUsername"></div>
-                <a class="logout" onclick="logOut()"><i class="iconfont icon-ic_power_settings_new_px"></i><span>注销</span></a>
+            <div class="rightLine">
+                <a class="logout" onclick="logOut()"><div id="currUsername"></div><i class="iconfont icon-ic_power_settings_new_px"></i><span>注销</span></a>
             </div>
 
         </div>
@@ -31,6 +30,9 @@
             </li>
             <li>
                 <a href="#TaskManage" role="menu" data-toggle="tab">分析任务管理</a>
+            </li>
+            <li>
+                <a href="#dataManage" role="menu" data-toggle="tab">Mysql同步到Hdfs</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -56,6 +58,25 @@
                 <table id="tableHUser" lay-filter="hUser"></table>
             </div>
             <div class="tab-pane fade" role="tabpanel" id="TaskManage">
+                <div>
+                    <a class="addBtn pull-right" data-toggle="modal" data-target="#taskAdd" onclick="" ><i  class="iconfont icon-tianjia mr10"></i>新建任务</a>
+                    <form class="layui-form form-inline">
+                        <div class="form-group mgl15">
+                            <label>搜索：</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="模糊查询请用%代替" name="username" />
+                            <input type="text" class="form-control" placeholder="根据序列号查询" name="nickname" />
+                        </div>
+                        <button class="btn-color-blue" type="button" lay-submit lay-filter="queryHUser">
+                            <i class="iconfont icon-chazhao"></i>
+                        </button>
+                    </form>
+                </div>
+                <!-- 任务管理 数据展示 -->
+                <table id="tableTaskList" lay-filter="task"></table>
+            </div>
+            <div class="tab-pane fade" role="tabpanel" id="dataManage">
                 <div>
                     <a class="addBtn pull-right" data-toggle="modal" data-target="#taskAdd" onclick="" ><i  class="iconfont icon-tianjia mr10"></i>新建任务</a>
                     <form class="layui-form form-inline">

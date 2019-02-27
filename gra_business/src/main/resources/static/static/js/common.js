@@ -9,7 +9,7 @@ function loadCurrUser() {
         success: function (result) {
             if (result.code == 10) {
                 let user = result.data;
-                $("#currUsername").html("用户名: "+ user.username);
+                $("#currUsername").html("当前用户: "+ user.username);
             }
         }
     });

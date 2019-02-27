@@ -1,11 +1,13 @@
 package cn.pcshao.grant.common.dao;
 
+import cn.pcshao.grant.common.base.BaseDao;
+import cn.pcshao.grant.common.entity.GrantHuser;
 import cn.pcshao.grant.common.entity.GrantM2hState;
 import cn.pcshao.grant.common.entity.GrantM2hStateExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface GrantM2hStateMapper {
+public interface GrantM2hStateMapper extends BaseDao<GrantM2hState, Long> {
     int countByExample(GrantM2hStateExample example);
 
     int deleteByExample(GrantM2hStateExample example);
@@ -27,4 +29,8 @@ public interface GrantM2hStateMapper {
     int updateByPrimaryKeySelective(GrantM2hState record);
 
     int updateByPrimaryKey(GrantM2hState record);
+
+    Long getMaxHUserId();
+
+    int insertBatch(@Param("husers") List<GrantHuser> husers);
 }

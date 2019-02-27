@@ -194,4 +194,20 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getMaxHUserId" resultType="java.lang.Long">
+    select max(huser_id) from grant_m2hdfs_state
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into grant_m2hdfs_state (
+      huser_id, state, create_time
+    )
+    values
+    <foreach collection="husers" item="item" index="index" separator=",">
+      (
+      #{item.huserId,jdbcType=BIGINT},
+      1,
+      sysdate(),
+      )
+    </foreach>
+  </insert>
 </mapper>

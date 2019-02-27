@@ -5,6 +5,8 @@ import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
 import cn.pcshao.grant.common.entity.GrantHuser;
 import cn.pcshao.grant.common.entity.GrantHuserExample;
 import cn.pcshao.grant.common.entity.GrantM2hStateExample;
+import cn.pcshao.grant.common.exception.CustomException;
+import cn.pcshao.grant.common.util.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +31,12 @@ public class Mysql2HdfsTask {
 
     private Logger logger = LoggerFactory.getLogger(AnalysisHUserTask.class);
 
-    @Value("${task.AnalysisHUser.switch}")
+    @Value("${task.Mysql2Hdfs.switch}")
     private String taskSwitch;
 
+    @Resource
     private GrantHuserMapper huserMapper;
+    @Resource
     private GrantM2hStateMapper hStateMapper;
 
     @Scheduled(cron = "${task.Mysql2Hdfs.cron}")
@@ -44,14 +49,19 @@ public class Mysql2HdfsTask {
     //读取huser存到临时文本
         //TODO 分批次读取 按ID读吧 bigint够用了
         Long maxHUserId = hStateMapper.getMaxHUserId();
-        GrantHuserExample.Criteria criteria = huserExample.createCriteria();
-        criteria.andHuserIdGreaterThan(maxHUserId);
+        if(null != maxHUserId) {
+            GrantHuserExample.Criteria criteria = huserExample.createCriteria();
+            criteria.andHuserIdGreaterThan(maxHUserId);
+        }
         List<GrantHuser> husers = huserMapper.selectByExample(huserExample);
         //字符串拼接成字符串数组
+        if(ListUtils.isEmptyList(husers)) {
+            return;
+        }
         List<String> dataList = obj2hdfs(husers);
         //附加非结构化数据
-    //文本与非结构化数据一同写入hdfs
-    //更新state表 状态插1 时间为数据库时间
+        //文本与非结构化数据一同写入hdfs
+        
         hStateMapper.insertBatch(husers);
     }
 

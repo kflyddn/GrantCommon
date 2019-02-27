@@ -374,3 +374,40 @@ function openImportHUsersFrame(){
         content: ['/huser/import', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
     });
 }
+
+/**
+ * 开始同步
+ *  Mysql->Hdfs
+ *  需要引入echarts.min.js
+ */
+function hdfsNow(){
+    // 基于准备好的dom，初始化echarts实例
+    let myChart = echarts.init(document.getElementById('hdfsChart'));
+    // 指定图表的配置项和数据
+    option = {
+        tooltip : {
+            formatter: "{a} <br/>{b} : {c}%"
+        },
+        toolbox: {
+            feature: {
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        series: [
+            {
+                name: '同步状态',
+                type: 'gauge',
+                detail: {formatter:'{value}%'},
+                data: [{value: 50, name: '完成率'}]
+            }
+        ]
+    };
+
+    setInterval(function () {
+        option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+        myChart.setOption(option, true);
+    },2000);
+}
+
+

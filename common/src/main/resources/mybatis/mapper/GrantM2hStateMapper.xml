@@ -195,7 +195,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="getMaxHUserId" resultType="java.lang.Long">
-    select max(huser_id) from grant_m2hdfs_state
+    select max(huser_id) from grant_m2h_state
   </select>
   <insert id="insertBatch" parameterType="java.util.List">
     insert into grant_m2hdfs_state (

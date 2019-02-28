@@ -1,9 +1,11 @@
 package cn.pcshao.graduaction.task;
 
+import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
 import cn.pcshao.grant.common.entity.GrantHuser;
 import cn.pcshao.grant.common.entity.GrantHuserExample;
+import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.StringUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -54,27 +56,26 @@ public class Mysql2HdfsTask {
             return;
         logger.debug("正在开始Mysql2Hdfs");
         GrantHuserExample huserExample = new GrantHuserExample();
-    //读取huser存到临时文本
-        //TODO 分批次读取 按ID读吧 bigint够用了
         Long maxHUserId = hStateMapper.getMaxHUserId();
         if(null != maxHUserId) {
             GrantHuserExample.Criteria criteria = huserExample.createCriteria();
             criteria.andHuserIdGreaterThan(maxHUserId);
         }
         List<GrantHuser> husers = huserMapper.selectByExample(huserExample);
-        //字符串拼接成字符串数组
         if(ListUtils.isEmptyList(husers)) {
             return;
         }
         File file = obj2file(husers, tempFilePath);
         //附加非结构化数据
         //文本与非结构化数据一同写入hdfs
-        write2hdfs(file, hdfsLocatePath);
-        //更新mysql
-//        hStateMapper.insertBatch(husers);
+        logger.debug("开始写入HDFS");
+        if(write2hdfs(file, hdfsLocatePath)){
+            logger.debug("更新同步记录");
+            hStateMapper.insertBatch(husers);
+        }
     }
 
-    private void write2hdfs(File file, String dstPath) {
+    private boolean write2hdfs(File file, String dstPath) {
         URI uri = null;
         try {
             uri = new URI(hadoopURI);
@@ -86,10 +87,15 @@ public class Mysql2HdfsTask {
         String fileName = System.currentTimeMillis()+ StringUtils.getRandomString(5);
         try {
             fs = FileSystem.get(uri, conf);
-            //TODO 检测是否连接上
             fs.copyFromLocalFile(new Path(file.getAbsolutePath()), new Path(dstPath+ fileName));
+            return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CustomException(DtoCodeConsts.HADOOP_HDFS_CONNECT_FAIL, DtoCodeConsts.HADOOP_CONNECT_FAIL_MSG);
+        }finally {
+            try {
+                fs.close();
+            } catch (IOException e) {
+            }
         }
     }
 

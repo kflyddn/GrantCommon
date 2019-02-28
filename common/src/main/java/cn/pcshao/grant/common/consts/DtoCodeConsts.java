@@ -39,5 +39,10 @@ public class DtoCodeConsts {
     public static final int DB_PRIMARY_EXIST = -50;
     public static final String DB_PRIMARY_EXIST_MSG = "请检查数据序列ID";
 
+    public static final int HADOOP_CONNECT_FAIL = -100;
+    public static final String HADOOP_CONNECT_FAIL_MSG = "Hadoop连接失败";
+    public static final int HADOOP_HDFS_CONNECT_FAIL = -101;
+    public static final String HADOOP_HDFS_CONNECT_FAIL_MSG = "Hdfs连接失败";
+
 
 }

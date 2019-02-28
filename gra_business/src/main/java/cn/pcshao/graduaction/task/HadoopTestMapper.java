@@ -125,7 +125,8 @@ public class HadoopTestMapper extends Configured implements Tool {
      * @param args 输入参数 要处理的HDFS文件路径
      */
     public static void main(String[] args) throws Exception {
-        int res = ToolRunner.run(new Configuration(), new HadoopTestMapper(), args);
+//        int res = ToolRunner.run(new Configuration(), new HadoopTestMapper(), args);
+        int res = ToolRunner.run(new HadoopTestMapper(), args);
         System.exit(res);
     }
 

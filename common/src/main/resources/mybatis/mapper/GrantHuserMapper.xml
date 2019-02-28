@@ -241,7 +241,6 @@
       email = #{email,jdbcType=VARCHAR}
     where huser_id = #{huserId,jdbcType=BIGINT}
   </update>
-
   <insert id="insertBatch" parameterType="java.util.List">
     insert into grant_huser (
       user_id, id_card, `name`, sex, telephone, email
@@ -258,4 +257,7 @@
       )
     </foreach>
   </insert>
+  <select id="getMinHUserId" resultType="java.lang.Long">
+    select min(huser_id) from grant_huser
+  </select>
 </mapper>

@@ -39,4 +39,11 @@ public interface HUserService extends BaseService<GrantHuser, Long> {
      * @return
      */
     List<GrantHuser> getUsersFromList(List<List> excels);
+
+    /**
+     * 获取mysql同步hdfs的进度
+     *  同步状态表中同步成功、hID大于等于源数据表的最小ID的数据总数 / 源数据表中的数据总数
+     * @return
+     */
+    Float getSynchronizedProcess();
 }

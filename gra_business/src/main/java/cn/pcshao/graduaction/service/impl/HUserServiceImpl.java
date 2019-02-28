@@ -4,8 +4,10 @@ import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.base.BaseServiceImpl;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
+import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
 import cn.pcshao.grant.common.entity.GrantHuser;
 import cn.pcshao.grant.common.entity.GrantHuserExample;
+import cn.pcshao.grant.common.entity.GrantM2hStateExample;
 import cn.pcshao.grant.common.util.PropertiesUtil;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
 
     @Resource
     private GrantHuserMapper grantHuserMapper;
+
+    @Resource
+    private GrantM2hStateMapper grantM2hStateMapper;
 
     @Override
     public BaseDao getDao() {
@@ -90,5 +95,19 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
         }
         users.remove(0); //移除表头
         return users;
+    }
+
+    @Override
+    public Float getSynchronizedProcess() {
+        Long minHUserId = grantHuserMapper.getMinHUserId();
+        GrantM2hStateExample example = new GrantM2hStateExample();
+        GrantM2hStateExample.Criteria criteria = example.createCriteria();
+        criteria.andStateEqualTo("1");
+        criteria.andHuserIdGreaterThanOrEqualTo(minHUserId);
+        int sucessNum = grantM2hStateMapper.countByExample(example);
+        GrantHuserExample huserExample = new GrantHuserExample();
+        int allNum = 1;
+        allNum = grantHuserMapper.countByExample(huserExample);
+        return allNum==1? 0f : (float)sucessNum/allNum*100;
     }
 }

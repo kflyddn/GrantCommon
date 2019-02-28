@@ -162,8 +162,8 @@ public class HUserController extends BaseController {
     @GetMapping("/hdfsNow")
     public ResultDto hdfsNow(){
         ResultDto resultDto = ResultDtoFactory.success();
-        //TODO 同步状态功能实现
-        resultDto.setData(66);
+        Float process = hUserService.getSynchronizedProcess();
+        resultDto.setData(process);
         return resultDto;
     }
 

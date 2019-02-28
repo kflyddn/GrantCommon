@@ -44,6 +44,8 @@ public class Mysql2HdfsTask {
     private String hadoopURI;
     @Value("${task.Mysql2Hdfs.hdfsLocate}")
     private String hdfsLocatePath;
+    @Value("${task.Mysql2Hdfs.perSynCount}")
+    private String perSynCount;
 
     @Resource
     private GrantHuserMapper huserMapper;
@@ -65,13 +67,24 @@ public class Mysql2HdfsTask {
         if(ListUtils.isEmptyList(husers)) {
             return;
         }
-        File file = obj2file(husers, tempFilePath);
-        //附加非结构化数据
-        //文本与非结构化数据一同写入hdfs
-        logger.debug("开始写入HDFS");
-        if(write2hdfs(file, hdfsLocatePath)){
-            logger.debug("更新同步记录");
-            hStateMapper.insertBatch(husers);
+        int sub = Integer.parseInt(perSynCount);
+        int size = husers.size();
+        for (int i = 0; i < size;) {
+            File file = obj2file(husers, tempFilePath);
+            //TODO 附加非结构化数据
+            logger.debug("开始写入HDFS");
+            if(write2hdfs(file, hdfsLocatePath)) {
+                logger.debug("更新同步记录");
+                List<GrantHuser> list = null;
+                if((i+sub) > size){
+                    list = husers.subList(i, size);
+                }else {
+                    list = husers.subList(i, i + sub);
+                }
+                hStateMapper.insertBatch(list);
+                i += sub;
+            }
+            file.deleteOnExit();
         }
     }
 

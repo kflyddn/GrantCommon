@@ -120,11 +120,7 @@ public class UserController extends BaseController {
         }
         if(ListUtils.isNotEmptyList(excels)) {
             List<GrantUser> usersFromList = null;
-            try{
-                usersFromList = userService.getUsersFromList(excels);
-            }catch (Exception e){
-                throw new CustomException(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
-            }
+            usersFromList = userService.getUsersFromList(excels);
             // TODO 插库 是否插库前展示确认一下 逐个校验的话不用批处理插入 速度慢 huser已经做成逐个校验
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(usersFromList)) {

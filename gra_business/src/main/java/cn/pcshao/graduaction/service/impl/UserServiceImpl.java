@@ -52,44 +52,48 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
         List<GrantUser> users = new ArrayList<>();
         int colLength = list.get(0).size();
         int[] indexLocation = new int[colLength+1];
-        for (int i = 0; i < list.size(); i++) {
-            List row = list.get(i);
-            GrantUser user = new GrantUser();
-            for (int j = 0; j < row.size(); j++) {
-                if(indexLocation[0] != colLength){
-                    if(PropertiesUtil.getBusinessConfig("importUsersTemplate.username").equals(row.get(j).toString())){
-                        indexLocation[1]=j;
-                        indexLocation[0]++;
-                    }else if(PropertiesUtil.getBusinessConfig("importUsersTemplate.email").equals(row.get(j).toString())){
-                        indexLocation[2]=j;
-                        indexLocation[0]++;
-                    }else if(PropertiesUtil.getBusinessConfig("importUsersTemplate.nickname").equals(row.get(j).toString())){
-                        indexLocation[3]=j;
-                        indexLocation[0]++;
-                    }else if(PropertiesUtil.getBusinessConfig("importUsersTemplate.password").equals(row.get(j).toString())){
-                        indexLocation[4]=j;
-                        indexLocation[0]++;
-                    }else if(PropertiesUtil.getBusinessConfig("importUsersTemplate.sex").equals(row.get(j).toString())){
-                        indexLocation[5]=j;
-                        indexLocation[0]++;
-                    }else if(PropertiesUtil.getBusinessConfig("importUsersTemplate.tel").equals(row.get(j).toString())){
-                        indexLocation[6]=j;
-                        indexLocation[0]++;
-                    }else if(PropertiesUtil.getBusinessConfig("importUsersTemplate.is_use").equals(row.get(j).toString())){
-                        indexLocation[7]=j;
-                        indexLocation[0]++;
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                List row = list.get(i);
+                GrantUser user = new GrantUser();
+                for (int j = 0; j < row.size(); j++) {
+                    if (indexLocation[0] != colLength) {
+                        if (PropertiesUtil.getBusinessConfig("importUsersTemplate.username").equals(row.get(j).toString())) {
+                            indexLocation[1] = j;
+                            indexLocation[0]++;
+                        } else if (PropertiesUtil.getBusinessConfig("importUsersTemplate.email").equals(row.get(j).toString())) {
+                            indexLocation[2] = j;
+                            indexLocation[0]++;
+                        } else if (PropertiesUtil.getBusinessConfig("importUsersTemplate.nickname").equals(row.get(j).toString())) {
+                            indexLocation[3] = j;
+                            indexLocation[0]++;
+                        } else if (PropertiesUtil.getBusinessConfig("importUsersTemplate.password").equals(row.get(j).toString())) {
+                            indexLocation[4] = j;
+                            indexLocation[0]++;
+                        } else if (PropertiesUtil.getBusinessConfig("importUsersTemplate.sex").equals(row.get(j).toString())) {
+                            indexLocation[5] = j;
+                            indexLocation[0]++;
+                        } else if (PropertiesUtil.getBusinessConfig("importUsersTemplate.tel").equals(row.get(j).toString())) {
+                            indexLocation[6] = j;
+                            indexLocation[0]++;
+                        } else if (PropertiesUtil.getBusinessConfig("importUsersTemplate.is_use").equals(row.get(j).toString())) {
+                            indexLocation[7] = j;
+                            indexLocation[0]++;
+                        }
+                        //如果增加字段往后加，自动记录下标标记
                     }
-                    //如果增加字段往后加，自动记录下标标记
                 }
+                user.setUsername(row.get(indexLocation[1]).toString());
+                user.setEmail(row.get(indexLocation[2]).toString());
+                user.setNickname(row.get(indexLocation[3]).toString());
+                user.setPassword(row.get(indexLocation[4]).toString());
+                user.setSex(row.get(indexLocation[5]).toString().equals("1") ? true : false);
+                user.setTel(row.get(indexLocation[6]).toString());
+                user.setIsUse(row.get(indexLocation[7]).toString().equals("1") ? true : false);
+                users.add(user);
             }
-            user.setUsername(row.get(indexLocation[1]).toString());
-            user.setEmail(row.get(indexLocation[2]).toString());
-            user.setNickname(row.get(indexLocation[3]).toString());
-            user.setPassword(row.get(indexLocation[4]).toString());
-            user.setSex(row.get(indexLocation[5]).toString().equals("1")?true:false);
-            user.setTel(row.get(indexLocation[6]).toString());
-            user.setIsUse(row.get(indexLocation[7]).toString().equals("1")?true:false);
-            users.add(user);
+        }catch (Exception e){
+            throw new CustomException(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
         }
         users.remove(0); //移除表头
         return users;

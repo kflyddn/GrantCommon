@@ -383,6 +383,7 @@ function openImportHUsersFrame(){
 function hdfsNow(){
     // 基于准备好的dom，初始化echarts实例
     let myChart = echarts.init(document.getElementById('hdfsChart'));
+    let updateChart = echarts.init(document.getElementById('mysqlChart'));
     // 指定图表的配置项和数据
     option = {
         tooltip : {
@@ -403,34 +404,7 @@ function hdfsNow(){
             }
         ]
     };
-    setInterval(function () {
-        // option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
-        let process = 50;
-        $.ajax({
-            url: '/huser/hdfsNow',
-            type: 'GET',
-            async: false,
-            contentType: "application/json",
-            success: function (result) {
-                if(result.code == 10){
-                    process = result.data;
-                }
-            }
-        });
-        option.series[0].data[0].value = process.toFixed(2) - 0;
-        myChart.setOption(option, true);
-    },2000);
-}
-/**
- * 数据导入数据库进度查看
- *  local->Mysql
- *  需要引入echarts.min.js
- */
-function mysqlNow(){
-    // 基于准备好的dom，初始化echarts实例
-    let myChart = echarts.init(document.getElementById('mysqlChart'));
-    // 指定图表的配置项和数据
-    option = {
+    updateOption = {
         tooltip : {
             formatter: "{a} <br/>{b} : {c}%"
         },
@@ -452,8 +426,9 @@ function mysqlNow(){
     setInterval(function () {
         // option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
         let process = 50;
+        let updateProcess = 50;
         $.ajax({
-            url: '/huser/mysqlNow',
+            url: '/huser/hdfsNow',
             type: 'GET',
             async: false,
             contentType: "application/json",
@@ -463,8 +438,21 @@ function mysqlNow(){
                 }
             }
         });
+        $.ajax({
+            url: '/huser/mysqlNow',
+            type: 'GET',
+            async: false,
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    updateProcess = result.data;
+                }
+            }
+        });
         option.series[0].data[0].value = process.toFixed(2) - 0;
+        updateOption.series[0].data[0].value = updateProcess.toFixed(2) - 0;
         myChart.setOption(option, true);
+        updateChart.setOption(updateOption, true);
     },2000);
 }
 

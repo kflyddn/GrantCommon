@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -128,12 +129,9 @@ public class HUserController extends BaseController {
         }
         if(ListUtils.isNotEmptyList(excels)) {
             List<GrantHuser> hUsersFromList = null;
-            try{
-                hUsersFromList = hUserService.getUsersFromList(excels);
-            }catch (Exception e){
-                throw new CustomException(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
-            }
-            // TODO 插库 是否插库前展示确认一下 逐个校验的话不用批处理插入 速度慢 huser已经做成逐个校验 是否开启事务，excel文件中已经有的档案插到一半回滚
+            hUsersFromList = hUserService.getUsersFromList(excels);
+            //TODO 校验重复性能和边插边校验差不多 还是要从用户源头解决
+            checkIDNumber(hUsersFromList);
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(hUsersFromList)) {
                 int fromNums = hUsersFromList.size();
@@ -141,36 +139,40 @@ public class HUserController extends BaseController {
                 GrantTemp gTemp = new GrantTemp();
                 gTemp.setOperId(DtoCodeConsts.GRANT_TEMP_OPER_ID);
                 gTemp.setOperName(DtoCodeConsts.GRANT_TEMP_OPER_ID_MSG);
+                gTemp.setCreateTime(new Date());
                 gTemp.setC1(fromNums+"-当前上传总数");
-                if(0 == gTempService.insert(gTemp))
-                    gTempService.update(gTemp);
+                gTemp.setC2("0");
+                gTemp.setId(gTempService.selectByName(gTemp.getOperName()).get(0).getId());
+                if(null == gTempService.selectByName(gTemp.getOperName()))
+                    gTempService.insert(gTemp);
+                gTempService.update(gTemp);
                 int stNum = 1;
-                int perNum = fromNums/50;
+                int perNum = fromNums/200;
+                if(perNum<10)
+                    perNum=10;
+                //逐条插库
                 for(GrantHuser huser : hUsersFromList){
                     if(stNum%perNum==0) {
                         gTemp.setC2((double)stNum/fromNums*100+"");
                         gTempService.update(gTemp);
                     }
+                    //检查user表中是否已有此用户名-对应huser表中身份证号
                     GrantUser user = new GrantUser();
                     user.setNickname(huser.getName());
                     user.setUsername(huser.getIdCard());
-                    user.setSex(huser.getSex());
                     user.setTel(huser.getTelephone());
+                    user.setSex(huser.getSex());
                     user.setEmail(huser.getEmail());
                     user.setIsUse(false);
-                    //检查user表中是否已有此用户名-对应huser表中身份证号
-                    if(ListUtils.isEmptyList(userService.listUsersByUserName(user.getUsername()))) {
-                        List<Short> roleList = new ArrayList<>();
-                        roleList.add((short)3);
-                        Long id = userService.saveUser(user, roleList);
-                        huser.setUserId(id);
-                        hUserService.insert(huser);
-                    }else{
-                        throw new CustomException(DtoCodeConsts.USER_EXISTS, user.getUsername()+ "--"+ user.getNickname()+ "--"+ DtoCodeConsts.USER_EXISTS_MSG);
-                    }
+                    List<Short> roleList = new ArrayList<>();
+                    roleList.add((short)3);
+                    huser.setUserId(userService.saveUser(user, roleList));
+                    hUserService.insert(huser);
                     stNum++;
                 }
                 //hUserService.insertBatch(hUsersFromList);
+                gTemp.setC2("");
+                gTempService.update(gTemp);
             }
             resultDto.setMsg("插库时间："+ (System.currentTimeMillis()-time));
             return resultDto;
@@ -178,11 +180,26 @@ public class HUserController extends BaseController {
         return ResultDtoFactory.error();
     }
 
+    private void checkIDNumber(List<GrantHuser> hUsersFromList) {
+        for (GrantHuser huser : hUsersFromList) {
+            List<GrantUser> users = userService.listUsersByUserName(huser.getIdCard());
+            if(ListUtils.isNotEmptyList(users)){
+                throw new CustomException(DtoCodeConsts.USER_EXISTS, DtoCodeConsts.USER_EXISTS_MSG
+                        + "-"+ users.get(0).getUsername()+ "-"+ users.get(0).getNickname());
+            }
+        }
+    }
+
     @ApiOperation("获取Mysql同步Hdfs实时状态")
     @GetMapping("/hdfsNow")
     public ResultDto hdfsNow(){
         ResultDto resultDto = ResultDtoFactory.success();
-        Float process = hUserService.getSynchronizedProcess();
+        Float process = 100f;
+        try{
+            process = hUserService.getSynchronizedProcess();
+        }catch (Exception e){
+
+        }
         resultDto.setData(process);
         return resultDto;
     }
@@ -191,7 +208,7 @@ public class HUserController extends BaseController {
     @GetMapping("/mysqlNow")
     public ResultDto mysqlNow(){
         ResultDto resultDto = ResultDtoFactory.success();
-        Float process = 0f;
+        Float process = -1f;
         try {
             process = Float.parseFloat(gTempService.selectByName(DtoCodeConsts.GRANT_TEMP_OPER_ID_MSG).get(0).getC2().split("-")[0]);
         }catch (Exception e){

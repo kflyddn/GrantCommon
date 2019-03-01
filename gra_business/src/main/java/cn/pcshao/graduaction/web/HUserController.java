@@ -1,11 +1,13 @@
 package cn.pcshao.graduaction.web;
 
+import cn.pcshao.graduaction.service.GrantTempService;
 import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.graduaction.service.UserService;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantHuser;
+import cn.pcshao.grant.common.entity.GrantTemp;
 import cn.pcshao.grant.common.entity.GrantUser;
 import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ExcelUtil;
@@ -36,6 +38,9 @@ public class HUserController extends BaseController {
     @Autowired
     @Qualifier("userServiceImpl")
     private UserService userService;
+    @Autowired
+    @Qualifier("gTempService")
+    private GrantTempService gTempService;
 
     @ApiOperation("获取HUser档案")
     @PostMapping("/getHUserFile")
@@ -128,27 +133,42 @@ public class HUserController extends BaseController {
             }catch (Exception e){
                 throw new CustomException(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
             }
-            // TODO 插库 是否插库前展示确认一下 逐个校验的话不用批处理插入 速度慢 huser已经做成逐个校验
-            // TODO 是否开启事务，excel文件中已经有的档案插到一半回滚
+            // TODO 插库 是否插库前展示确认一下 逐个校验的话不用批处理插入 速度慢 huser已经做成逐个校验 是否开启事务，excel文件中已经有的档案插到一半回滚
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(hUsersFromList)) {
+                int fromNums = hUsersFromList.size();
+                //更新状态表
+                GrantTemp gTemp = new GrantTemp();
+                gTemp.setOperId(DtoCodeConsts.GRANT_TEMP_OPER_ID);
+                gTemp.setOperName(DtoCodeConsts.GRANT_TEMP_OPER_ID_MSG);
+                gTemp.setC1(fromNums+"-当前上传总数");
+                if(0 == gTempService.insert(gTemp))
+                    gTempService.update(gTemp);
+                int stNum = 1;
+                int perNum = fromNums/50;
                 for(GrantHuser huser : hUsersFromList){
-                    GrantUser grantUser = new GrantUser();
-                    grantUser.setUsername(huser.getIdCard());
-                    grantUser.setNickname(huser.getName());
-                    grantUser.setSex(huser.getSex());
-                    grantUser.setTel(huser.getTelephone());
-                    grantUser.setEmail(huser.getEmail());
-                    grantUser.setIsUse(false);
-                    if(ListUtils.isEmptyList(userService.listUsersByUserName(grantUser.getUsername()))) {
+                    if(stNum%perNum==0) {
+                        gTemp.setC2((double)stNum/fromNums*100+"");
+                        gTempService.update(gTemp);
+                    }
+                    GrantUser user = new GrantUser();
+                    user.setNickname(huser.getName());
+                    user.setUsername(huser.getIdCard());
+                    user.setSex(huser.getSex());
+                    user.setTel(huser.getTelephone());
+                    user.setEmail(huser.getEmail());
+                    user.setIsUse(false);
+                    //检查user表中是否已有此用户名-对应huser表中身份证号
+                    if(ListUtils.isEmptyList(userService.listUsersByUserName(user.getUsername()))) {
                         List<Short> roleList = new ArrayList<>();
                         roleList.add((short)3);
-                        Long id = userService.saveUser(grantUser, roleList);
+                        Long id = userService.saveUser(user, roleList);
                         huser.setUserId(id);
                         hUserService.insert(huser);
                     }else{
-                        throw new CustomException(DtoCodeConsts.USER_EXISTS, grantUser.getUsername()+ "--"+ grantUser.getNickname()+ "--"+ DtoCodeConsts.USER_EXISTS_MSG);
+                        throw new CustomException(DtoCodeConsts.USER_EXISTS, user.getUsername()+ "--"+ user.getNickname()+ "--"+ DtoCodeConsts.USER_EXISTS_MSG);
                     }
+                    stNum++;
                 }
                 //hUserService.insertBatch(hUsersFromList);
             }
@@ -163,6 +183,15 @@ public class HUserController extends BaseController {
     public ResultDto hdfsNow(){
         ResultDto resultDto = ResultDtoFactory.success();
         Float process = hUserService.getSynchronizedProcess();
+        resultDto.setData(process);
+        return resultDto;
+    }
+
+    @ApiOperation("获取上传数据到mysql实时状态")
+    @GetMapping("/mysqlNow")
+    public ResultDto mysqlNow(){
+        ResultDto resultDto = ResultDtoFactory.success();
+        Float process = hUserService.getUpdateProcess();
         resultDto.setData(process);
         return resultDto;
     }

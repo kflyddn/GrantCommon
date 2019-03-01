@@ -32,7 +32,7 @@
                 <a href="#TaskManage" role="menu" data-toggle="tab">分析任务管理</a>
             </li>
             <li>
-                <a href="#dataManage" role="menu" data-toggle="tab">Mysql同步到Hdfs</a>
+                <a href="#dataManage" role="menu" data-toggle="tab">进度仪表盘</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -79,11 +79,14 @@
             <div class="tab-pane fade" role="tabpanel" id="dataManage">
                 <div>
                     <a class="addBtn pull-right" data-toggle="modal" onclick="hdfsNow()" ><i  class="iconfont icon-chuli mr10"></i>立即同步</a>
+                    <a class="addBtn pull-right" data-toggle="modal" onclick="openImportHUsersFrame()">批量用户信息档案导入</a>
                 </div>
                 <!-- 同步状态图表 -->
                 <table id="chartDataState" lay-filter="task"></table>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="hdfsChart" style="width: 1000px;height:800px;"></div>
+                <!-- 上传到数据库的进度 -->
+                <div id="mysqlChart" style="width: 1000px;height:800px;"></div>
             </div>
         </div>
     </div>

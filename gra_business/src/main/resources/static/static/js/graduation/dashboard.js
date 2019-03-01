@@ -421,5 +421,51 @@ function hdfsNow(){
         myChart.setOption(option, true);
     },2000);
 }
+/**
+ * 数据导入数据库进度查看
+ *  local->Mysql
+ *  需要引入echarts.min.js
+ */
+function mysqlNow(){
+    // 基于准备好的dom，初始化echarts实例
+    let myChart = echarts.init(document.getElementById('mysqlChart'));
+    // 指定图表的配置项和数据
+    option = {
+        tooltip : {
+            formatter: "{a} <br/>{b} : {c}%"
+        },
+        toolbox: {
+            feature: {
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        series: [
+            {
+                name: '上传进度',
+                type: 'gauge',
+                detail: {formatter:'{value}%'},
+                data: [{value: 50, name: '完成率'}]
+            }
+        ]
+    };
+    setInterval(function () {
+        // option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+        let process = 50;
+        $.ajax({
+            url: '/huser/mysqlNow',
+            type: 'GET',
+            async: false,
+            contentType: "application/json",
+            success: function (result) {
+                if(result.code == 10){
+                    process = result.data;
+                }
+            }
+        });
+        option.series[0].data[0].value = process.toFixed(2) - 0;
+        myChart.setOption(option, true);
+    },2000);
+}
 
 

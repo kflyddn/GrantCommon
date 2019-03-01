@@ -44,5 +44,8 @@ public class DtoCodeConsts {
     public static final int HADOOP_HDFS_CONNECT_FAIL = -101;
     public static final String HADOOP_HDFS_CONNECT_FAIL_MSG = "Hdfs连接失败";
 
+    public static final int GRANT_TEMP_OPER_ID = 30;
+    public static final String GRANT_TEMP_OPER_ID_MSG = "档案上传进度";
+
 
 }

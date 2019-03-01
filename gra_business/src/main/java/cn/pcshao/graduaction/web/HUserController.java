@@ -191,7 +191,11 @@ public class HUserController extends BaseController {
     @GetMapping("/mysqlNow")
     public ResultDto mysqlNow(){
         ResultDto resultDto = ResultDtoFactory.success();
-        Float process = hUserService.getUpdateProcess();
+        Float process = 0f;
+        try {
+            process = Float.parseFloat(gTempService.selectByName(DtoCodeConsts.GRANT_TEMP_OPER_ID_MSG).get(0).getC2().split("-")[0]);
+        }catch (Exception e){
+        }
         resultDto.setData(process);
         return resultDto;
     }

@@ -110,9 +110,4 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
         allNum = grantHuserMapper.countByExample(huserExample);
         return allNum==1? 0f : (float)sucessNum/allNum*100;
     }
-
-    @Override
-    public Float getUpdateProcess() {
-        return null;
-    }
 }

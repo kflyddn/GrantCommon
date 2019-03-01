@@ -46,10 +46,4 @@ public interface HUserService extends BaseService<GrantHuser, Long> {
      * @return
      */
     Float getSynchronizedProcess();
-
-    /**
-     * 获取上传文件到mysql的进度
-     * @return
-     */
-    Float getUpdateProcess();
 }

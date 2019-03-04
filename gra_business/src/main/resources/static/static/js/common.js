@@ -36,7 +36,7 @@ function logOut() {
 /**
  * 点击h1返回首页
  */
-$("h1").click(function () {
+$(".title").click(function () {
     console.log("最伟大的Grant author@pcshao.cn");
     location.href="/";
 });

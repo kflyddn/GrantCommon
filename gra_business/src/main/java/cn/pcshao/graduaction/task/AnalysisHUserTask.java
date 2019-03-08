@@ -113,6 +113,14 @@ public class AnalysisHUserTask {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            GrantTaskResult taskResult = new GrantTaskResult();
+            taskResult.setF1("任务结果");
+            taskResult.setTaskId(currTask.getTaskId());
+            taskResult.setCreateTime(new Date());
+            taskResultMapper.insert(taskResult);
+            currTask.setState((byte) 1);
+            currTask.setProcess((short) 100);
+            taskMapper.updateByPrimaryKeySelective(currTask);
         });
     }
 

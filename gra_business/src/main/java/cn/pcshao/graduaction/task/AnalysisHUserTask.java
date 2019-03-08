@@ -21,6 +21,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -85,8 +86,11 @@ public class AnalysisHUserTask {
                 if("OFF".equals(useHadoop)) {
                     addCountNameTask(currTask, (String) fromJson.get("countName"));
                 }else{
-                    //TODO hadoop 执行countName
-                    //例如WordCount，封装其map、reduce，
+                    String outputName = "Hadoop"+ System.currentTimeMillis();
+                    if(null != fromJson.get("outputPath")){
+                        outputName = (String) fromJson.get("outputPath");
+                    }
+                    addWordCountHTask(currTask, outputName);
                 }
             }
             if(fromJson.get("test") != null){
@@ -97,8 +101,19 @@ public class AnalysisHUserTask {
 
     private void addWordCountHTask(GrantTask currTask, String name){
         logger.debug("开启新线程运算基于Haadoop的任务中...");
-        taskExecutor.execute(() -> HTaskTypeFactory.getFacJob(WordCount.Map.class, WordCount.Reduce.class,
-                "E:\\Hado\\localtest\\input.txt", "E:\\Hado\\localtest\\out\\"+ name));
+        taskExecutor.execute(() -> {
+            try {
+                HTaskTypeFactory.getFacJob(WordCount.Map.class, WordCount.Reduce.class,
+                        "E:\\Hado\\localtest\\input.txt", "E:\\Hado\\localtest\\out\\"+ name)
+                        .waitForCompletion(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void addCountNameTask(GrantTask currTask, String name){

@@ -17,6 +17,7 @@ import java.util.Map;
 /**
  * Hadoop任务处理调度对外API总线工厂
  *  需要和其他示例注入wordCount程序置于同一目录
+ *  2019-03-08 add 其实这个类还是对本地任务执行有作用
  * @author pcshao.cn
  * @date 2019-02-21
  */

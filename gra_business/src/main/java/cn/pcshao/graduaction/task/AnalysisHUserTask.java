@@ -48,6 +48,8 @@ public class AnalysisHUserTask {
     private String taskSwitch;
     @Value("${task.AnalysisHUser.useHadoop}")
     private String useHadoop;
+    @Value("${task.Mysql2Hdfs.hdfsLocate}")
+    private String hdfsLocatePath;
 
     @Resource
     @Qualifier("taskExecutor")
@@ -105,6 +107,7 @@ public class AnalysisHUserTask {
             try {
                 HTaskTypeFactory.getFacJob(WordCount.Map.class, WordCount.Reduce.class,
                         "E:\\Hado\\localtest\\input.txt", "E:\\Hado\\localtest\\out\\"+ name)
+//                        hdfsLocatePath, "E:\\Hado\\localtest\\out\\"+ name)  //HDFS 默认读同步到hdfs目录下的所有输入文件，需要增加一个初始化hdfs状态的接口
                         .waitForCompletion(true);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -114,7 +117,7 @@ public class AnalysisHUserTask {
                 e.printStackTrace();
             }
             GrantTaskResult taskResult = new GrantTaskResult();
-            taskResult.setF1("任务结果");
+            taskResult.setF1("任务结果路径"+ hdfsLocatePath);
             taskResult.setTaskId(currTask.getTaskId());
             taskResult.setCreateTime(new Date());
             taskResultMapper.insert(taskResult);

@@ -27,6 +27,7 @@ import java.util.List;
  * Mysql关系型数据库同步HUser数据到HDFS分布式文件系统
  *  1.抽取结构化文本流输出
  *  2.附加非结构化大数据便于直观感受
+ *  阻塞式的，读完表（未分页）后写入hdfs（同步）
  * @author pcshao.cn
  * @date 2019-02-27
  */
@@ -75,7 +76,7 @@ public class Mysql2HdfsTask {
             logger.debug("开始写入HDFS");
             if(write2hdfs(file, hdfsLocatePath)) {
                 logger.debug("更新同步记录");
-                List<GrantHuser> list = null;
+                List<GrantHuser> list;
                 if((i+sub) > size){
                     list = husers.subList(i, size);
                 }else {

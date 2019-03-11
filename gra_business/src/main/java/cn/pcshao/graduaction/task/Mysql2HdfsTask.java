@@ -1,5 +1,6 @@
 package cn.pcshao.graduaction.task;
 
+import cn.pcshao.graduaction.util.HadoopUtil;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
@@ -68,46 +69,62 @@ public class Mysql2HdfsTask {
         if(ListUtils.isEmptyList(husers)) {
             return;
         }
+        logger.info("开始清空hdfs目录");
+        clearHdfs(hdfsLocatePath);
         int sub = Integer.parseInt(perSynCount);
         int size = husers.size();
         for (int i = 0; i < size;) {
-            File file = obj2file(husers, tempFilePath);
             //TODO 附加非结构化数据
-            logger.debug("开始写入HDFS");
-            if(write2hdfs(file, hdfsLocatePath)) {
-                logger.debug("更新同步记录");
-                List<GrantHuser> list;
-                if((i+sub) > size){
-                    list = husers.subList(i, size);
-                }else {
-                    list = husers.subList(i, i + sub);
-                }
-                hStateMapper.insertBatch(list);
-                i += sub;
+            logger.info("正在写入HDFS");
+            List<GrantHuser> list;
+            if((i+sub) > size){
+                list = husers.subList(i, size);
+            }else {
+                list = husers.subList(i, i + sub);
             }
+            File file = obj2file(list, tempFilePath);
+            if(write2hdfs(file, hdfsLocatePath)) {
+                hStateMapper.insertBatch(list);
+            }
+            i += sub;
             file.deleteOnExit();
         }
     }
 
-    private boolean write2hdfs(File file, String dstPath) {
-        URI uri = null;
+    private void clearHdfs(String hdfsLocatePath) {
+        Configuration conf = new Configuration();
+        HadoopUtil hadoopUtil = new HadoopUtil(hadoopURI, conf);
+        FileSystem fs = null;
         try {
-            uri = new URI(hadoopURI);
+            fs = hadoopUtil.getFs();
+            fs.removeAcl(new Path(hdfsLocatePath));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    private boolean write2hdfs(File file, String dstPath) {
         Configuration conf = new Configuration();
+        HadoopUtil hadoopUtil = new HadoopUtil(hadoopURI, conf);
         FileSystem fs = null;
+        try {
+            fs = hadoopUtil.getFs();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String fileName = System.currentTimeMillis()+ StringUtils.getRandomString(5);
         try {
-            fs = FileSystem.get(uri, conf);
             fs.copyFromLocalFile(new Path(file.getAbsolutePath()), new Path(dstPath+ fileName));
             return true;
         } catch (IOException e) {
             throw new CustomException(DtoCodeConsts.HADOOP_HDFS_CONNECT_FAIL, DtoCodeConsts.HADOOP_CONNECT_FAIL_MSG);
         }finally {
             try {
-                fs.close();
+                hadoopUtil.closeFs();
             } catch (IOException e) {
             }
         }

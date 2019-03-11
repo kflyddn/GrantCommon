@@ -50,6 +50,8 @@ public class AnalysisHUserTask {
     private String useHadoop;
     @Value("${task.Mysql2Hdfs.hdfsLocate}")
     private String hdfsLocatePath;
+    @Value("${task.Mysql2Hdfs.hadoopURI}")
+    private String hadoopURI;
 
     @Resource
     @Qualifier("taskExecutor")
@@ -88,12 +90,17 @@ public class AnalysisHUserTask {
                 if("OFF".equals(useHadoop)) {
                     addCountNameTask(currTask, (String) fromJson.get("countName"));
                 }else{
-                    String outputName = "Hadoop"+ System.currentTimeMillis();
-                    if(null != fromJson.get("outputPath")){
-                        outputName = (String) fromJson.get("outputPath");
-                    }
-                    addWordCountHTask(currTask, outputName);
+
                 }
+            }
+            if(fromJson.get("wordCount") != null){
+                currTask.setState((byte) 2);
+                taskMapper.updateByPrimaryKeySelective(currTask);
+                String outputName = "Hadoop"+ System.currentTimeMillis();
+                if(null != fromJson.get("outputPath")){
+                    outputName = (String) fromJson.get("outputPath");
+                }
+                addWordCountHTask(currTask, outputName);
             }
             if(fromJson.get("test") != null){
                 //TODO 不同的任务处理方式 GO ON
@@ -107,7 +114,7 @@ public class AnalysisHUserTask {
             try {
                 HTaskTypeFactory.getFacJob(WordCount.Map.class, WordCount.Reduce.class,
 //                        "E:\\Hado\\localtest\\input.txt", "E:\\Hado\\localtest\\out\\"+ name)
-                        hdfsLocatePath, "E:\\Hado\\localtest\\out\\"+ name)  //HDFS 默认读同步到hdfs目录下的所有输入文件，需要增加一个初始化hdfs状态的接口
+                        hadoopURI+ hdfsLocatePath, "E:\\Hado\\localtest\\out\\"+ name)  //HDFS 默认读同步到hdfs目录下的所有输入文件，需要增加一个初始化hdfs状态的接口
                         .waitForCompletion(true);
                 GrantTaskResult taskResult = new GrantTaskResult();
                 taskResult.setF1("任务结果路径"+ hdfsLocatePath);

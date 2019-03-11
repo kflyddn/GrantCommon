@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 

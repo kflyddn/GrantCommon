@@ -25,16 +25,6 @@ public class HTaskTypeFactory {
 
     static Logger logger = LoggerFactory.getLogger(HTaskTypeFactory.class);
 
-    private Map<String, Object> hTaskTypes;
-
-    static{
-        //TODO 后期改造成扫描taskType到map集合
-    }
-
-    public Object getHTaskType(String name){
-        return hTaskTypes.get(name);
-    }
-
     public static Job getFacJob(Class mapper, Class reducer, Class mapOutputKeyClass, Class mapOutputKeyValueClass, Class outputKeyClass, Class outputValueClass, String inputPath, String outputPath) {
         Configuration conf = new Configuration();
 

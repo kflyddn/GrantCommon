@@ -96,7 +96,7 @@ public class AnalysisHUserTask {
             if(fromJson.get("wordCount") != null){
                 currTask.setState((byte) 2);
                 taskMapper.updateByPrimaryKeySelective(currTask);
-                String outputName = "Hadoop"+ System.currentTimeMillis();
+                String outputName = "E:\\Hado\\localtest\\out\\Hadoop"+ System.currentTimeMillis();
                 if(null != fromJson.get("outputPath")){
                     outputName = (String) fromJson.get("outputPath");
                 }
@@ -108,13 +108,13 @@ public class AnalysisHUserTask {
         }
     }
 
-    private void addWordCountHTask(GrantTask currTask, String name){
+    private void addWordCountHTask(GrantTask currTask, String outputPath){
         logger.debug("开启新线程运算基于Haadoop的任务中...");
         taskExecutor.execute(() -> {
             try {
                 HTaskTypeFactory.getFacJob(WordCount.Map.class, WordCount.Reduce.class,
 //                        "E:\\Hado\\localtest\\input.txt", "E:\\Hado\\localtest\\out\\"+ name)
-                        hadoopURI+ hdfsLocatePath, "E:\\Hado\\localtest\\out\\"+ name)  //HDFS 默认读同步到hdfs目录下的所有输入文件，需要增加一个初始化hdfs状态的接口
+                        hadoopURI+ hdfsLocatePath, outputPath)  //HDFS 默认读同步到hdfs目录下的所有输入文件，需要增加一个初始化hdfs状态的接口
                         .waitForCompletion(true);
                 GrantTaskResult taskResult = new GrantTaskResult();
                 taskResult.setF1("任务结果路径"+ hdfsLocatePath);

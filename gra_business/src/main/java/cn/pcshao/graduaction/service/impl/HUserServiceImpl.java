@@ -85,6 +85,9 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
                         } else if (PropertiesUtil.getBusinessConfig("importHUsersTemplate.telephone").equals(row.get(j).toString())) {
                             indexLocation[5] = j;
                             indexLocation[0]++;
+                        } else if (PropertiesUtil.getBusinessConfig("importHUsersTemplate.telephone").equals(row.get(j).toString())) {
+                            indexLocation[6] = j;
+                            indexLocation[0]++;
                         }
                         //如果增加字段往后加，自动记录下标标记
                     }
@@ -94,6 +97,7 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
                 user.setSex(row.get(indexLocation[3]).toString().equals("1") ? true : false);
                 user.setEmail(row.get(indexLocation[4]).toString());
                 user.setTelephone(row.get(indexLocation[5]).toString());
+                user.setAddress(row.get(indexLocation[6]).toString());
                 users.add(user);
             }
         }catch (Exception e){

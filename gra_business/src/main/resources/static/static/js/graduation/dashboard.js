@@ -77,6 +77,7 @@ layui.use('table', function () {
                     , "sex": fileData.sex == true ? '男' : '女'
                     , "telephone": fileData.telephone
                     , "email": fileData.email
+                    , "address": fileData.address
                     , "huserId": fileData.huserId
                     , "userId": fileData.userId
                 });

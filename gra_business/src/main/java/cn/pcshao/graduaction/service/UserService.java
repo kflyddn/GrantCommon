@@ -66,4 +66,6 @@ public interface UserService extends BaseService<GrantUser, Long> {
      * @return
      */
     int insertBatch(List<GrantUser> users);
+
+    void resetDB(Long minUserId);
 }

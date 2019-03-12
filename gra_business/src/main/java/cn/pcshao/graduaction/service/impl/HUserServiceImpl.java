@@ -60,14 +60,19 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
     }
 
     @Override
+    public void resetDB() {
+        grantHuserMapper.resetDB();
+    }
+
+    @Override
     public List<GrantHuser> getUsersFromList(List<List> list) {
         List<GrantHuser> users = new ArrayList<>();
+        GrantHuser user = new GrantHuser();
         int colLength = list.get(0).size();
         int[] indexLocation = new int[colLength+1];
         try {
             for (int i = 0; i < list.size(); i++) {
                 List row = list.get(i);
-                GrantHuser user = new GrantHuser();
                 for (int j = 0; j < row.size(); j++) {
                     if (indexLocation[0] != colLength) {
                         if (PropertiesUtil.getBusinessConfig("importHUsersTemplate.idCard").equals(row.get(j).toString())) {
@@ -101,6 +106,7 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
                 users.add(user);
             }
         }catch (Exception e){
+            e.printStackTrace();
             throw new CustomException(DtoCodeConsts.EXCEL_FORMAT, DtoCodeConsts.EXCEL_FORMAT_MSG);
         }
         users.remove(0); //移除表头

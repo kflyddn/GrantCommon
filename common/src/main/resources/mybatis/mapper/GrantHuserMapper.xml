@@ -276,4 +276,7 @@
   <select id="getMinHUserId" resultType="java.lang.Long">
     select min(huser_id) from grant_huser
   </select>
+  <delete id="resetDB">
+    delete from grant_huser
+  </delete>
 </mapper>

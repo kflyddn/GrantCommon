@@ -3,6 +3,7 @@ package cn.pcshao.graduaction.web;
 import cn.pcshao.graduaction.service.GrantTempService;
 import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.graduaction.service.UserService;
+import cn.pcshao.graduaction.task.Mysql2HdfsTask;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
@@ -214,6 +215,24 @@ public class HUserController extends BaseController {
         }catch (Exception e){
         }
         resultDto.setData(process);
+        return resultDto;
+    }
+
+    @ApiOperation("重置数据库与HDFS，清除记录")
+    @GetMapping("/resetDBandHDFS")
+    public ResultDto resetDBandHDFS(){
+        ResultDto resultDto = ResultDtoFactory.success();
+        Long minUserId = 58l; //用户表中从哪个开始删
+        hUserService.resetDB();
+        userService.resetDB(minUserId);
+        String hadoopURI = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hadoopURI");
+        String hdfsLocatePath = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hdfsLocate");
+        try{
+            Mysql2HdfsTask.clearHdfs(hadoopURI, hdfsLocatePath);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultDto = ResultDtoFactory.error();
+        }
         return resultDto;
     }
 

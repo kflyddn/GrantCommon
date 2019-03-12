@@ -40,3 +40,23 @@ $(".title").click(function () {
     console.log("最伟大的Grant author@pcshao.cn");
     location.href="/";
 });
+
+/**
+ * 重置数据库与HDFS
+ */
+function resetDBandHDFS(){
+    alert("请稍等...成功完会弹窗提示，请不要重复点击");
+    $.ajax({
+        url: '/huser/resetDBandHDFS',
+        type: 'get',
+        data: {},
+        dataType: 'json',
+        success: function (res) {
+            if (res.code == 10) {
+                alert('重置成功');
+            } else {
+                alert("操作失败");
+            }
+        }
+    });
+}

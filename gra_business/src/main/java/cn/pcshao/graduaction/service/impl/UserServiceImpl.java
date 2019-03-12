@@ -117,6 +117,13 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     }
 
     @Override
+    public void resetDB(Long minUserId) {
+        GrantUserExample example = new GrantUserExample();
+        example.createCriteria().andUserIdGreaterThan(minUserId);
+        grantUserMapper.deleteByExample(example);
+    }
+
+    @Override
     public Long saveUser(GrantUser grantUser, List<Short> roleIdList) {
         grantUser.setIsUse(true);
         try {

@@ -32,4 +32,6 @@ public interface GrantHuserMapper extends BaseDao<GrantHuser, Long> {
     int insertBatch(@Param("users") List<GrantHuser> hUsers);
 
     Long getMinHUserId();
+
+    void resetDB();
 }

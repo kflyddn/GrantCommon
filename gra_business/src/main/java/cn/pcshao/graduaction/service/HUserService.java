@@ -46,4 +46,6 @@ public interface HUserService extends BaseService<GrantHuser, Long> {
      * @return
      */
     Float getSynchronizedProcess();
+
+    void resetDB();
 }

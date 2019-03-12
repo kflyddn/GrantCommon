@@ -68,8 +68,6 @@ public class Mysql2HdfsTask {
         if(ListUtils.isEmptyList(husers)) {
             return;
         }
-        logger.info("开始清空hdfs目录");
-        clearHdfs(hdfsLocatePath);
         int sub = Integer.parseInt(perSynCount);
         int size = husers.size();
         for (int i = 0; i < size;) {
@@ -90,18 +88,12 @@ public class Mysql2HdfsTask {
         }
     }
 
-    private void clearHdfs(String hdfsLocatePath) {
+    public static void clearHdfs(String hadoopURI, String hdfsLocatePath) throws IOException, URISyntaxException {
         Configuration conf = new Configuration();
         HadoopUtil hadoopUtil = new HadoopUtil(hadoopURI, conf);
         FileSystem fs = null;
-        try {
-            fs = hadoopUtil.getFs();
-            fs.removeAcl(new Path(hdfsLocatePath));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fs = hadoopUtil.getFs();
+        fs.removeAcl(new Path(hdfsLocatePath));
     }
 
     private boolean write2hdfs(File file, String dstPath) {
@@ -146,6 +138,7 @@ public class Mysql2HdfsTask {
             sb.append(user.getSex()+ " ");
             sb.append(user.getTelephone()+ " ");
             sb.append(user.getEmail()+ " ");
+            sb.append(user.getAddress()+ " ");
             pw.println(sb.toString());
         }
         try {

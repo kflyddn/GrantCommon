@@ -67,7 +67,6 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
     @Override
     public List<GrantHuser> getUsersFromList(List<List> list) {
         List<GrantHuser> users = new ArrayList<>();
-        GrantHuser user = new GrantHuser();
         int colLength = list.get(0).size();
         int[] indexLocation = new int[colLength+1];
         try {
@@ -90,13 +89,14 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
                         } else if (PropertiesUtil.getBusinessConfig("importHUsersTemplate.telephone").equals(row.get(j).toString())) {
                             indexLocation[5] = j;
                             indexLocation[0]++;
-                        } else if (PropertiesUtil.getBusinessConfig("importHUsersTemplate.telephone").equals(row.get(j).toString())) {
+                        } else if (PropertiesUtil.getBusinessConfig("importHUsersTemplate.address").equals(row.get(j).toString())) {
                             indexLocation[6] = j;
                             indexLocation[0]++;
                         }
                         //如果增加字段往后加，自动记录下标标记
                     }
                 }
+                GrantHuser user = new GrantHuser();
                 user.setIdCard(row.get(indexLocation[1]).toString());
                 user.setName(row.get(indexLocation[2]).toString());
                 user.setSex(row.get(indexLocation[3]).toString().equals("1") ? true : false);

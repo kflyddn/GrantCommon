@@ -70,9 +70,9 @@ public class Mysql2HdfsTask {
         }
         int sub = Integer.parseInt(perSynCount);
         int size = husers.size();
+        logger.info("正在写入HDFS");
         for (int i = 0; i < size;) {
             //TODO 附加非结构化数据
-            logger.info("正在写入HDFS");
             List<GrantHuser> list;
             if((i+sub) > size){
                 list = husers.subList(i, size);

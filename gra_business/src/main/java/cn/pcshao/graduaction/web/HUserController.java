@@ -132,7 +132,7 @@ public class HUserController extends BaseController {
             List<GrantHuser> hUsersFromList = null;
             hUsersFromList = hUserService.getUsersFromList(excels);
             //TODO 校验重复性能和边插边校验差不多 还是要从用户源头解决
-            checkIDNumber(hUsersFromList);
+            //checkIDNumber(hUsersFromList);
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(hUsersFromList)) {
                 int fromNums = hUsersFromList.size();
@@ -225,6 +225,10 @@ public class HUserController extends BaseController {
         Long minUserId = 58l; //用户表中从哪个开始删
         hUserService.resetDB();
         userService.resetDB(minUserId);
+        GrantTemp model = new GrantTemp();
+        model.setId(DtoCodeConsts.GRANT_TEMP_OPER_ID);
+        model.setC2("-1");
+        gTempService.update(model);
         String hadoopURI = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hadoopURI");
         String hdfsLocatePath = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hdfsLocate");
         try{

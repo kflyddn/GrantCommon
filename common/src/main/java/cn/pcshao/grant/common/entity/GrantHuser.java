@@ -17,6 +17,8 @@ public class GrantHuser implements Serializable {
 
     private String email;
 
+    private String address;
+
     private static final long serialVersionUID = 1L;
 
     public Long getHuserId() {
@@ -75,6 +77,14 @@ public class GrantHuser implements Serializable {
         this.email = email == null ? null : email.trim();
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -88,6 +98,7 @@ public class GrantHuser implements Serializable {
         sb.append(", sex=").append(sex);
         sb.append(", telephone=").append(telephone);
         sb.append(", email=").append(email);
+        sb.append(", address=").append(address);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

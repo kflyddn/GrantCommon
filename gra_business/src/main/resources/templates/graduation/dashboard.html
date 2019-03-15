@@ -24,18 +24,19 @@
             </div>
 
         </div>
-        <ul id="myTab" class="nav nav-tabs">
-            <li class="active">
-                <a href="#HUser" role="menu" data-toggle="tab">用户信息管理</a>
-            </li>
-            <li>
-                <a href="#TaskManage" role="menu" data-toggle="tab">分析任务管理</a>
-            </li>
-            <li>
-                <a href="#dataManage" role="menu" data-toggle="tab">进度仪表盘</a>
-            </li>
-        </ul>
-        <div class="tab-content">
+        <div class="content">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#HUser" role="menu" data-toggle="tab">用户信息管理</a>
+                </li>
+                <li>
+                    <a href="#TaskManage" role="menu" data-toggle="tab">分析任务管理</a>
+                </li>
+                <li>
+                    <a href="#dataManage" role="menu" data-toggle="tab">进度仪表盘</a>
+                </li>
+            </ul>
+            <div class="tab-content">
             <div class="tab-pane fade in active" role="tabpanel" id="HUser">
                 <!-- 用户列表表头 -->
                 <div class="searchUser">
@@ -82,10 +83,11 @@
                     <a class="addBtn pull-right" data-toggle="modal" onclick="openImportHUsersFrame()"><i  class="iconfont icon-next mr10"></i>批量用户信息档案导入</a>
                 </div>
                 <!-- 上传到数据库的进度 -->
-                <div id="mysqlChart" style="width: 820px;height:690px" class="inlineBlock"></div>
+                <div id="mysqlChart" style="width: 680px;height:690px" class="inlineBlock"></div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="hdfsChart" style="width: 820px;height:690px;" class="inlineBlock"></div>
             </div>
+        </div>
         </div>
     </div>
 

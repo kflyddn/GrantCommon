@@ -45,18 +45,20 @@ $(".title").click(function () {
  * 重置数据库与HDFS
  */
 function resetDBandHDFS(){
-    alert("请稍等...成功完会弹窗提示，请不要重复点击");
-    $.ajax({
-        url: '/huser/resetDBandHDFS',
-        type: 'get',
-        data: {},
-        dataType: 'json',
-        success: function (res) {
-            if (res.code == 10) {
-                alert('重置成功');
-            } else {
-                alert("操作失败");
+    layer.confirm("此操作会重置相关user表、huser表、state表、hdfs物理数据-", {btn: ['确定', '取消'],title:"提示"},function () {
+        alert("请稍等...成功完会弹窗提示，请不要重复点击");
+        $.ajax({
+            url: '/huser/resetDBandHDFS',
+            type: 'get',
+            data: {},
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == 10) {
+                    alert('重置成功');
+                } else {
+                    alert("操作失败");
+                }
             }
-        }
+        });
     });
 }

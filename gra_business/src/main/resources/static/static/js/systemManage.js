@@ -536,6 +536,15 @@ var table;
             });
             return false;
         });
+        //自定义验证规则
+        form.verify({
+            checkRepeat: function(value, dom) {
+                var password = $('#' + $(dom).data('check')).val();
+                if (value !== password) {
+                    return '两次输入不一致';
+                }
+            }
+        });
     });
 
 

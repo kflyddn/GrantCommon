@@ -13,8 +13,8 @@ import javax.annotation.Resource;
  * @author pcshao.cn
  * @date 2019-03-21
  */
-@Component
-@EnableWebSocket
+//@Component
+//@EnableWebSocket
 public class WsConfig implements WebSocketConfigurer {
 
     @Resource

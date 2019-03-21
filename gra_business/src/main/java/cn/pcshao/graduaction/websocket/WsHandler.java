@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @author pcshao.cn
  * @date 2019-03-20
  */
+@Component
 public class WsHandler implements WebSocketHandler {
     private Logger logger = LoggerFactory.getLogger(WsHandler.class);
     @Resource

@@ -13,8 +13,8 @@ import javax.annotation.Resource;
  * @author pcshao.cn
  * @date 2019-03-21
  */
-//@Component
-//@EnableWebSocket
+@Component
+@EnableWebSocket
 public class WsConfig implements WebSocketConfigurer {
 
     @Resource
@@ -22,6 +22,6 @@ public class WsConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(websocketHandler, "/ws");
+        webSocketHandlerRegistry.addHandler(websocketHandler, "/ws").addInterceptors(new HandShake());
     }
 }

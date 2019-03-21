@@ -115,14 +115,17 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
 
     @Override
     public Float getSynchronizedProcess() {
+        //取出huser最小ID
         Long minHUserId = grantHuserMapper.getMinHUserId();
         GrantM2hStateExample example = new GrantM2hStateExample();
         GrantM2hStateExample.Criteria criteria = example.createCriteria();
         criteria.andStateEqualTo("1");
         criteria.andHuserIdGreaterThanOrEqualTo(minHUserId);
+        //计算总数 状态为1 userId大于上面最小ID的
         int sucessNum = grantM2hStateMapper.countByExample(example);
         GrantHuserExample huserExample = new GrantHuserExample();
         int allNum = 1;
+        //huser总数
         allNum = grantHuserMapper.countByExample(huserExample);
         return allNum==1? 0f : (float)sucessNum/allNum*100;
     }

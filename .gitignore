@@ -1,3 +1,7 @@
 /target
 *.class
 /.idea
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr

@@ -46,8 +46,6 @@ public class HUserController extends BaseController {
     @Autowired
     @Qualifier("gTempService")
     private GrantTempService gTempService;
-    @Resource
-    private WsHandler wsHandler;
 
     @ApiOperation("获取HUser档案")
     @PostMapping("/getHUserFile")
@@ -162,7 +160,6 @@ public class HUserController extends BaseController {
                         gTemp.setC2((double)stNum/fromNums*100+"");
                         gTempService.update(gTemp);
                         //广播进度
-                        wsHandler.brocast(new TextMessage((double)stNum/fromNums*100+ ""), WsHandler.getProcessSocketSessionMap());
                     }
                     //检查user表中是否已有此用户名-对应huser表中身份证号
                     GrantUser user = new GrantUser();

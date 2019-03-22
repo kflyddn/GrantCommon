@@ -11,13 +11,21 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class WebSocketUtil {
     private static final Map<String, Session> sessionMap = new ConcurrentHashMap<>();
+    private static final String processName = "process";
+    private static final Map<String, Session> processSessionMap = new ConcurrentHashMap<>();
 
-    public static void addSession(String userNick,Session session) {
-      sessionMap.putIfAbsent(userNick, session);
+    public static void addSession(String topic, Session session) {
+      sessionMap.putIfAbsent(topic, session);
+      if(processName.equals(topic)){
+          processSessionMap.putIfAbsent(topic, session);
+      }
     }
 
     public static void remoteSession(String topic) {
         sessionMap.remove(topic);
+        if(processName.equals(topic)){
+            processSessionMap.remove(topic);
+        }
     }
 
     public static void sendMessage(Session session, String message) {
@@ -36,5 +44,16 @@ public class WebSocketUtil {
      */
     public static void broadCast(String message) {
         sessionMap.forEach((sessionId, session) -> sendMessage(session, message));
+    }
+    public static void broadCast(Map<String, Session> inputSessionMap, String message) {
+        inputSessionMap.forEach((sessionId, session) -> sendMessage(session, message));
+    }
+
+    public static Map<String, Session> getSessionMap() {
+        return sessionMap;
+    }
+
+    public static Map<String, Session> getProcessSessionMap() {
+        return processSessionMap;
     }
 }

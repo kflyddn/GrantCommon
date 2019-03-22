@@ -16,6 +16,7 @@ import cn.pcshao.grant.common.util.ExcelUtil;
 import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.PropertiesUtil;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
+import cn.pcshao.grant.websocket.util.WebSocketUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -159,7 +160,8 @@ public class HUserController extends BaseController {
                     if(stNum%perNum==0) {
                         gTemp.setC2((double)stNum/fromNums*100+"");
                         gTempService.update(gTemp);
-                        //广播进度
+                        //WebSocket广播进度
+                        WebSocketUtil.broadCast(WebSocketUtil.getProcessSessionMap(), (double)stNum/fromNums*100+"");
                     }
                     //检查user表中是否已有此用户名-对应huser表中身份证号
                     GrantUser user = new GrantUser();

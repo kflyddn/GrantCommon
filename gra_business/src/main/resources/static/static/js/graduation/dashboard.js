@@ -381,6 +381,9 @@ function openImportHUsersFrame(){
  *  Mysql->Hdfs
  *  需要引入echarts.min.js
  */
+//WebSocket做法 订阅process主题
+var upLoadProcess = -1;
+WebSocketUtil("process");
 function hdfsNow(){
     // 基于准备好的dom，初始化echarts实例
     let myChart = echarts.init(document.getElementById('hdfsChart'));
@@ -427,7 +430,6 @@ function hdfsNow(){
     setInterval(function () {
         // option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
         let process = 50;
-        let updateProcess = 50;
         $.ajax({
             url: '/huser/hdfsNow',
             type: 'GET',
@@ -439,6 +441,7 @@ function hdfsNow(){
                 }
             }
         });
+        /*轮询数据库做法
         $.ajax({
             url: '/huser/mysqlNow',
             type: 'GET',
@@ -449,12 +452,40 @@ function hdfsNow(){
                     updateProcess = result.data;
                 }
             }
-        });
+        });*/
+
         option.series[0].data[0].value = process.toFixed(2) - 0;
-        updateOption.series[0].data[0].value = updateProcess.toFixed(2) - 0;
+        updateOption.series[0].data[0].value = upLoadProcess.toFixed(2) - 0;
         myChart.setOption(option, true);
         updateChart.setOption(updateOption, true);
     },2000);
+}
+function WebSocketUtil(topic){
+    let websocket;
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("ws://"+ location.host+ "/ws/"+ topic);
+    } else if ('MozWebSocket' in window) {
+        websocket = new MozWebSocket("ws://"+ location.host+ "/ws/" + topic);
+    } else {
+        websocket = new SockJS("ws://"+ location.host+ "/ws/"+ topic);
+    }
+    websocket.onopen = function(event) {
+        console.log("WebSocket:已连接");
+        console.log(event);
+    };
+    websocket.onmessage = function(event) {
+        let data=JSON.parse(event.data);
+        upLoadProcess = data;
+        console.log("WebSocket:收到一条消息",data);
+    };
+    websocket.onerror = function(event) {
+        console.log("WebSocket:发生错误 ");
+        console.log(event);
+    };
+    websocket.onclose = function(event) {
+        console.log("WebSocket:已关闭");
+        console.log(event);
+    }
 }
 
 

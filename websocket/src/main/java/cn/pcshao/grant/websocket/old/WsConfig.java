@@ -1,7 +1,5 @@
-package cn.pcshao.graduaction.websocket;
+package cn.pcshao.grant.websocket.old;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 

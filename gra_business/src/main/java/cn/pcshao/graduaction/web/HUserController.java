@@ -4,7 +4,6 @@ import cn.pcshao.graduaction.service.GrantTempService;
 import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.graduaction.service.UserService;
 import cn.pcshao.graduaction.task.Mysql2HdfsTask;
-import cn.pcshao.graduaction.websocket.WsHandler;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
@@ -22,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.socket.TextMessage;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

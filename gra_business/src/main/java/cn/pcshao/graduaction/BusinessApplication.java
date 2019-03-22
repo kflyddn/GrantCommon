@@ -4,10 +4,12 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
+//import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +21,11 @@ import java.util.Properties;
 @EnableScheduling
 //@EnableAsync //线程池异步，已经在commonApplication注解
 //@EnableWebSocket  //开启WebSocket，已经在websocketApplication注解
-public class BusinessApplication {
+public class BusinessApplication extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(this.getClass());
+    }
 
     public static void main(String[] args) throws IOException {
         //更改properties配置文件名称,避免依赖冲突

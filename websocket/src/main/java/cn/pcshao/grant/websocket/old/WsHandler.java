@@ -1,4 +1,4 @@
-package cn.pcshao.graduaction.websocket;
+package cn.pcshao.grant.websocket.old;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.Map;
  * @author pcshao.cn
  * @date 2019-03-20
  */
-@Component
+//@Component
 public class WsHandler implements WebSocketHandler {
     private Logger logger = LoggerFactory.getLogger(WsHandler.class);
     @Resource

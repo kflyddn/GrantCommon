@@ -54,9 +54,9 @@ function resetDBandHDFS(){
             dataType: 'json',
             success: function (res) {
                 if (res.code == 10) {
-                    alert('重置成功');
+                    alert(res.msg);
                 } else {
-                    alert("操作失败");
+                    alert(res.msg);
                 }
             }
         });

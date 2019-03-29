@@ -1,16 +1,13 @@
 package cn.pcshao.graduaction.task;
 
 import cn.pcshao.graduaction.util.HadoopUtil;
-import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
 import cn.pcshao.grant.common.entity.GrantHuser;
 import cn.pcshao.grant.common.entity.GrantHuserExample;
-import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.StringUtils;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -52,6 +48,8 @@ public class Mysql2HdfsTask {
     private GrantHuserMapper huserMapper;
     @Resource
     private GrantM2hStateMapper hStateMapper;
+
+    private HadoopUtil hadoopUtil = null;
 
     @Scheduled(cron = "${task.Mysql2Hdfs.cron}")
     public void read(){
@@ -88,39 +86,29 @@ public class Mysql2HdfsTask {
         }
     }
 
-    public static void clearHdfs(String hadoopURI, String hdfsLocatePath) throws IOException, URISyntaxException {
-        Configuration conf = new Configuration();
-        HadoopUtil hadoopUtil = new HadoopUtil(hadoopURI, conf);
-        FileSystem fs = null;
-        fs = hadoopUtil.getFs();
-        fs.removeAcl(new Path(hdfsLocatePath));
-    }
-
+    /**
+     * 持有的hadoopUtil在第一次执行write2hdfs时实例化
+     *  直到手动设为null，不过一般应用生命周期内都不会改变hadoop地址吧
+     * @param file 文件对象
+     * @param dstPath dfs目的地地址
+     * @return
+     */
     private boolean write2hdfs(File file, String dstPath) {
-        Configuration conf = new Configuration();
-        HadoopUtil hadoopUtil = new HadoopUtil(hadoopURI, conf);
-        FileSystem fs = null;
-        try {
-            fs = hadoopUtil.getFs();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(null == hadoopUtil) {
+            Configuration conf = new Configuration();
+            hadoopUtil = new HadoopUtil(hadoopURI, conf);
         }
         String fileName = System.currentTimeMillis()+ StringUtils.getRandomString(5);
-        try {
-            fs.copyFromLocalFile(new Path(file.getAbsolutePath()), new Path(dstPath+ fileName));
-            return true;
-        } catch (IOException e) {
-            throw new CustomException(DtoCodeConsts.HADOOP_HDFS_CONNECT_FAIL, DtoCodeConsts.HADOOP_CONNECT_FAIL_MSG);
-        }finally {
-            try {
-                hadoopUtil.closeFs();
-            } catch (IOException e) {
-            }
-        }
+        hadoopUtil.copyFromLocalFile(file.getAbsolutePath(), dstPath+ fileName);
+        return true;
     }
 
+    /**
+     * 对象手动文件化
+     * @param husers 对象集合
+     * @param path 输出文件路径
+     * @return 文件对象
+     */
     public File obj2file(List<GrantHuser> husers, String path) {
         File file = new File(path);
         FileOutputStream fos = null;

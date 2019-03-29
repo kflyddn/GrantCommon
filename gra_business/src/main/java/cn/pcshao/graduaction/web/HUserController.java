@@ -3,7 +3,7 @@ package cn.pcshao.graduaction.web;
 import cn.pcshao.graduaction.service.GrantTempService;
 import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.graduaction.service.UserService;
-import cn.pcshao.graduaction.task.Mysql2HdfsTask;
+import cn.pcshao.graduaction.util.HadoopUtil;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
@@ -178,7 +178,7 @@ public class HUserController extends BaseController {
                 gTemp.setC2("");
                 gTempService.update(gTemp);
             }
-            resultDto.setMsg("插库时间："+ (System.currentTimeMillis()-time));
+            resultDto.setMsg("插库时间："+ (System.currentTimeMillis()-time)/1000+ "秒");
             return resultDto;
         }
         return ResultDtoFactory.error();
@@ -221,7 +221,7 @@ public class HUserController extends BaseController {
         return resultDto;
     }
 
-    @ApiOperation("重置数据库与HDFS，清除记录")
+    @ApiOperation("重置数据库与DFS，清除记录")
     @GetMapping("/resetDBandHDFS")
     public ResultDto resetDBandHDFS(){
         ResultDto resultDto = ResultDtoFactory.success();
@@ -232,10 +232,10 @@ public class HUserController extends BaseController {
         model.setId(DtoCodeConsts.GRANT_TEMP_OPER_ID);
         model.setC2("-1");
         gTempService.update(model);
-        String hadoopURI = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hadoopURI");
-        String hdfsLocatePath = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hdfsLocate");
         try{
-            Mysql2HdfsTask.clearHdfs(hadoopURI, hdfsLocatePath);
+            String hadoopURI = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hadoopURI");
+            String hdfsLocatePath = PropertiesUtil.getBusinessConfig("task.Mysql2Hdfs.hdfsLocate");
+            HadoopUtil.clearHdfs(hadoopURI, hdfsLocatePath);
         }catch (Exception e){
             e.printStackTrace();
             resultDto = ResultDtoFactory.error();

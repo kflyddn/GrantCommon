@@ -1,8 +1,12 @@
 package cn.pcshao.graduaction.task;
 
+import cn.pcshao.graduaction.util.HadoopUtil;
 import cn.pcshao.grant.common.entity.GrantHuser;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,5 +30,27 @@ public class Mysql2HdfsTaskTest {
         huser.setName("测试姓名2");
         husers.add(huser);
         new Mysql2HdfsTask().obj2file(husers, "E:\\tempFile");
+    }
+
+    @Test
+    public void readFromDFS(){
+        Configuration conf = new Configuration();
+        HadoopUtil hadoopUtil = new HadoopUtil("hdfs://192.168.2.100:9000", conf);
+        FileSystem fs = hadoopUtil.getFs();
+        List<Path> pathList = new ArrayList<>();
+        try {
+            RemoteIterator<LocatedFileStatus> files = fs.listFiles(new Path("/input/test/"), false);
+            while (files.hasNext()){
+                LocatedFileStatus next = files.next();
+                Path path = next.getPath();
+                pathList.add(path);
+            }
+            //
+            for(Path path : pathList) {
+                fs.copyToLocalFile(path, new Path("E:\\Hado\\localtest\\RECOVER"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

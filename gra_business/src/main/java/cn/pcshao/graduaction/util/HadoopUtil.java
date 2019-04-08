@@ -4,11 +4,15 @@ import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.exception.CustomException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.RemoteIterator;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 当前hadoop连接
@@ -40,6 +44,21 @@ public class HadoopUtil {
             e.printStackTrace();
             throw new CustomException(DtoCodeConsts.HADOOP_HDFS_DST_PATH_FAIL, DtoCodeConsts.HADOOP_HDFS_DST_PATH_FAIL_MSG);
         }
+    }
+
+    public List<Path> getPathFromDFS(String destPath) {
+        List<Path> pathList = new ArrayList<>();
+        try {
+            RemoteIterator<LocatedFileStatus> files = fs.listFiles(new Path(destPath), false); //递归false
+            while (files.hasNext()){
+                LocatedFileStatus next = files.next();
+                Path path = next.getPath();
+                pathList.add(path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return pathList;
     }
 
     /**
@@ -92,5 +111,4 @@ public class HadoopUtil {
     public void closeFs() throws IOException {
         fs.close();
     }
-
 }

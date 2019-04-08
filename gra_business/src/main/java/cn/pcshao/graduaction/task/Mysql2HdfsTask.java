@@ -8,6 +8,7 @@ import cn.pcshao.grant.common.entity.GrantHuserExample;
 import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.StringUtils;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +56,8 @@ public class Mysql2HdfsTask {
     public void read(){
         if("OFF".equals(taskSwitch))
             return;
+        if("RECOVER".equals(taskSwitch))
+            recover();
         logger.debug("正在开始Mysql2Hdfs");
         GrantHuserExample huserExample = new GrantHuserExample();
         Long maxHUserId = hStateMapper.getMaxHUserId();
@@ -84,6 +87,27 @@ public class Mysql2HdfsTask {
             i += sub;
             file.deleteOnExit();
         }
+    }
+
+    /**
+     * 恢复模式
+     *  将HDFS中的数据逆向到DB并在m2h_state表中置为2
+     */
+    public void recover() {
+        logger.debug("正在开始Mysql2Hdfs: RECOVER模式");
+        //一次读一个文件
+        read4hdfs();
+        //
+
+    }
+
+    private void read4hdfs() {
+        if(null == hadoopUtil) {
+            Configuration conf = new Configuration();
+            hadoopUtil = new HadoopUtil(hadoopURI, conf);
+        }
+        List<Path> pathFromDFS = hadoopUtil.getPathFromDFS(hdfsLocatePath);
+        //分隔path 按批量写到DB
     }
 
     /**

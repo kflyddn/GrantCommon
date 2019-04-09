@@ -230,19 +230,23 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 /*登录---start*/
 .login_body{
-    background:url(../image/login-background.png);
+    background:url(../image/background.png);
 }
 .login_form{
     position: absolute;
-    left: 33%;
-    top: 36%;
+    left: 82%;
+    top: 25%;
     text-align: center;
+}
+.login_form div{
+	text-align: left;
+	font-size: 153%;
 }
 .login_form input{
     width:280px;
-    height:32px;
+    height:50px;
     background:rgba(255,255,255,1);
-    opacity:0.5;
+    opacity:0.8;
     padding-left: 10px;
     margin-right: 10px;
     border:none;
@@ -251,8 +255,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     margin-bottom: 70px;
 }
 .login_form button{
-    width:66px;
-    height:32px;
+    width:80px;
+    height:50px;
     background:rgba(75,177,229,1);
     opacity:0.6;
     color:rgba(255,255,255,1);

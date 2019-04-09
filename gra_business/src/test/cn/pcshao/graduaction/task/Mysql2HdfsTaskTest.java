@@ -33,7 +33,7 @@ public class Mysql2HdfsTaskTest {
     }
 
     @Test
-    public void readFromDFS(){
+    public void read4hdfs(){
         Configuration conf = new Configuration();
         HadoopUtil hadoopUtil = new HadoopUtil("hdfs://192.168.2.100:9000", conf);
         FileSystem fs = hadoopUtil.getFs();
@@ -53,4 +53,11 @@ public class Mysql2HdfsTaskTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void TestFile2obj(){
+        List<GrantHuser> husers = new Mysql2HdfsTask().file2obj("E:\\Hado\\localtest\\RECOVER\\1554773955123DUIYR");
+        husers.toString();
+    }
+
 }

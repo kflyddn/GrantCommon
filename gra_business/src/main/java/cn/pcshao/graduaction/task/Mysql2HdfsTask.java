@@ -5,6 +5,8 @@ import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
 import cn.pcshao.grant.common.entity.GrantHuser;
 import cn.pcshao.grant.common.entity.GrantHuserExample;
+import cn.pcshao.grant.common.entity.GrantM2hState;
+import cn.pcshao.grant.common.util.FileUtils;
 import cn.pcshao.grant.common.util.ListUtils;
 import cn.pcshao.grant.common.util.StringUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +42,8 @@ public class Mysql2HdfsTask {
     private String taskSwitch;
     @Value("${task.Mysql2Hdfs.tempFilePath}")
     private String tempFilePath;
+    @Value("${task.Mysql2Hdfs.recoverFilePath}")
+    private String recoverFilePath;
     @Value("${task.Mysql2Hdfs.hadoopURI}")
     private String hadoopURI;
     @Value("${task.Mysql2Hdfs.hdfsLocate}")
@@ -51,6 +57,7 @@ public class Mysql2HdfsTask {
     private GrantM2hStateMapper hStateMapper;
 
     private HadoopUtil hadoopUtil = null;
+    private boolean recoverDone = false;
 
     @Scheduled(cron = "${task.Mysql2Hdfs.cron}")
     public void read(){
@@ -82,7 +89,7 @@ public class Mysql2HdfsTask {
             }
             File file = obj2file(list, tempFilePath);
             if(write2hdfs(file, hdfsLocatePath)) {
-                hStateMapper.insertBatch(list);
+                hStateMapper.insertBatch(list, 1); //数据库字典后期统一建一个类
             }
             i += sub;
             file.deleteOnExit();
@@ -95,19 +102,51 @@ public class Mysql2HdfsTask {
      */
     public void recover() {
         logger.debug("正在开始Mysql2Hdfs: RECOVER模式");
-        //一次读一个文件
-        read4hdfs();
-        //
-
+        if(recoverDone) {
+            logger.info("RECOVER 已完成，请关闭系统并检查数据库与本地文件目录：" + recoverFilePath);
+            return;
+        }
+        FileUtils.deleteDir(recoverFilePath);
+        List<Path> pathList = read4hdfs();
+        for (int i = 0; i < pathList.size(); i++) {
+            Path path = pathList.get(i);
+            String localPath = recoverFilePath+ path.getName();
+            pull4hdfs(path, localPath);
+            List<GrantHuser> husers = file2obj(localPath);
+            GrantM2hState stateRecord;
+            for(GrantHuser huser : husers) {
+                stateRecord = new GrantM2hState(huser.getHuserId(), "2", new Date());
+                try {
+                    huserMapper.insert(huser);
+                    hStateMapper.insert(stateRecord);
+                } catch (Exception e) {
+                    stateRecord.setState("3");
+                    hStateMapper.insert(stateRecord);
+                }
+            }
+        }
+        recoverDone = true;
     }
 
-    private void read4hdfs() {
+    /**
+     * 根据远程path拉到本地path
+     * @param path DFS path
+     * @param localPath 本地 path
+     */
+    private void pull4hdfs(Path path, String localPath) {
         if(null == hadoopUtil) {
             Configuration conf = new Configuration();
             hadoopUtil = new HadoopUtil(hadoopURI, conf);
         }
-        List<Path> pathFromDFS = hadoopUtil.getPathFromDFS(hdfsLocatePath);
-        //分隔path 按批量写到DB
+        hadoopUtil.copyToLocalFile(path, localPath);
+    }
+
+    private List<Path> read4hdfs() {
+        if(null == hadoopUtil) {
+            Configuration conf = new Configuration();
+            hadoopUtil = new HadoopUtil(hadoopURI, conf);
+        }
+        return hadoopUtil.getPathFromDFS(hdfsLocatePath, false);
     }
 
     /**
@@ -128,6 +167,50 @@ public class Mysql2HdfsTask {
     }
 
     /**
+     * DFS文件结构化元素读成对象
+     * @param filePath 输入文件
+     * @return 对象数组
+     */
+    public List<GrantHuser> file2obj(String filePath) {
+        List<GrantHuser> list = new ArrayList<>();
+        GrantHuser huser;
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(new File(filePath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+        try {
+            String ret;
+            while ((ret=br.readLine()) != null){
+                huser = new GrantHuser();
+                String[] items = ret.split(" ");
+                huser.setHuserId(Long.parseLong(items[0]));
+                huser.setUserId(Long.parseLong(items[1]));
+                huser.setIdCard(items[2]);
+                huser.setName(items[3]);
+                huser.setSex(items[4].equals("true")? true : false);
+                huser.setTelephone(items[5]);
+                huser.setEmail(items[6]);
+                huser.setAddress(items[7]);
+                list.add(huser);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(fis!=null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
      * 对象手动文件化
      * @param husers 对象集合
      * @param path 输出文件路径
@@ -142,15 +225,16 @@ public class Mysql2HdfsTask {
             e.printStackTrace();
         }
         PrintWriter pw = new PrintWriter(fos);
-        for (GrantHuser user: husers){
+        for (GrantHuser huser: husers){
             StringBuilder sb = new StringBuilder();
-            sb.append(user.getHuserId()+ " ");
-            sb.append(user.getIdCard()+ " ");
-            sb.append(user.getName()+ " ");
-            sb.append(user.getSex()+ " ");
-            sb.append(user.getTelephone()+ " ");
-            sb.append(user.getEmail()+ " ");
-            sb.append(user.getAddress()+ " ");
+            sb.append(huser.getHuserId()+ " ");
+            sb.append(huser.getUserId()+ " ");
+            sb.append(huser.getIdCard()+ " ");
+            sb.append(huser.getName()+ " ");
+            sb.append(huser.getSex()+ " ");
+            sb.append(huser.getTelephone()+ " ");
+            sb.append(huser.getEmail()+ " ");
+            sb.append(huser.getAddress()+ " ");
             pw.println(sb.toString());
         }
         try {

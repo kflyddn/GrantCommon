@@ -14,6 +14,15 @@ public class GrantM2hState implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public GrantM2hState() {
+    }
+
+    public GrantM2hState(Long huserId, String state, Date createTime) {
+        this.huserId = huserId;
+        this.state = state;
+        this.createTime = createTime;
+    }
+
     public Long getId() {
         return id;
     }

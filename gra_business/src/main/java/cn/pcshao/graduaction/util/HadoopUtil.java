@@ -36,6 +36,16 @@ public class HadoopUtil {
         this.conf = conf;
     }
 
+    public void copyToLocalFile(Path path, String localPath) {
+        checkFsConnect();
+        try {
+            fs.copyToLocalFile(path, new Path(localPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CustomException(DtoCodeConsts.HADOOP_HDFS_DST_PATH_FAIL, DtoCodeConsts.HADOOP_HDFS_DST_PATH_FAIL_MSG);
+        }
+    }
+
     public void copyFromLocalFile(String localPath, String destPath){
         checkFsConnect();
         try {
@@ -46,10 +56,11 @@ public class HadoopUtil {
         }
     }
 
-    public List<Path> getPathFromDFS(String destPath) {
+    public List<Path> getPathFromDFS(String destPath, boolean recursive) {
+        checkFsConnect();
         List<Path> pathList = new ArrayList<>();
         try {
-            RemoteIterator<LocatedFileStatus> files = fs.listFiles(new Path(destPath), false); //递归false
+            RemoteIterator<LocatedFileStatus> files = fs.listFiles(new Path(destPath), recursive); //递归false
             while (files.hasNext()){
                 LocatedFileStatus next = files.next();
                 Path path = next.getPath();

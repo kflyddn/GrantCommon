@@ -32,5 +32,5 @@ public interface GrantM2hStateMapper extends BaseDao<GrantM2hState, Long> {
 
     Long getMaxHUserId();
 
-    int insertBatch(@Param("husers") List<GrantHuser> husers);
+    int insertBatch(@Param("husers") List<GrantHuser> husers, @Param("state") int state);
 }

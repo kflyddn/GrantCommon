@@ -4,6 +4,7 @@ import cn.pcshao.graduaction.service.TaskService;
 import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.base.BaseServiceImpl;
 import cn.pcshao.grant.common.bo.TaskBo;
+import cn.pcshao.grant.common.consts.DBConsts;
 import cn.pcshao.grant.common.dao.GrantTaskMapper;
 import cn.pcshao.grant.common.dao.GrantTaskResultMapper;
 import cn.pcshao.grant.common.entity.GrantTask;
@@ -55,7 +56,7 @@ public class TaskServiceImpl extends BaseServiceImpl<GrantTask, Integer> impleme
         if(null != taskId){
             GrantTaskExample.Criteria criteria = example.createCriteria();
             criteria.andTaskIdIn(taskId);
-            task.setState((byte) 0);
+            task.setState(DBConsts.M2H_STATE_NO_0);
             task.setProcess((short) -1);
         }
         grantTaskMapper.updateByExampleSelective(task, example);
@@ -69,7 +70,7 @@ public class TaskServiceImpl extends BaseServiceImpl<GrantTask, Integer> impleme
             GrantTaskExample.Criteria criteria = example.createCriteria();
             criteria.andTaskIdIn(taskId);
             task.setProcess((short) 0);
-            task.setState((byte) 3);
+            task.setState(DBConsts.M2H_STATE_ALREADY_3);
         }
         grantTaskMapper.updateByExampleSelective(task, example);
     }

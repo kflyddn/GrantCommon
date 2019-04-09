@@ -2,6 +2,7 @@ package cn.pcshao.graduaction.task;
 
 import cn.pcshao.graduaction.task.hadoop.HTaskTypeFactory;
 import cn.pcshao.graduaction.task.hadoop.WordCount;
+import cn.pcshao.grant.common.consts.DBConsts;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantTaskMapper;
 import cn.pcshao.grant.common.dao.GrantTaskResultMapper;
@@ -85,7 +86,7 @@ public class AnalysisHUserTask {
             if(fromJson.get("countName") != null){
                 //Map中可以嵌套map
                 //任务进行操作DB更改状态，越早越好，消费一条立马改一条防止重复生成
-                currTask.setState((byte) 2);
+                currTask.setState(DBConsts.TASK_STATE_ING_2);
                 taskMapper.updateByPrimaryKeySelective(currTask);
                 if("OFF".equals(useHadoop)) {
                     addCountNameTask(currTask, (String) fromJson.get("countName"));
@@ -94,7 +95,7 @@ public class AnalysisHUserTask {
                 }
             }
             if(fromJson.get("wordCount") != null){
-                currTask.setState((byte) 2);
+                currTask.setState(DBConsts.TASK_STATE_ING_2);
                 taskMapper.updateByPrimaryKeySelective(currTask);
                 String outputName = "E:\\Hado\\localtest\\out\\Hadoop"+ System.currentTimeMillis();
                 if(null != fromJson.get("outputPath")){
@@ -121,7 +122,7 @@ public class AnalysisHUserTask {
                 taskResult.setTaskId(currTask.getTaskId());
                 taskResult.setCreateTime(new Date());
                 taskResultMapper.insert(taskResult);
-                currTask.setState((byte) 1);
+                currTask.setState(DBConsts.M2H_STATE_DONE_1);
                 currTask.setProcess((short) 100);
                 taskMapper.updateByPrimaryKeySelective(currTask);
             } catch (IOException e) {
@@ -163,7 +164,7 @@ public class AnalysisHUserTask {
         taskResult.setF1(JSONUtils.getJsonFromMap(map));
         taskResultMapper.insert(taskResult);
         //任务完成状态写入DB
-        currTask.setState((byte) 1);
+        currTask.setState(DBConsts.M2H_STATE_DONE_1);
         currTask.setProcess((short) 100);
         taskMapper.updateByPrimaryKeySelective(currTask);
     }

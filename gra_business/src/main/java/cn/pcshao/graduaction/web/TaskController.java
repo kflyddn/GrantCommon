@@ -4,10 +4,10 @@ import cn.pcshao.graduaction.service.TaskService;
 import cn.pcshao.grant.common.aop.LogAnnotation;
 import cn.pcshao.grant.common.base.BaseController;
 import cn.pcshao.grant.common.bo.TaskBo;
+import cn.pcshao.grant.common.consts.DBConsts;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dto.ResultDto;
 import cn.pcshao.grant.common.entity.GrantTask;
-import cn.pcshao.grant.common.entity.GrantTaskResult;
 import cn.pcshao.grant.common.exception.CustomException;
 import cn.pcshao.grant.common.util.ResultDtoFactory;
 import com.github.pagehelper.PageHelper;
@@ -42,7 +42,7 @@ public class TaskController extends BaseController {
         int insert;
         try{
             task.setSerialNumber((int) System.currentTimeMillis());
-            task.setState((byte) 3);
+            task.setState(DBConsts.M2H_STATE_ALREADY_3);
             task.setProcess((short) 0);
             task.setCreateTime(new Date());
             insert = taskService.insert(task);

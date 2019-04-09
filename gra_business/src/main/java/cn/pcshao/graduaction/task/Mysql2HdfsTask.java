@@ -1,6 +1,7 @@
 package cn.pcshao.graduaction.task;
 
 import cn.pcshao.graduaction.util.HadoopUtil;
+import cn.pcshao.grant.common.consts.DBConsts;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
 import cn.pcshao.grant.common.entity.GrantHuser;
@@ -89,7 +90,7 @@ public class Mysql2HdfsTask {
             }
             File file = obj2file(list, tempFilePath);
             if(write2hdfs(file, hdfsLocatePath)) {
-                hStateMapper.insertBatch(list, 1); //数据库字典后期统一建一个类
+                hStateMapper.insertBatch(list, DBConsts.M2H_STATE_DONE_1); //数据库字典后期统一建一个类
             }
             i += sub;
             file.deleteOnExit();
@@ -115,12 +116,12 @@ public class Mysql2HdfsTask {
             List<GrantHuser> husers = file2obj(localPath);
             GrantM2hState stateRecord;
             for(GrantHuser huser : husers) {
-                stateRecord = new GrantM2hState(huser.getHuserId(), "2", new Date());
+                stateRecord = new GrantM2hState(huser.getHuserId(), DBConsts.M2H_STATE_REC_2, new Date());
                 try {
                     huserMapper.insert(huser);
                     hStateMapper.insert(stateRecord);
                 } catch (Exception e) {
-                    stateRecord.setState("3");
+                    stateRecord.setState(DBConsts.M2H_STATE_ALREADY_3);
                     hStateMapper.insert(stateRecord);
                 }
             }

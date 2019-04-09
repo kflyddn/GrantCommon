@@ -8,19 +8,19 @@ public class GrantM2hState implements Serializable {
 
     private Long huserId;
 
-    private String state;
+    private Byte state;
 
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
 
-    public GrantM2hState() {
-    }
-
-    public GrantM2hState(Long huserId, String state, Date createTime) {
+    public GrantM2hState(Long huserId, Byte state, Date createTime) {
         this.huserId = huserId;
         this.state = state;
         this.createTime = createTime;
+    }
+
+    public GrantM2hState() {
     }
 
     public Long getId() {
@@ -39,12 +39,12 @@ public class GrantM2hState implements Serializable {
         this.huserId = huserId;
     }
 
-    public String getState() {
+    public Byte getState() {
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state == null ? null : state.trim();
+    public void setState(Byte state) {
+        this.state = state;
     }
 
     public Date getCreateTime() {
@@ -55,18 +55,7 @@ public class GrantM2hState implements Serializable {
         this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", huserId=").append(huserId);
-        sb.append(", state=").append(state);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 }

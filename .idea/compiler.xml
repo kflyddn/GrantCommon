@@ -9,12 +9,23 @@
         <module name="album" />
         <module name="common" />
         <module name="gra_business" />
+        <module name="websocket" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="album" target="1.8" />
       <module name="common" target="1.8" />
       <module name="gra_business" target="1.8" />
+      <module name="parent" target="1.8" />
+      <module name="websocket" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="album" options="" />
+      <module name="common" options="" />
+      <module name="parent" options="" />
+      <module name="websocket" options="" />
+    </option>
   </component>
 </project>

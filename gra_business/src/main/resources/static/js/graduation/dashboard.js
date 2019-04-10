@@ -53,6 +53,8 @@ layui.use('table', function () {
             $("#hUserEdit input[name ='userId']").val(data.userId);
             $("#hUserEdit").modal();
         } else if (obj.event === 'files') {
+            if ("admin" == data.username)
+                return;
             let fileData = getHUserFile(data.userId);
             if(null === fileData) {
                 layer.confirm(

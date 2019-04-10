@@ -23,7 +23,7 @@
      */
     function downLoadTemplate(){
         let $ = layui.jquery;
-        $.ajax({
+        /*$.ajax({
             url: '/user/importUsersTemplate',
             method: 'GET',
             contentType: 'application/json',
@@ -31,7 +31,8 @@
                 let url = res.data;
                 window.open(url);
             }
-        });
+        });*/
+        window.open("/download/userFileTemplate");
     }
 
     layui.use(['upload', 'form'], function(){

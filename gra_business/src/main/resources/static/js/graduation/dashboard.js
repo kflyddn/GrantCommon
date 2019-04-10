@@ -293,6 +293,16 @@ function loadTaskManageTable(param) {
  */
 layui.use('form', function(){
     form = layui.form;
+    //表单验证
+    form.verify({
+        password: [/(.+){6,20}$/, '密码必须6到20位'],
+        repassword: function(value){
+            var repassvalue = $('#passwd').val();
+            if(value != repassvalue){
+                return '两次输入的密码不一致!';
+            }
+        }
+    });
     form.on('submit(taskAdd)', function(data){
         // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
         // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回

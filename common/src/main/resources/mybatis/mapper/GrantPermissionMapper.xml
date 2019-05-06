@@ -100,6 +100,9 @@
   <insert id="insert" parameterType="cn.pcshao.grant.common.entity.GrantPermission" >
     insert into grant_permission (permission_id, permission_name)
     values (#{permissionId,jdbcType=BIGINT}, #{permissionName,jdbcType=VARCHAR})
+    <selectKey order="AFTER" resultType="long" keyProperty="permissionId">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantPermission" >
     insert into grant_permission

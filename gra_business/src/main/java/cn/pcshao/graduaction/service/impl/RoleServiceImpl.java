@@ -37,14 +37,10 @@ public class RoleServiceImpl extends BaseServiceImpl<GrantRole, Short> implement
 
     @Override
     public void saveRole(GrantRole grantRole, List<Long> userIdList) {
-        grantRoleMapper.insertSelective(grantRole);
+        grantRoleMapper.insert(grantRole);
         if(ListUtils.isEmptyList(userIdList))
             return;
-        //@TODO 查出新增记录的自增ID优化
-        GrantRoleExample grantRoleExample = new GrantRoleExample();
-        grantRoleExample.createCriteria().andRoleNameEqualTo(grantRole.getRoleName());
-        Short roleId = grantRoleMapper.selectByExample(grantRoleExample).get(0).getRoleId();
-        this.bindRoleUsers(roleId, userIdList);
+        this.bindRoleUsers(grantRole.getRoleId(), userIdList);
     }
 
     @Override

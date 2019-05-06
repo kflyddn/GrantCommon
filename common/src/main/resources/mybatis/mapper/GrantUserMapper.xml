@@ -110,6 +110,9 @@
     values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
       #{tel,jdbcType=VARCHAR}, #{isUse,jdbcType=BIT})
+    <selectKey order="AFTER" resultType="long" keyProperty="userId">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantUser" >
     insert into grant_user

@@ -103,6 +103,9 @@
       )
     values (#{roleId,jdbcType=SMALLINT}, #{roleName,jdbcType=VARCHAR}, #{roleRemark,jdbcType=VARCHAR}
       )
+    <selectKey order="AFTER" resultType="short" keyProperty="roleId">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="cn.pcshao.grant.common.entity.GrantRole" >
     insert into grant_role

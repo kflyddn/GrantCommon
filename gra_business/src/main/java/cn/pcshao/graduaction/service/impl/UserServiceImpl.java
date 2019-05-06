@@ -127,7 +127,7 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
     public Long saveUser(GrantUser grantUser, List<Short> roleIdList) {
         grantUser.setIsUse(true);
         try {
-            grantUserMapper.insertSelective(grantUser);
+            grantUserMapper.insert(grantUser);
         }catch (Exception e){
             throw new CustomException(DtoCodeConsts.DB_PRIMARY_EXIST, DtoCodeConsts.DB_PRIMARY_EXIST_MSG);
         }
@@ -136,12 +136,8 @@ public class UserServiceImpl extends BaseServiceImpl<GrantUser, Long> implements
             roleIdList = new ArrayList<>();
             roleIdList.add((short)2);
         }
-        //@TODO 查出新增记录的自增ID优化 之前是根据身份证号（username）再查一遍
-        GrantUserExample grantUserExample = new GrantUserExample();
-        grantUserExample.createCriteria().andUsernameEqualTo(grantUser.getUsername());
-        Long userId = grantUserMapper.selectByExample(grantUserExample).get(0).getUserId();
-        this.bindUserRoles(userId, roleIdList);
-        return userId;
+        this.bindUserRoles(grantUser.getUserId(), roleIdList);
+        return grantUser.getUserId();
     }
 
     @Override

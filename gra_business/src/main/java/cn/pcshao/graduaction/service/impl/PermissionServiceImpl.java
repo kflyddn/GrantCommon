@@ -31,15 +31,12 @@ public class PermissionServiceImpl extends BaseServiceImpl<GrantPermission, Long
         try{
             grantPermissionMapper.insert(grantPermission);
         }catch (Exception e){
+            //2019-05-06改造角色、权限新增时的自增ID返回，发现这里在控制层已经做过处理，这里的try可以去掉
             throw new CustomException(DtoCodeConsts.DB_PRIMARY_EXIST, DtoCodeConsts.DB_PRIMARY_EXIST_MSG);
         }
         if(ListUtils.isEmptyList(roleIdList))
             return;
-        //@TODO 查出新增记录的自增ID优化
-        GrantPermissionExample grantPermissionExample = new GrantPermissionExample();
-        grantPermissionExample.createCriteria().andPermissionNameEqualTo(grantPermission.getPermissionName());
-        Long permissionId = grantPermissionMapper.selectByExample(grantPermissionExample).get(0).getPermissionId();
-        this.bindPermissionRoles(permissionId, roleIdList);
+        this.bindPermissionRoles(grantPermission.getPermissionId(), roleIdList);
     }
 
     @Override

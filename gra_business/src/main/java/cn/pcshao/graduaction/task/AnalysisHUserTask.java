@@ -53,6 +53,8 @@ public class AnalysisHUserTask {
     private String hdfsLocatePath;
     @Value("${task.Mysql2Hdfs.hadoopURI}")
     private String hadoopURI;
+    @Value("${task.Mysql2Hdfs.defaultOutputPath}")
+    private String defaultOutputPath;
 
     @Resource
     @Qualifier("taskExecutor")
@@ -91,13 +93,13 @@ public class AnalysisHUserTask {
                 if("OFF".equals(useHadoop)) {
                     addCountNameTask(currTask, (String) fromJson.get("countName"));
                 }else{
-
+                    //计算名称 hadoop方式 未实现
                 }
             }
             if(fromJson.get("wordCount") != null){
                 currTask.setState(DBConsts.TASK_STATE_ING_2);
                 taskMapper.updateByPrimaryKeySelective(currTask);
-                String outputName = "E:\\Hado\\localtest\\out\\Hadoop"+ System.currentTimeMillis();
+                String outputName = defaultOutputPath+ System.currentTimeMillis();
                 if(null != fromJson.get("outputPath")){
                     outputName = (String) fromJson.get("outputPath");
                 }
@@ -114,7 +116,6 @@ public class AnalysisHUserTask {
         taskExecutor.execute(() -> {
             try {
                 HTaskTypeFactory.getFacJob(WordCount.Map.class, WordCount.Reduce.class,
-//                        "E:\\Hado\\localtest\\input.txt", "E:\\Hado\\localtest\\out\\"+ name)
                         hadoopURI+ hdfsLocatePath, outputPath)  //HDFS 默认读同步到hdfs目录下的所有输入文件，需要增加一个初始化hdfs状态的接口
                         .waitForCompletion(true);
                 GrantTaskResult taskResult = new GrantTaskResult();

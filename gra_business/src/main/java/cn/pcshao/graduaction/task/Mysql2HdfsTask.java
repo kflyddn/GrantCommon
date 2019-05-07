@@ -90,7 +90,7 @@ public class Mysql2HdfsTask {
             }
             File file = obj2file(list, tempFilePath);
             if(write2hdfs(file, hdfsLocatePath)) {
-                hStateMapper.insertBatch(list, DBConsts.M2H_STATE_DONE_1); //数据库字典后期统一建一个类
+                hStateMapper.insertBatch(list, DBConsts.M2H_STATE_DONE_1);
             }
             i += sub;
             file.deleteOnExit();

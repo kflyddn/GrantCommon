@@ -137,7 +137,7 @@ public class HUserController extends BaseController {
             Long time = System.currentTimeMillis();
             if(ListUtils.isNotEmptyList(hUsersFromList)) {
                 int fromNums = hUsersFromList.size();
-                //更新状态表 TODO 换成websocket推送上传进度
+                //更新状态表
                 GrantTemp gTemp = new GrantTemp();
                 gTemp.setOperId(DtoCodeConsts.GRANT_TEMP_OPER_ID);
                 gTemp.setOperName(DtoCodeConsts.GRANT_TEMP_OPER_ID_MSG);

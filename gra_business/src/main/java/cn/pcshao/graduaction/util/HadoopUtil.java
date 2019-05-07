@@ -21,6 +21,8 @@ import java.util.List;
  *  持有当前dfs文件系统
  *
  * 在释放连接时最好调用close方法
+ *
+ * 静态方法clearDFS()会影响filesystem的连接，测试需要注意
  * @author pcshao.cn
  * @date 2019-03-11
  */

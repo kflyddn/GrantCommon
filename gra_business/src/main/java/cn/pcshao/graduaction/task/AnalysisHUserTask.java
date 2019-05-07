@@ -120,7 +120,7 @@ public class AnalysisHUserTask {
                         hadoopURI+ hdfsLocatePath, outputPath)  //HDFS 默认读同步到hdfs目录下的所有输入文件，需要增加一个初始化hdfs状态的接口
                         .waitForCompletion(true);
                 GrantTaskResult taskResult = new GrantTaskResult();
-                taskResult.setF1("任务结果路径"+ hdfsLocatePath);
+                taskResult.setF1("任务结果路径："+ outputPath);
                 taskResult.setTaskId(currTask.getTaskId());
                 taskResult.setCreateTime(new Date());
                 taskResultMapper.insert(taskResult);

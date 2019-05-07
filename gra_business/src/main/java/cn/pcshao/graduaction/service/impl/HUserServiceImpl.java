@@ -3,6 +3,7 @@ package cn.pcshao.graduaction.service.impl;
 import cn.pcshao.graduaction.service.HUserService;
 import cn.pcshao.grant.common.base.BaseDao;
 import cn.pcshao.grant.common.base.BaseServiceImpl;
+import cn.pcshao.grant.common.consts.DBConsts;
 import cn.pcshao.grant.common.consts.DtoCodeConsts;
 import cn.pcshao.grant.common.dao.GrantHuserMapper;
 import cn.pcshao.grant.common.dao.GrantM2hStateMapper;
@@ -119,7 +120,7 @@ public class HUserServiceImpl extends BaseServiceImpl<GrantHuser, Long> implemen
         Long minHUserId = grantHuserMapper.getMinHUserId();
         GrantM2hStateExample example = new GrantM2hStateExample();
         GrantM2hStateExample.Criteria criteria = example.createCriteria();
-        criteria.andStateEqualTo("1");
+        criteria.andStateEqualTo(DBConsts.M2H_STATE_DONE_1+ "");
         criteria.andHuserIdGreaterThanOrEqualTo(minHUserId);
         //计算总数 状态为1 userId大于上面最小ID的
         int sucessNum = grantM2hStateMapper.countByExample(example);

@@ -94,6 +94,7 @@ public class AnalysisHUserTask {
                     addCountNameTask(currTask, (String) fromJson.get("countName"));
                 }else{
                     //计算名称 hadoop方式 未实现
+                    addCountNameTask(currTask, (String) fromJson.get("countName"));
                 }
             }
             if(fromJson.get("wordCount") != null){

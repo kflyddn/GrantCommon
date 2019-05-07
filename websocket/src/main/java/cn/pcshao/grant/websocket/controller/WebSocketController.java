@@ -30,7 +30,7 @@ public class WebSocketController extends BaseController {
     @OnClose
     public void onClose(@PathParam(value = "topic") String topic, Session session) {
         logger.debug("连接断开");
-        WebSocketUtil.remoteSession(topic);
+        WebSocketUtil.removeSession(topic);
     }
 
     /**

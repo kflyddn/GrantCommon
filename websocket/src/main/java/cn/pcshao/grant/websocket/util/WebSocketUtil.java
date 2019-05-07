@@ -21,7 +21,7 @@ public class WebSocketUtil {
       }
     }
 
-    public static void remoteSession(String topic) {
+    public static void removeSession(String topic) {
         sessionMap.remove(topic);
         if(processName.equals(topic)){
             processSessionMap.remove(topic);

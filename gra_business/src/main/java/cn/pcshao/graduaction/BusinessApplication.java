@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@SpringBootApplication(scanBasePackages = {"cn.pcshao.graduaction","cn.pcshao.grant.common", "cn.pcshao.pic", "cn.pcshao.grant.websocket"})
+@SpringBootApplication(scanBasePackages = {"cn.pcshao.graduaction","cn.pcshao.grant.common",
+        "cn.pcshao.pic", "cn.pcshao.grant.websocket",
+        "cn.pcshao.hs.ggzy"})
 @MapperScan("cn.pcshao.grant.common.dao")
 //@EnableDiscoveryClient
 @EnableScheduling

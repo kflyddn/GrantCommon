@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -9,15 +10,17 @@
         <module name="album" />
         <module name="common" />
         <module name="gra_business" />
+        <module name="hs_ggzy" />
         <module name="websocket" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="album" target="1.8" />
-      <module name="common" target="1.8" />
-      <module name="gra_business" target="1.8" />
-      <module name="parent" target="1.8" />
-      <module name="websocket" target="1.8" />
+    <bytecodeTargetLevel target="8">
+      <module name="album" target="8" />
+      <module name="common" target="8" />
+      <module name="gra_business" target="8" />
+      <module name="hs_ggzy" target="8" />
+      <module name="parent" target="8" />
+      <module name="websocket" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

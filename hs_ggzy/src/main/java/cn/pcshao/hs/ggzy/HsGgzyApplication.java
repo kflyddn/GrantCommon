@@ -1,4 +1,4 @@
-package cn.pcshao.hs;
+package cn.pcshao.hs.ggzy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
